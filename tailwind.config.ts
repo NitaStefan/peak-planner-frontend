@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
@@ -9,6 +9,13 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        "blue-medium": "#257180",
+        "blue-dark": "#0f2d33",
+        "orange-medium": "#FD8B51",
+        "cream-light": "#F2E5BF",
+        "bone-white": "#F9F6EE",
+      },
       fontFamily: {
         "permanent-marker": "var(--font-permanent-marker)",
         karla: "var(--font-karla)",
@@ -23,4 +30,4 @@ export default {
   },
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
