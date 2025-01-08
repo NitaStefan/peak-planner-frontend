@@ -6,22 +6,22 @@ export const sidebarLinks = [
   },
   {
     route: "/goals",
-    imgURL: "icons/routine.svg",
+    imgURL: "icons/goal.svg",
     label: "Goals",
   },
   {
     route: "/planned-events",
-    imgURL: "icons/routine.svg",
+    imgURL: "icons/planned-event.svg",
     label: "Planned Events",
   },
   {
     route: "/flexible-events",
-    imgURL: "icons/routine.svg",
+    imgURL: "icons/flexible-event.svg",
     label: "Flexible Events",
   },
   {
     route: "/overview",
-    imgURL: "icons/routine.svg",
+    imgURL: "icons/overview.svg",
     label: "Schedule Overview",
   },
 ];
