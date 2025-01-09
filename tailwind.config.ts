@@ -12,6 +12,7 @@ export default {
       colors: {
         "blue-medium": "#257180",
         "blue-dark": "#0f2d33",
+        "blue-darker": "#091b1f",
         "orange-medium": "#FD8B51",
         "cream-light": "#F2E5BF",
         "bone-white": "#F9F6EE",

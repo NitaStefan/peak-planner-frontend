@@ -1,9 +1,9 @@
 import React from "react";
-import Links from "./Links";
+import Links from "../Links";
 
 const LeftSideBar = () => {
   return (
-    <section className="fixed top-[60px] flex h-screen w-[266px] flex-col gap-[45px] overflow-y-auto bg-blue-dark pl-[22px] pt-[40px] max-sm:hidden">
+    <section className="fixed top-[80px] flex h-screen w-[266px] flex-col gap-[40px] overflow-y-auto bg-blue-dark px-[24px] pt-[40px] max-lg:w-[90px] max-sm:hidden">
       <Links />
     </section>
   );
