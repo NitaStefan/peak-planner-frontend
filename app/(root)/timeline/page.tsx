@@ -1,7 +1,7 @@
 import React from "react";
 
 const Page = () => {
-  return <div>Flexible Events</div>;
+  return <div>Timeline</div>;
 };
 
 export default Page;

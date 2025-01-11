@@ -1,10 +1,10 @@
 import React from "react";
-import Links from "../Links";
+import NavLinks from "../NavLinks";
 
 const LeftSideBar = () => {
   return (
-    <section className="fixed top-[80px] flex h-screen w-[266px] flex-col gap-[40px] overflow-y-auto bg-blue-dark px-[24px] pt-[40px] max-lg:w-[90px] max-sm:hidden">
-      <Links />
+    <section className="fixed top-[80px] flex h-[calc(100vh-80px)] w-[266px] flex-col justify-between gap-[15px] overflow-y-auto bg-blue-dark p-[15px] px-[24px] pt-[40px] max-lg:w-[90px] max-sm:hidden">
+      <NavLinks />
     </section>
   );
 };

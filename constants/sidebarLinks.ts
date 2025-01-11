@@ -1,27 +1,24 @@
+import ROUTES from "./routes";
+
 export const sidebarLinks = [
   {
-    route: "/",
-    imgURL: "icons/routine.svg",
-    label: "My Routine",
+    route: ROUTES.HOME,
+    imgURL: "icons/schedule.svg",
+    label: "Schedule",
   },
   {
-    route: "/goals",
+    route: ROUTES.GOALS,
     imgURL: "icons/goal.svg",
     label: "Goals",
   },
   {
-    route: "/planned-events",
-    imgURL: "icons/planned-event.svg",
-    label: "Planned Events",
+    route: ROUTES.EVENTS,
+    imgURL: "icons/event.svg",
+    label: "Events",
   },
   {
-    route: "/flexible-events",
-    imgURL: "icons/flexible-event.svg",
-    label: "Flexible Events",
-  },
-  {
-    route: "/overview",
-    imgURL: "icons/overview.svg",
-    label: "Schedule Overview",
+    route: ROUTES.TIMELINE,
+    imgURL: "icons/timeline.svg",
+    label: "Timeline",
   },
 ];

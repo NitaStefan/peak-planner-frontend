@@ -6,9 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
-import { SheetClose } from "../ui/sheet";
+import { SheetClose } from "../../ui/sheet";
 
-const Links = ({ isMobile = false }: { isMobile?: boolean }) => {
+const PageLinks = ({ isMobile }: { isMobile?: boolean }) => {
   const pathname = usePathname();
 
   return (
@@ -39,4 +39,4 @@ const Links = ({ isMobile = false }: { isMobile?: boolean }) => {
   );
 };
 
-export default Links;
+export default PageLinks;

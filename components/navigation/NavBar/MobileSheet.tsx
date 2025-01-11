@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import React from "react";
-import Links from "../Links";
+import NavLinks from "../NavLinks";
 import Logo from "./Logo";
 
 const MobileSheet = () => {
@@ -31,8 +31,8 @@ const MobileSheet = () => {
           </SheetDescription>
         </SheetHeader>
         <Logo showFull />
-        <section className="mt-[80px] flex w-[266px] flex-col gap-[40px]">
-          <Links isMobile />
+        <section className="mt-[80px] flex h-[calc(100%-95px)] w-[218px] flex-col justify-between gap-[15px] overflow-y-auto">
+          <NavLinks isMobile />
         </section>
       </SheetContent>
     </Sheet>
