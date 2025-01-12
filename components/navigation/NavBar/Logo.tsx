@@ -1,10 +1,17 @@
+import { SheetClose } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Logo = ({ showFull = false }: { showFull?: boolean }) => {
-  return (
+const Logo = ({
+  showFull = false,
+  isMobile = false,
+}: {
+  showFull?: boolean;
+  isMobile?: boolean;
+}) => {
+  const LinkComponent = (
     <Link href="/" className="flex items-center gap-[6px]">
       <Image src="logo.svg" width="36" height="36" alt="Peak Planner Logo" />
       <span
@@ -16,6 +23,12 @@ const Logo = ({ showFull = false }: { showFull?: boolean }) => {
         Peak Planner
       </span>
     </Link>
+  );
+
+  return isMobile ? (
+    <SheetClose asChild>{LinkComponent}</SheetClose>
+  ) : (
+    <>{LinkComponent}</>
   );
 };
 

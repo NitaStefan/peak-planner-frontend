@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signInSchema, TSignInSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -21,7 +22,7 @@ const Page = () => {
   };
 
   const inputClass = "border-2";
-  const errorClass = "text-red-300";
+  const errorClass = "text-red-400 w-[250px]";
 
   return (
     <>
@@ -56,9 +57,15 @@ const Page = () => {
           disabled={isSubmitting}
           type="submit"
           value="Continue"
-          className="mt-[15px] bg-blue-dark"
+          className="mt-[15px] bg-orange-act"
         />
       </form>
+      <div className="mt-[15px]">
+        <span className="font-karla">No account?</span>
+        <Link href="/sign-up" className="ml-[6px] text-orange-act">
+          Sign up
+        </Link>
+      </div>
     </>
   );
 };

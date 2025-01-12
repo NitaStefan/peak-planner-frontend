@@ -20,7 +20,7 @@ const PageLinks = ({ isMobile }: { isMobile?: boolean }) => {
             href={item.route}
             className={cn(
               "flex gap-[8px] rounded-md px-[10px] py-[8px] max-lg:justify-center max-lg:py-[10px] max-sm:justify-start",
-              isActive && "bg-blue-medium",
+              isActive && "bg-orange-act",
             )}
           >
             <Image src={item.imgURL} width="20" height="20" alt={item.label} />

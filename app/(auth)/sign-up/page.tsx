@@ -7,8 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { signUpSchema, TSignUpSchema } from "@/lib/validations";
 import { Label } from "@/components/ui/label";
+import { signUp } from "@/lib/api";
 
 const Page = () => {
+  const [serverError, setServerError] = React.useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -16,13 +19,22 @@ const Page = () => {
   } = useForm<TSignUpSchema>({ resolver: zodResolver(signUpSchema) });
 
   const onSubmit = async (data: TSignUpSchema) => {
-    // TODO: submit to server
+    try {
+      const response = await signUp(data);
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Store tokens (implementation depends on chosen method)
+      // storeTokens(response.accessToken, response.refreshToken);
+
+      // Redirect to dashboard or home page
+      // router.push('/dashboard');
+    } catch (error) {
+      if (error instanceof Error) setServerError(error.message);
+      else setServerError("An unexpected error occurred");
+    }
   };
 
   const inputClass = "border-2";
-  const errorClass = "text-red-300";
+  const errorClass = "text-red-400 w-[250px]";
 
   return (
     <>
@@ -39,7 +51,9 @@ const Page = () => {
             className={inputClass}
             id="username"
           />
-          {errors.email && <p className={errorClass}>{errors.email.message}</p>}
+          {errors.username && (
+            <p className={errorClass}>{errors.username.message}</p>
+          )}
         </div>
         <div>
           <Label htmlFor="email">Email</Label>
@@ -63,16 +77,17 @@ const Page = () => {
             <p className={errorClass}>{errors.password.message}</p>
           )}
         </div>
+        {serverError && <p className={errorClass}>{serverError}</p>}
         <Input
           disabled={isSubmitting}
           type="submit"
-          value="Sign Up"
-          className="mt-[15px] bg-blue-dark"
+          value={isSubmitting ? "Signing up..." : "Sign Up"}
+          className="mt-[15px] bg-orange-act"
         />
       </form>
       <div className="mt-[15px]">
         <span className="font-karla">Have an account?</span>
-        <Link href="/sign-in" className="ml-[6px] underline">
+        <Link href="/sign-in" className="ml-[6px] text-orange-act">
           Sign in
         </Link>
       </div>

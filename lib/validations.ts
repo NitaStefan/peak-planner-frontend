@@ -17,3 +17,10 @@ export const signInSchema = z.object({
 });
 
 export type TSignInSchema = z.infer<typeof signUpSchema>;
+
+// export const authResponseSchema = z.object({
+//   accessToken: z.string(),
+//   refreshToken: z.string(),
+// });
+
+// export type AuthResponse = z.infer<typeof authResponseSchema>;
