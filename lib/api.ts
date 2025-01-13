@@ -24,11 +24,7 @@ async function apiCall<T, K = undefined>(
   return response.json();
 }
 
-export async function signUp(data: {
-  username: string;
-  email: string;
-  password: string;
-}): Promise<AuthResponse> {
+export async function signUp(data: TSignUpSchema): Promise<AuthResponse> {
   const response = await apiCall<AuthResponse, TSignUpSchema>(
     "/auth/register",
     "POST",

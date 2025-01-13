@@ -1,10 +1,16 @@
+import { LogoutButton } from "@/components/navigation/NavLinks/LogoutButton";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
+import { isLoggedIn } from "@/lib/actions";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const AuthActions = () => {
+const AuthActions = async () => {
+  const isAuthenticated = await isLoggedIn();
+
+  if (isAuthenticated) return <LogoutButton />;
+
   const AuthComponent = (
     <>
       <Button
@@ -19,7 +25,7 @@ const AuthActions = () => {
             alt="Log In"
             className="max-sm:hidden lg:hidden"
           />
-          <span className="text-orange-act text-base max-lg:hidden max-sm:inline">
+          <span className="text-base text-orange-act max-lg:hidden max-sm:inline">
             Log In
           </span>
         </Link>

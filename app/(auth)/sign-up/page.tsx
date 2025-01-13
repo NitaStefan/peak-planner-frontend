@@ -8,9 +8,12 @@ import Link from "next/link";
 import { signUpSchema, TSignUpSchema } from "@/lib/validations";
 import { Label } from "@/components/ui/label";
 import { signUp } from "@/lib/api";
+import { storeTokens } from "@/lib/actions";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [serverError, setServerError] = React.useState<string | null>(null);
+  const router = useRouter();
 
   const {
     register,
@@ -22,11 +25,9 @@ const Page = () => {
     try {
       const response = await signUp(data);
 
-      // Store tokens (implementation depends on chosen method)
-      // storeTokens(response.accessToken, response.refreshToken);
+      storeTokens(response.accessToken, response.refreshToken);
 
-      // Redirect to dashboard or home page
-      // router.push('/dashboard');
+      router.push("/");
     } catch (error) {
       if (error instanceof Error) setServerError(error.message);
       else setServerError("An unexpected error occurred");
