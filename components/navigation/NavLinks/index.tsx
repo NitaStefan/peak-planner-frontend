@@ -1,6 +1,6 @@
 import React from "react";
 import PageLinks from "./PageLinks";
-import AuthActions from "./AuthActions";
+import { LogoutButton } from "./LogoutButton";
 
 const NavLinks = ({ isMobile = false }: { isMobile?: boolean }) => {
   return (
@@ -9,7 +9,7 @@ const NavLinks = ({ isMobile = false }: { isMobile?: boolean }) => {
         <PageLinks isMobile={isMobile} />
       </div>
       <div className="flex flex-col gap-[15px]">
-        <AuthActions />
+        <LogoutButton />
       </div>
     </>
   );

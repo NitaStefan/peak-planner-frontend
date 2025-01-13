@@ -8,7 +8,6 @@ import Link from "next/link";
 import { signUpSchema, TSignUpSchema } from "@/lib/validations";
 import { Label } from "@/components/ui/label";
 import { signUp } from "@/lib/api";
-import { storeTokens } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
@@ -23,9 +22,7 @@ const Page = () => {
 
   const onSubmit = async (data: TSignUpSchema) => {
     try {
-      const response = await signUp(data);
-
-      storeTokens(response.accessToken, response.refreshToken);
+      await signUp(data);
 
       router.push("/");
     } catch (error) {

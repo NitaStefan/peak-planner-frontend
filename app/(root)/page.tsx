@@ -1,7 +1,11 @@
-import React from "react"
+import AuthActions from "@/components/navigation/NavLinks/AuthActions";
+import { isLoggedIn } from "@/lib/actions";
+import React from "react";
 
-const Page = () => {
-  return <p>Root Page</p>
-}
+const Page = async () => {
+  const isAuthenticated = await isLoggedIn();
 
-export default Page
+  return isAuthenticated ? <p>Authenticated!</p> : <AuthActions />;
+};
+
+export default Page;

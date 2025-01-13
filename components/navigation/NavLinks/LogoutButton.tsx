@@ -2,17 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { logout } from "@/lib/actions";
-import ROUTES from "@/constants/routes";
+import { useRouter } from "next/navigation";
 
 export const LogoutButton = () => {
   const router = useRouter();
 
   const handleLogout = async () => {
     await logout();
-    router.refresh(); // This will cause the server components to re-render
-    router.push(ROUTES.HOME);
+
+    router.push("/");
   };
 
   return (

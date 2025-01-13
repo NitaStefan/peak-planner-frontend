@@ -2,13 +2,18 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signIn } from "@/lib/api";
 import { signInSchema, TSignInSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 
 const Page = () => {
+  const [serverError, setServerError] = React.useState<string | null>(null);
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -16,9 +21,14 @@ const Page = () => {
   } = useForm<TSignInSchema>({ resolver: zodResolver(signInSchema) });
 
   const onSubmit = async (data: TSignInSchema) => {
-    // TODO: submit to server
+    try {
+      await signIn(data);
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+      router.push("/");
+    } catch (error) {
+      if (error instanceof Error) setServerError(error.message);
+      else setServerError("An unexpected error occurred");
+    }
   };
 
   const inputClass = "border-2";
@@ -53,6 +63,7 @@ const Page = () => {
             <p className={errorClass}>{errors.password.message}</p>
           )}
         </div>
+        {serverError && <p className={errorClass}>{serverError}</p>}
         <Input
           disabled={isSubmitting}
           type="submit"

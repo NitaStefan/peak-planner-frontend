@@ -1,17 +1,11 @@
-import { LogoutButton } from "@/components/navigation/NavLinks/LogoutButton";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { isLoggedIn } from "@/lib/actions";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const AuthActions = async () => {
-  const isAuthenticated = await isLoggedIn();
-
-  if (isAuthenticated) return <LogoutButton />;
-
-  const AuthComponent = (
+  return (
     <>
       <Button
         asChild
@@ -47,8 +41,6 @@ const AuthActions = async () => {
       </Button>
     </>
   );
-
-  return <>{AuthComponent}</>;
 };
 
 export default AuthActions;

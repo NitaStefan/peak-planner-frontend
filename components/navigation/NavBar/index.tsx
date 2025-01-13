@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import MobileSheet from "./MobileSheet";
 
-const NavBar = () => {
+const NavBar = ({ isAuthenticated = false }: { isAuthenticated: boolean }) => {
   return (
     <nav className="fixed top-0 flex h-[80px] w-screen items-center bg-blue-dark px-[25px]">
       <Logo />
@@ -15,9 +15,14 @@ const NavBar = () => {
           height={23}
           alt="search icon"
         />
-        <Input placeholder="Search globally..." className="max-sm:w-[180px]" />
+        <Input
+          placeholder={
+            isAuthenticated ? "Search users..." : "Search globally..."
+          }
+          className="max-sm:w-[180px]"
+        />
       </div>
-      <MobileSheet />
+      {isAuthenticated && <MobileSheet />}
     </nav>
   );
 };

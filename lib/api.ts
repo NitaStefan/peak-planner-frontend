@@ -1,5 +1,8 @@
+"use server";
+
+import { cookies } from "next/headers";
 import { AuthResponse, ErrorResponse } from "./types";
-import { TSignUpSchema } from "./validations";
+import { TSignInSchema, TSignUpSchema } from "./validations";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -24,12 +27,55 @@ async function apiCall<T, K = undefined>(
   return response.json();
 }
 
-export async function signUp(data: TSignUpSchema): Promise<AuthResponse> {
+export async function signUp(data: TSignUpSchema): Promise<void> {
   const response = await apiCall<AuthResponse, TSignUpSchema>(
     "/auth/register",
     "POST",
     data,
   );
 
-  return response;
+  const cookieStore = await cookies();
+
+  cookieStore.set("accessToken", response.accessToken, {
+    httpOnly: true, // only accessible by the server (in the nodejs environment)
+    // only send cookie over https in production
+    // secure: process.env.NODE_ENV === 'production',
+    sameSite: "strict",
+    maxAge: 1800, // 30 min
+    path: "/",
+  });
+
+  cookieStore.set("refreshToken", response.refreshToken, {
+    httpOnly: true,
+    // secure: process.env.NODE_ENV === 'production',
+    sameSite: "strict",
+    maxAge: 1728000, // 20 days
+    path: "/",
+  });
+}
+
+export async function signIn(data: TSignInSchema): Promise<void> {
+  const response = await apiCall<AuthResponse, TSignInSchema>(
+    "/auth/login",
+    "POST",
+    data,
+  );
+
+  const cookieStore = await cookies();
+
+  cookieStore.set("accessToken", response.accessToken, {
+    httpOnly: true,
+    // secure: process.env.NODE_ENV === 'production',
+    sameSite: "strict",
+    maxAge: 1800, // 30 min
+    path: "/",
+  });
+
+  cookieStore.set("refreshToken", response.refreshToken, {
+    httpOnly: true,
+    // secure: process.env.NODE_ENV === 'production',
+    sameSite: "strict",
+    maxAge: 1728000, // 20 days
+    path: "/",
+  });
 }

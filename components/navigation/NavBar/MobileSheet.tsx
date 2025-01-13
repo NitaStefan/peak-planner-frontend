@@ -6,21 +6,21 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Image from "next/image";
 import React from "react";
 import NavLinks from "../NavLinks";
 import Logo from "./Logo";
+import Image from "next/image";
 
 const MobileSheet = () => {
   return (
     <Sheet>
-      <SheetTrigger>
+      <SheetTrigger className="w-[70px] max-sm:w-[30px]">
         <Image
           src="icons/menu.svg"
           width={35}
           height={35}
           alt="Menu"
-          className="sm:hidden"
+          className="float-end sm:hidden"
         />
       </SheetTrigger>
       <SheetContent className="w-fit border-none bg-blue-dark py-[40px]">
