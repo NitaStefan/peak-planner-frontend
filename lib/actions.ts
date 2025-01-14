@@ -17,3 +17,32 @@ export const isLoggedIn = cache(async () => {
   const cookieStore = await cookies();
   return !!cookieStore.get("refreshToken");
 });
+
+export const storeTokens = async (
+  accessToken: string,
+  refreshToken: string,
+) => {
+  const cookieStore = await cookies();
+
+  cookieStore.set("accessToken", accessToken, {
+    httpOnly: true, // only accessible by the server (in the nodejs environment)
+    // only send cookie over https in production
+    // secure: process.env.NODE_ENV === 'production',
+    sameSite: "strict",
+    maxAge: 1800, // 30 min
+  });
+
+  cookieStore.set("refreshToken", refreshToken, {
+    httpOnly: true,
+    // secure: process.env.NODE_ENV === 'production',
+    sameSite: "strict",
+    maxAge: 1728000, // 20 days
+  });
+};
+
+export const getAccessToken = async () => {
+  // cannot set cookies here
+  const cookieStore = await cookies();
+
+  return cookieStore.get("accessToken")?.value;
+};

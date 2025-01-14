@@ -17,7 +17,7 @@ const NavBar = ({ isAuthenticated = false }: { isAuthenticated: boolean }) => {
         />
         <Input
           placeholder={
-            isAuthenticated ? "Search users..." : "Search globally..."
+            isAuthenticated ? "Search globally..." : "Search users..."
           }
           className="max-sm:w-[180px]"
         />

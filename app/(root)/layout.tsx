@@ -8,16 +8,13 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
   const isAuthenticated = await isLoggedIn();
 
   return (
-    <main>
-      <NavBar isAuthenticated />
+    <main className="flex">
+      <NavBar isAuthenticated={isAuthenticated} />
       {isAuthenticated && <LeftSideBar />}
-      <section
-        className={cn(
-          "mt-[80px] h-[calc(100vh-80px)]",
-          isAuthenticated && "ml-[266px] max-lg:ml-[90px] max-sm:ml-0",
-        )}
-      >
-        <div className="mx-auto max-w-5xl">{children}</div>
+      <section className={cn("h-screen grow")}>
+        <div className="mx-auto max-w-5xl px-[30px] pb-[40px] pt-[120px]">
+          {children}
+        </div>
       </section>
     </main>
   );
