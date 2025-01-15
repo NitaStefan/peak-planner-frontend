@@ -11,7 +11,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
     <main className="flex">
       <NavBar isAuthenticated={isAuthenticated} />
       {isAuthenticated && <LeftSideBar />}
-      <section className={cn("h-screen grow")}>
+      <section className={cn("min-h-screen grow")}>
         <div className="mx-auto max-w-5xl px-[30px] pb-[40px] pt-[120px]">
           {children}
         </div>

@@ -54,7 +54,7 @@ export async function signIn(data: TSignInSchema): Promise<void> {
 export async function getPlannedEvents() {
   const accessToken = await getAccessToken();
 
-  const response = await apiCall<PlannedEvent>(
+  const response = await apiCall<PlannedEvent[]>(
     "/planned-events",
     "GET",
     accessToken,

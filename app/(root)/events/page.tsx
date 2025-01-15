@@ -6,7 +6,9 @@ const Page = () => {
     <>
       <h1 className="text-2xl">Planned Events</h1>
       <Suspense fallback={<div>Loading...</div>}>
-        <PlannedEvents />
+        <div className="my-[20px]">
+          <PlannedEvents />
+        </div>
       </Suspense>
 
       <h1 className="text-2xl">Flexible Events</h1>

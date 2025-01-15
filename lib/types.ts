@@ -8,16 +8,16 @@ export type ErrorResponse = {
   message: string;
 };
 
-type EventDetails = {
+export type EventDetails = {
   id: number;
   title: string;
   description: string;
-  startTime: string;
+  startTime?: string;
   minutes?: number;
 };
 
 export type PlannedEvent = {
   id: number;
-  date: Date;
+  scheduledDate: string;
   eventDetails: EventDetails[];
 };
