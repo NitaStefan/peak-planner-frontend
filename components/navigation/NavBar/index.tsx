@@ -6,7 +6,7 @@ import MobileSheet from "./MobileSheet";
 
 const NavBar = ({ isAuthenticated = false }: { isAuthenticated: boolean }) => {
   return (
-    <nav className="fixed top-0 flex h-[80px] w-screen items-center bg-blue-dark px-[25px]">
+    <nav className="fixed top-0 z-10 flex h-[80px] w-screen items-center bg-blue-dark px-[25px]">
       <Logo />
       <div className="mx-auto flex rounded-md border-2 border-bone-white px-[10px] py-[6px]">
         <Image

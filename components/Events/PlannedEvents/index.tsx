@@ -6,6 +6,8 @@ import EventDetails from "./EventDetails";
 const PlannedEvents = async () => {
   const plannedEvents = await getPlannedEvents();
 
+  //TODO: add AddEvent component relative to this one
+
   return plannedEvents.map((plannedEvent) => {
     const scheduledDate = new Date(plannedEvent.scheduledDate);
     const formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -28,7 +30,7 @@ const PlannedEvents = async () => {
           />
           <span className="text-xl">{formattedDate}</span>
         </div>
-        <div className="my-[30px] flex flex-col gap-y-[20px]">
+        <div className="mb-[30px] mt-[15px] flex flex-col gap-y-[25px]">
           <EventDetails eventDetails={plannedEvent.eventDetails} />
         </div>
       </div>
