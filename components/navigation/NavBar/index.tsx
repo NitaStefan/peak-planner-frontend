@@ -3,8 +3,11 @@ import Logo from "./Logo";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import MobileSheet from "./MobileSheet";
+import { isLoggedIn } from "@/lib/actions";
 
-const NavBar = ({ isAuthenticated = false }: { isAuthenticated: boolean }) => {
+const NavBar = async () => {
+  const isAuthenticated = await isLoggedIn();
+
   return (
     <nav className="fixed top-0 z-10 flex h-[80px] w-screen items-center bg-blue-dark px-[25px]">
       <Logo />

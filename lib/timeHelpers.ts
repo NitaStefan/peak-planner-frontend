@@ -23,7 +23,7 @@ export function formatDuration(minutes: number): string {
   // Build the duration string
   let result = "";
   if (hours > 0) result += `${hours}h `;
-  if (remainingMinutes > 0) result += `${remainingMinutes}min`;
+  if (remainingMinutes > 0) result += `${remainingMinutes}m`;
 
   return result.trim(); // Remove trailing spaces
 }

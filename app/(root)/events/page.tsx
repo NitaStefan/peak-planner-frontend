@@ -21,12 +21,12 @@ const Page = () => {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="planned" className="max-sm:pt-[70px]">
-        <Suspense fallback={<div>Loading...</div>}>
-          <div className="relative py-[20px]">
-            <AddPlannedEvent />
+        <div className="relative py-[20px]">
+          <AddPlannedEvent />
+          <Suspense fallback={<div>Loading...</div>}>
             <PlannedEvents />
-          </div>
-        </Suspense>
+          </Suspense>
+        </div>
       </TabsContent>
       <TabsContent value="flexible" className="max-sm:pt-[70px]">
         Flexible Events Component
