@@ -24,3 +24,32 @@ export type TSignInSchema = z.infer<typeof signUpSchema>;
 // });
 
 // export type AuthResponse = z.infer<typeof authResponseSchema>;
+
+export const plannedEventSchema = z.object({
+  scheduledDate: z.string(),
+});
+export const eventDetailsSchema = z.object({
+  title: z
+    .string()
+    .max(45, "Title must be less than 45 characters")
+    .min(1, "Title is required"),
+  description: z
+    .string()
+    .max(400, "Description must be less than 400 characters")
+    .min(1, "Description is required"),
+  startTime: z.string(),
+  minutes: z.number(),
+});
+export const flexibleEventSchema = z.object({
+  title: z
+    .string()
+    .max(45, "Title must be less than 45 characters")
+    .min(1, "Title is required"),
+  description: z
+    .string()
+    .max(400, "Description must be less than 400 characters")
+    .min(1, "Description is required"),
+  startDate: z.date(),
+  endDate: z.date(),
+});
+export type TFlexibleEventSchema = z.infer<typeof flexibleEventSchema>;
