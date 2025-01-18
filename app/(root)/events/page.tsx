@@ -9,18 +9,18 @@ const Page = () => {
       <TabsList className="h-[50px] bg-blue-dark">
         <TabsTrigger
           value="planned"
-          className="text-2xl text-bone-white data-[state=active]:bg-orange-act data-[state=active]:text-bone-white"
+          className="text-xl text-bone-white data-[state=active]:bg-orange-act data-[state=active]:text-bone-white"
         >
           Planned Events
         </TabsTrigger>
         <TabsTrigger
           value="flexible"
-          className="text-2xl text-bone-white data-[state=active]:bg-orange-act data-[state=active]:text-bone-white"
+          className="text-xl text-bone-white data-[state=active]:bg-orange-act data-[state=active]:text-bone-white"
         >
           Flexible Events
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="planned" className="max-sm:pt-[70px]">
+      <TabsContent value="planned">
         <div className="relative py-[20px]">
           <AddPlannedEvent />
           <Suspense fallback={<div>Loading...</div>}>
@@ -28,9 +28,7 @@ const Page = () => {
           </Suspense>
         </div>
       </TabsContent>
-      <TabsContent value="flexible" className="max-sm:pt-[70px]">
-        Flexible Events Component
-      </TabsContent>
+      <TabsContent value="flexible">Flexible Events Component</TabsContent>
     </Tabs>
   );
 };
