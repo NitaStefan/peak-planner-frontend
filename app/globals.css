@@ -16,3 +16,17 @@ html {
     --radius: 0.5rem;
   }
 }
+
+@layer components {
+  .shadcn-form {
+    @apply flex w-fit flex-col gap-[20px] rounded-md border-2 border-bone-white border-opacity-40 bg-blue-dark p-[20px];
+  }
+
+  .error {
+    @apply w-full text-red-400;
+  }
+
+  .date-button {
+    @apply w-full border-2 border-bone-white border-opacity-40;
+  }
+}

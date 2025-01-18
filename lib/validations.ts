@@ -26,7 +26,7 @@ export type TSignInSchema = z.infer<typeof signUpSchema>;
 // export type AuthResponse = z.infer<typeof authResponseSchema>;
 
 export const plannedEventSchema = z.object({
-  scheduledDate: z.string(),
+  scheduledDate: z.date(),
 });
 export const eventDetailsSchema = z.object({
   title: z
@@ -49,7 +49,11 @@ export const flexibleEventSchema = z.object({
     .string()
     .max(400, "Description must be less than 400 characters")
     .min(1, "Description is required"),
-  startDate: z.date(),
-  endDate: z.date(),
+  startDate: z.date({
+    required_error: "Date required",
+  }),
+  endDate: z.date({
+    required_error: "Date required",
+  }),
 });
 export type TFlexibleEventSchema = z.infer<typeof flexibleEventSchema>;

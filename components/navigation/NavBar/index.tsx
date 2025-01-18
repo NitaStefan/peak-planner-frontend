@@ -22,7 +22,7 @@ const NavBar = async () => {
           placeholder={
             isAuthenticated ? "Search globally..." : "Search users..."
           }
-          className="max-sm:w-[180px]"
+          className="w-[250px] border-0 max-sm:w-[180px]"
         />
       </div>
       {isAuthenticated && <MobileSheet />}

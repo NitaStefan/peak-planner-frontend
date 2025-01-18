@@ -31,7 +31,7 @@ const MobileSheet = () => {
           </SheetDescription>
         </SheetHeader>
         <Logo showFull isMobile />
-        <section className="mt-[80px] flex h-[calc(100%-95px)] w-[218px] flex-col justify-between gap-[15px] overflow-y-auto">
+        <section className="mt-[80px] flex h-[calc(100%-95px)] w-[192px] flex-col justify-between gap-[15px] overflow-y-auto">
           <NavLinks isMobile />
         </section>
       </SheetContent>

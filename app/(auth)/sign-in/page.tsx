@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signIn } from "@/lib/api";
@@ -31,9 +32,6 @@ const Page = () => {
     }
   };
 
-  const inputClass = "border-2";
-  const errorClass = "text-red-400 w-[250px]";
-
   return (
     <>
       <h1 className="mb-[25px] text-2xl">Sign In</h1>
@@ -43,33 +41,24 @@ const Page = () => {
       >
         <div>
           <Label htmlFor="email">Email</Label>
-          <Input
-            {...register("email")}
-            type="email"
-            className={inputClass}
-            id="email"
-          />
-          {errors.email && <p className={errorClass}>{errors.email.message}</p>}
+          <Input {...register("email")} type="email" id="email" />
+          {errors.email && <p className="error">{errors.email.message}</p>}
         </div>
         <div>
           <Label htmlFor="password">Password</Label>
-          <Input
-            {...register("password")}
-            type="password"
-            className={inputClass}
-            id="password"
-          />
+          <Input {...register("password")} type="password" id="password" />
           {errors.password && (
-            <p className={errorClass}>{errors.password.message}</p>
+            <p className="error">{errors.password.message}</p>
           )}
         </div>
-        {serverError && <p className={errorClass}>{serverError}</p>}
-        <Input
+        {serverError && <p className="error">{serverError}</p>}
+        <Button
           disabled={isSubmitting}
           type="submit"
-          value="Continue"
-          className="mt-[15px] bg-orange-act"
-        />
+          className="mt-[15px] bg-orange-act text-lg"
+        >
+          Continue
+        </Button>
       </form>
       <div className="mt-[15px]">
         <span className="font-karla">No account?</span>

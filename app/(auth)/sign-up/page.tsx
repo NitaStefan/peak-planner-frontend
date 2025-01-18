@@ -9,6 +9,7 @@ import { signUpSchema, TSignUpSchema } from "@/lib/validations";
 import { Label } from "@/components/ui/label";
 import { signUp } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 const Page = () => {
   const [serverError, setServerError] = React.useState<string | null>(null);
@@ -31,9 +32,6 @@ const Page = () => {
     }
   };
 
-  const inputClass = "border-2";
-  const errorClass = "text-red-400 w-[250px]";
-
   return (
     <>
       <h1 className="mb-[25px] text-2xl">Create an account</h1>
@@ -43,45 +41,31 @@ const Page = () => {
       >
         <div>
           <Label htmlFor="username">Username</Label>
-          <Input
-            {...register("username")}
-            type="text"
-            className={inputClass}
-            id="username"
-          />
+          <Input {...register("username")} type="text" id="username" />
           {errors.username && (
-            <p className={errorClass}>{errors.username.message}</p>
+            <p className="error">{errors.username.message}</p>
           )}
         </div>
         <div>
           <Label htmlFor="email">Email</Label>
-          <Input
-            {...register("email")}
-            type="email"
-            className={inputClass}
-            id="email"
-          />
-          {errors.email && <p className={errorClass}>{errors.email.message}</p>}
+          <Input {...register("email")} type="email" id="email" />
+          {errors.email && <p className="error">{errors.email.message}</p>}
         </div>
         <div>
           <Label htmlFor="password">Password</Label>
-          <Input
-            {...register("password")}
-            type="password"
-            className={inputClass}
-            id="password"
-          />
+          <Input {...register("password")} type="password" id="password" />
           {errors.password && (
-            <p className={errorClass}>{errors.password.message}</p>
+            <p className="error">{errors.password.message}</p>
           )}
         </div>
-        {serverError && <p className={errorClass}>{serverError}</p>}
-        <Input
+        {serverError && <p className="error">{serverError}</p>}
+        <Button
           disabled={isSubmitting}
           type="submit"
-          value={isSubmitting ? "Signing up..." : "Sign Up"}
-          className="mt-[15px] bg-orange-act"
-        />
+          className="mt-[15px] bg-orange-act text-lg"
+        >
+          {isSubmitting ? "Signing up..." : "Sign Up"}
+        </Button>
       </form>
       <div className="mt-[15px]">
         <span className="font-karla">Have an account?</span>

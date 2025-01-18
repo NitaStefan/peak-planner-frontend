@@ -2,20 +2,16 @@ import { getPlannedEvents } from "@/lib/api";
 import Image from "next/image";
 import React from "react";
 import EventDetails from "./EventDetails";
+import { format } from "date-fns";
 
 const PlannedEvents = async () => {
   const plannedEvents = await getPlannedEvents();
 
   return plannedEvents.map((plannedEvent) => {
-    const scheduledDate = new Date(plannedEvent.scheduledDate);
-    const formattedDate = new Intl.DateTimeFormat("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    })
-      .format(scheduledDate)
-      .replace(/, /g, ",\u00A0\u00A0");
+    const formattedDate = format(
+      plannedEvent.scheduledDate,
+      "EEEE,\u00A0\u00A0MMMM dd,\u00A0\u00A0yyyy",
+    );
 
     return (
       <div key={plannedEvent.id}>

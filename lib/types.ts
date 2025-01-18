@@ -18,6 +18,6 @@ export type EventDetails = {
 
 export type PlannedEvent = {
   id: number;
-  scheduledDate: string;
+  scheduledDate: Date;
   eventDetails: EventDetails[];
 };
