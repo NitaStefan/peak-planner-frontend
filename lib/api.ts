@@ -1,7 +1,11 @@
 "use server";
 
-import { AuthResponse, ErrorResponse, PlannedEvent } from "./types";
-import { TSignInSchema, TSignUpSchema } from "./validations";
+import { AuthResponse, ErrorResponse } from "./types";
+import {
+  TPlannedEventSchema,
+  TSignInSchema,
+  TSignUpSchema,
+} from "./validations";
 import { getAccessToken, storeTokens } from "./actions";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -54,7 +58,7 @@ export async function signIn(data: TSignInSchema): Promise<void> {
 export async function getPlannedEvents() {
   const accessToken = await getAccessToken();
 
-  const response = await apiCall<PlannedEvent[]>(
+  const response = await apiCall<TPlannedEventSchema[]>(
     "/planned-events",
     "GET",
     accessToken,

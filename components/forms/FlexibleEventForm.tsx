@@ -25,8 +25,8 @@ const FlexibleEventForm = () => {
   const form = useForm<TFlexibleEventSchema>({
     resolver: zodResolver(flexibleEventSchema),
     defaultValues: {
-      title: "Schimba titlul",
-      description: "descrierea",
+      title: "Flexible event titlu",
+      description: "descrierea default",
       startDate: undefined,
       endDate: undefined,
     },
