@@ -1,13 +1,18 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { deletePlannedEvent } from "@/lib/api";
 import Image from "next/image";
 import React from "react";
 
-const EntityActions = () => {
+const EntityActions = ({ plannedEventId }: { plannedEventId: number }) => {
+  const handleDelete = async () => await deletePlannedEvent(plannedEventId);
+
   return (
     <Popover>
       <PopoverTrigger className="ml-auto">
@@ -27,7 +32,10 @@ const EntityActions = () => {
           />
           Duplicate
         </Button>
-        <Button className="w-full justify-start gap-1 bg-transparent shadow-none">
+        <Button
+          onClick={handleDelete}
+          className="w-full justify-start gap-1 bg-transparent shadow-none"
+        >
           <Image src="icons/delete.svg" width={18} height={18} alt="Delete" />
           Delete
         </Button>

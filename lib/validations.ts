@@ -18,13 +18,7 @@ export const signInSchema = z.object({
 
 export type TSignInSchema = z.infer<typeof signUpSchema>;
 
-// export const authResponseSchema = z.object({
-//   accessToken: z.string(),
-//   refreshToken: z.string(),
-// });
-
-// export type AuthResponse = z.infer<typeof authResponseSchema>;
-
+//Planned Event
 export const plannedEventSchema = z.object({
   scheduledDate: z.date(),
 });
@@ -33,6 +27,8 @@ export type TPlannedEventSchema = z.infer<typeof plannedEventSchema> & {
   id?: number;
   eventDetails: TEventDetailsSchema[];
 };
+
+export type TPlannedEventSchemaWithId = TPlannedEventSchema & { id: number };
 
 export const eventDetailsSchema = z.object({
   title: z

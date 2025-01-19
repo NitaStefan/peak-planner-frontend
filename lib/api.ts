@@ -2,7 +2,7 @@
 
 import { AuthResponse, ErrorResponse } from "./types";
 import {
-  TPlannedEventSchema,
+  TPlannedEventSchemaWithId,
   TSignInSchema,
   TSignUpSchema,
 } from "./validations";
@@ -30,7 +30,7 @@ export async function apiCall<T, K = undefined>(
     throw new Error(errorData.message || "An error occurred");
   }
 
-  return response.json();
+  return !(response.headers.get("content-length") === "0") && response.json();
 }
 
 export async function signUp(data: TSignUpSchema): Promise<void> {
@@ -55,14 +55,21 @@ export async function signIn(data: TSignInSchema): Promise<void> {
   await storeTokens(response.accessToken, response.refreshToken);
 }
 
+// Planned Events
 export async function getPlannedEvents() {
   const accessToken = await getAccessToken();
 
-  const response = await apiCall<TPlannedEventSchema[]>(
+  const response = await apiCall<TPlannedEventSchemaWithId[]>(
     "/planned-events",
     "GET",
     accessToken,
   );
 
   return response;
+}
+
+export async function deletePlannedEvent(id: number) {
+  const accessToken = await getAccessToken();
+
+  await apiCall<undefined>(`/planned-events/${id}`, "DELETE", accessToken);
 }
