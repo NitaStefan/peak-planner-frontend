@@ -22,7 +22,7 @@ const AddPlannedEvent = () => {
           className="block sm:hidden"
         />
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="rounded-none">
         <DialogHeader>
           <DialogTitle className="hidden">Planned Event</DialogTitle>
         </DialogHeader>

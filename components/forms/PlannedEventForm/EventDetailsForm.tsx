@@ -11,24 +11,62 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { eventDetailsSchema, TEventDetailsSchema } from "@/lib/validations";
+import {
+  eventDetailsSchema,
+  TEventDetails,
+  TEventDetailsSchema,
+  TPlannedEvent,
+} from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const EventDetailsForm = () => {
+const EventDetailsForm = ({
+  eventDetails,
+  setPlannedEvent,
+}: {
+  eventDetails?: TEventDetails;
+  setPlannedEvent: React.Dispatch<React.SetStateAction<TPlannedEvent>>;
+}) => {
+  const submitText = eventDetails
+    ? "Update Event Details"
+    : "Add New Event Details";
+
   const form = useForm<TEventDetailsSchema>({
     resolver: zodResolver(eventDetailsSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      startTime: "",
-      minutes: 0,
+      title: eventDetails?.title || "",
+      description: eventDetails?.description || "",
+      startTime: eventDetails?.startTime || "",
+      duration: {
+        minutes: Math.floor((eventDetails?.minutes ?? 0) / 60),
+        hours: (eventDetails?.minutes ?? 0) % 60,
+      },
     },
   });
 
   const onSubmit = (data: TEventDetailsSchema) => {
-    console.log(data);
+    const { duration, startTime, ...rest } = data;
+
+    const updatedEventDetails: TEventDetails = {
+      ...rest,
+      ...(eventDetails?.id ? { id: eventDetails.id } : {}),
+      ...(startTime ? { startTime } : {}),
+      ...(duration.hours || duration.minutes
+        ? { minutes: (duration.hours || 0) * 60 + (duration.minutes || 0) }
+        : {}),
+    };
+
+    setPlannedEvent((prev) => ({
+      ...prev,
+      eventDetails: eventDetails?.id
+        ? // Replace the eventDetails with matching id
+          prev.eventDetails.map((ev) =>
+            ev.id === eventDetails.id ? updatedEventDetails : ev,
+          )
+        : // Add a new eventDetails if no id exists
+          [...(prev.eventDetails || []), updatedEventDetails],
+    }));
   };
 
   return (
@@ -65,7 +103,10 @@ const EventDetailsForm = () => {
           name="startTime"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Scheduled Hour</FormLabel>
+              <FormLabel>
+                Scheduled Hour{" "}
+                <span className="ml-[5px] opacity-50">(Optional)</span>
+              </FormLabel>
               <FormControl>
                 <Input type="time" {...field} />
               </FormControl>
@@ -73,8 +114,62 @@ const EventDetailsForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="bg-orange-act text-base">
-          Ok
+        <div>
+          <span className="text-sm">
+            Duration<span className="ml-[5px] opacity-50">(Optional)</span>
+          </span>
+          <div className="flex space-x-4">
+            <FormField
+              control={form.control}
+              name="duration.hours"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <div className="flex flex-row-reverse items-center gap-[5px]">
+                    <FormLabel>Hours</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        {...field}
+                        value={field.value ? field.value : ""}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
+                      />
+                    </FormControl>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="duration.minutes"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <div className="flex flex-row-reverse items-center gap-[5px]">
+                    <FormLabel>Minutes</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        {...field}
+                        value={field.value ? field.value : ""}
+                        onChange={(e) =>
+                          field.onChange(Number.parseInt(e.target.value) || 0)
+                        }
+                      />
+                    </FormControl>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+        <Button
+          type="submit"
+          className="border-2 border-orange-act text-base text-orange-act"
+        >
+          {submitText}
         </Button>
       </form>
     </Form>

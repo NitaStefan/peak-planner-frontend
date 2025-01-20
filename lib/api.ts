@@ -1,11 +1,7 @@
 "use server";
 
 import { AuthResponse, ErrorResponse } from "./types";
-import {
-  TPlannedEventSchemaWithId,
-  TSignInSchema,
-  TSignUpSchema,
-} from "./validations";
+import { TPlannedEvent, TSignInSchema, TSignUpSchema } from "./validations";
 import { getAccessToken, storeTokens } from "./actions";
 import { revalidatePath } from "next/cache";
 
@@ -60,7 +56,7 @@ export async function signIn(data: TSignInSchema): Promise<void> {
 export async function getPlannedEvents() {
   const accessToken = await getAccessToken();
 
-  const response = await apiCall<TPlannedEventSchemaWithId[]>(
+  const response = await apiCall<(TPlannedEvent & { id: number })[]>(
     "/planned-events",
     "GET",
     accessToken,

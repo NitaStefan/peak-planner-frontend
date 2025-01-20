@@ -23,12 +23,12 @@ export const plannedEventSchema = z.object({
   scheduledDate: z.date(),
 });
 
-export type TPlannedEventSchema = z.infer<typeof plannedEventSchema> & {
-  id?: number;
-  eventDetails: TEventDetailsSchema[];
-};
+export type TPlannedEventSchema = z.infer<typeof plannedEventSchema>;
 
-export type TPlannedEventSchemaWithId = TPlannedEventSchema & { id: number };
+export type TPlannedEvent = z.infer<typeof plannedEventSchema> & {
+  id?: number;
+  eventDetails: TEventDetails[];
+};
 
 export const eventDetailsSchema = z.object({
   title: z
@@ -40,13 +40,26 @@ export const eventDetailsSchema = z.object({
     .max(400, "Description must be less than 400 characters")
     .min(1, "Description is required"),
   startTime: z.string().optional(),
-  minutes: z.number().optional(),
+  duration: z.object({
+    hours: z
+      .number()
+      .min(0, "Cannot have negative hours")
+      .max(24, "Cannot have more than 24 hours"),
+    minutes: z
+      .number()
+      .max(59, "Minutes must be less than 60")
+      .min(0, "Cannot have negative minutes"),
+  }),
 });
 
-export type TEventDetailsSchema = z.infer<typeof eventDetailsSchema> & {
+export type TEventDetailsSchema = z.infer<typeof eventDetailsSchema>;
+
+export type TEventDetails = Omit<TEventDetailsSchema, "duration"> & {
   id?: number;
+  minutes?: number;
 };
 
+// Flexible Event
 export const flexibleEventSchema = z.object({
   title: z
     .string()

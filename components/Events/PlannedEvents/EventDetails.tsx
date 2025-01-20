@@ -1,13 +1,9 @@
 import React from "react";
 import Time from "./Time";
 import { cn } from "@/lib/utils";
-import { TEventDetailsSchema } from "@/lib/validations";
+import { TEventDetails } from "@/lib/validations";
 
-const EventDetails = ({
-  eventDetails,
-}: {
-  eventDetails: TEventDetailsSchema[];
-}) => {
+const EventDetails = ({ eventDetails }: { eventDetails: TEventDetails[] }) => {
   return eventDetails.map((detail) => {
     return (
       <div
