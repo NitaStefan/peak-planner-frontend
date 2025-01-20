@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 import EventDetails from "./EventDetails";
 import { format } from "date-fns";
-import EntityActions from "../../EntityActions";
+import PlannedEventsActions from "./PlannedEventsActions";
 
 const PlannedEvents = async () => {
   const plannedEvents = await getPlannedEvents();
@@ -24,7 +24,7 @@ const PlannedEvents = async () => {
             alt="Scheduled Date"
           />
           <span className="text-xl">{formattedDate}</span>
-          <EntityActions plannedEventId={plannedEvent.id} />
+          <PlannedEventsActions plannedEventId={plannedEvent.id} />
         </div>
         <div className="mb-[30px] mt-[15px] flex flex-col gap-y-[25px]">
           <EventDetails eventDetails={plannedEvent.eventDetails} />

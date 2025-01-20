@@ -7,6 +7,7 @@ import {
   TSignUpSchema,
 } from "./validations";
 import { getAccessToken, storeTokens } from "./actions";
+import { revalidatePath } from "next/cache";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -72,4 +73,6 @@ export async function deletePlannedEvent(id: number) {
   const accessToken = await getAccessToken();
 
   await apiCall<undefined>(`/planned-events/${id}`, "DELETE", accessToken);
+
+  revalidatePath("/events");
 }
