@@ -24,7 +24,7 @@ const PlannedEvents = async () => {
             alt="Scheduled Date"
           />
           <span className="text-xl">{formattedDate}</span>
-          <PlannedEventsActions plannedEventId={plannedEvent.id} />
+          <PlannedEventsActions plannedEvent={plannedEvent} />
         </div>
         <div className="mb-[30px] mt-[15px] flex flex-col gap-y-[25px]">
           <EventDetails eventDetails={plannedEvent.eventDetails} />

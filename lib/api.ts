@@ -72,3 +72,18 @@ export async function deletePlannedEvent(id: number) {
 
   revalidatePath("/events");
 }
+
+export async function updatePlannedEvent(
+  plannedEvent: TPlannedEvent & { id: number },
+) {
+  const accessToken = await getAccessToken();
+
+  await apiCall<undefined, TPlannedEvent & { id: number }>(
+    `/planned-events`,
+    "PUT",
+    accessToken,
+    plannedEvent,
+  );
+
+  revalidatePath("/events");
+}

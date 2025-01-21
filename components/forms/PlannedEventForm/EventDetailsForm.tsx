@@ -30,7 +30,7 @@ const EventDetailsForm = ({
 }) => {
   const submitText = eventDetails
     ? "Update Event Details"
-    : "Add New Event Details";
+    : "Add Event Details";
 
   const form = useForm<TEventDetailsSchema>({
     resolver: zodResolver(eventDetailsSchema),
@@ -71,7 +71,10 @@ const EventDetailsForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="shadcn-form">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="shadcn-form border-b-2"
+      >
         <FormField
           control={form.control}
           name="title"

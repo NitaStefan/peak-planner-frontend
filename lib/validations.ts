@@ -19,17 +19,6 @@ export const signInSchema = z.object({
 export type TSignInSchema = z.infer<typeof signUpSchema>;
 
 //Planned Event
-export const plannedEventSchema = z.object({
-  scheduledDate: z.date(),
-});
-
-export type TPlannedEventSchema = z.infer<typeof plannedEventSchema>;
-
-export type TPlannedEvent = z.infer<typeof plannedEventSchema> & {
-  id?: number;
-  eventDetails: TEventDetails[];
-};
-
 export const eventDetailsSchema = z.object({
   title: z
     .string()
@@ -57,6 +46,17 @@ export type TEventDetailsSchema = z.infer<typeof eventDetailsSchema>;
 export type TEventDetails = Omit<TEventDetailsSchema, "duration"> & {
   id?: number;
   minutes?: number;
+};
+
+export const plannedEventSchema = z.object({
+  scheduledDate: z.date(),
+});
+
+export type TPlannedEventSchema = z.infer<typeof plannedEventSchema>;
+
+export type TPlannedEvent = z.infer<typeof plannedEventSchema> & {
+  id?: number;
+  eventDetails: TEventDetails[];
 };
 
 // Flexible Event

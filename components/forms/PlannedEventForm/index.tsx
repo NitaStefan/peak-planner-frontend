@@ -27,14 +27,21 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import React, { useState } from "react";
 import EventDetailsForm from "./EventDetailsForm";
+import EventDetails from "@/components/Events/PlannedEvents/EventDetails";
+import { useToast } from "@/hooks/use-toast";
 
 const PlannedEventForm = ({
   initPlannedEvent = undefined,
+  mutateData = (data) => {
+    console.log(data);
+    return Promise.resolve();
+  },
 }: {
   initPlannedEvent?: TPlannedEvent;
+  mutateData?: (data: TPlannedEvent) => Promise<void>;
 }) => {
-  //TODO: Show event details form only when the that array from planned event is empty
-  //TODO: maybe fix border radius
+  const { toast } = useToast();
+
   const [plannedEvent, setPlannedEvent] = useState(
     () =>
       initPlannedEvent ?? {
@@ -43,26 +50,37 @@ const PlannedEventForm = ({
       },
   );
 
+  const [showEventDetailsForm, setShowEventDetailsForm] = useState(
+    plannedEvent.eventDetails.length === 0,
+  );
+
   const form = useForm<TPlannedEventSchema>({
     resolver: zodResolver(plannedEventSchema),
     defaultValues: {
-      scheduledDate: plannedEvent.scheduledDate,
+      scheduledDate: new Date(plannedEvent.scheduledDate),
     },
   });
 
   const onSubmit = (data: TPlannedEventSchema) => {
-    setPlannedEvent((prevPlannedEvent) => ({
-      ...prevPlannedEvent,
-      scheduledDate: data.scheduledDate,
-    }));
+    if (plannedEvent.eventDetails.length === 0)
+      toast({
+        title: "Submission Failed",
+        description: "Event Details are required",
+        variant: "destructive",
+      });
+    else {
+      plannedEvent.scheduledDate = data.scheduledDate;
+      mutateData(plannedEvent);
+    }
   };
 
-  console.log(plannedEvent);
-
   return (
-    <div className="relative rounded-md pb-[60px]">
+    <div className="relative rounded-md border-2 border-bone-white border-opacity-40 pb-[76px]">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="shadcn-form">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="shadcn-form rounded-t-md border-b-2"
+        >
           <FormField
             control={form.control}
             name="scheduledDate"
@@ -109,11 +127,38 @@ const PlannedEventForm = ({
             type="submit"
             className="absolute bottom-[20px] w-[calc(100%-40px)] bg-orange-act text-base"
           >
-            {plannedEvent.id ? "Update Planned Event" : "Add New Planned Event"}
+            {plannedEvent.id ? "Update Planned Event" : "Add Planned Event"}
           </Button>
         </form>
       </Form>
-      <EventDetailsForm setPlannedEvent={setPlannedEvent} />
+      {showEventDetailsForm ? (
+        <EventDetailsForm
+          setPlannedEvent={(updatePlEv) => {
+            setPlannedEvent(updatePlEv);
+            setShowEventDetailsForm(false);
+          }}
+        />
+      ) : (
+        <div className="flex flex-col gap-y-[20px] border-b-2 border-bone-white border-opacity-40 pb-[20px]">
+          <EventDetails eventDetails={plannedEvent.eventDetails} />
+          <Button
+            type="submit"
+            onClick={() => setShowEventDetailsForm(true)}
+            className="mx-auto mt-[10px] w-[calc(100%-40px)] border-2 border-orange-act text-base text-orange-act"
+          >
+            Add Other Event Details
+          </Button>
+        </div>
+      )}
+      {plannedEvent.eventDetails.length !== 0 && showEventDetailsForm && (
+        <Button
+          onClick={() => setShowEventDetailsForm(false)}
+          className="absolute right-[20px] top-[100px] text-slate-500 shadow-none"
+        >
+          Go Back
+          {/* also add icon */}
+        </Button>
+      )}
     </div>
   );
 };

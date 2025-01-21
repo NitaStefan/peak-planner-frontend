@@ -4,10 +4,10 @@ import { cn } from "@/lib/utils";
 import { TEventDetails } from "@/lib/validations";
 
 const EventDetails = ({ eventDetails }: { eventDetails: TEventDetails[] }) => {
-  return eventDetails.map((detail) => {
+  return eventDetails.map((detail, index) => {
     return (
       <div
-        key={detail.id}
+        key={detail.id ?? index}
         className={cn(
           "relative rounded-md bg-blue-dark p-[20px] max-sm:p-[15px]",
           (detail.startTime || detail.minutes) && "pb-[25px] max-sm:pb-[25px]",
