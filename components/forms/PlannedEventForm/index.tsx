@@ -19,6 +19,7 @@ import {
 import { cn } from "@/lib/utils";
 import {
   plannedEventSchema,
+  TEventDetails,
   TPlannedEvent,
   TPlannedEventSchema,
 } from "@/lib/validations";
@@ -29,16 +30,14 @@ import React, { useState } from "react";
 import EventDetailsForm from "./EventDetailsForm";
 import EventDetails from "@/components/Events/PlannedEvents/EventDetails";
 import { useToast } from "@/hooks/use-toast";
+import Image from "next/image";
 
 const PlannedEventForm = ({
   initPlannedEvent = undefined,
-  mutateData = (data) => {
-    console.log(data);
-    return Promise.resolve();
-  },
+  mutateData,
 }: {
   initPlannedEvent?: TPlannedEvent;
-  mutateData?: (data: TPlannedEvent) => Promise<void>;
+  mutateData: (data: TPlannedEvent) => Promise<void>;
 }) => {
   const { toast } = useToast();
 
@@ -50,9 +49,38 @@ const PlannedEventForm = ({
       },
   );
 
-  const [showEventDetailsForm, setShowEventDetailsForm] = useState(
-    plannedEvent.eventDetails.length === 0,
-  );
+  const [toBeUpdated, setToBeUpdated] = useState<{
+    index: number | null;
+    initEventDetails?: TEventDetails;
+  }>({
+    index: plannedEvent.eventDetails.length === 0 ? -1 : null,
+  });
+
+  const saveEventDetails = (
+    updatedEventDetails: TEventDetails,
+    indexToUpdate?: number,
+  ) => {
+    setPlannedEvent((prev) => ({
+      ...prev,
+      eventDetails:
+        indexToUpdate !== -1
+          ? // Replace the event detail at the given index
+            prev.eventDetails.map((ev, i) =>
+              i === indexToUpdate ? updatedEventDetails : ev,
+            )
+          : // Add a new event detail if no index is -1
+            [...(prev.eventDetails || []), updatedEventDetails],
+    }));
+  };
+
+  const deleteEventDetail = (indexToRemove: number) => {
+    setPlannedEvent((prev) => ({
+      ...prev,
+      eventDetails: prev.eventDetails.filter(
+        (_, index) => index !== indexToRemove,
+      ),
+    }));
+  };
 
   const form = useForm<TPlannedEventSchema>({
     resolver: zodResolver(plannedEventSchema),
@@ -61,7 +89,7 @@ const PlannedEventForm = ({
     },
   });
 
-  const onSubmit = (data: TPlannedEventSchema) => {
+  const onSubmit = async (data: TPlannedEventSchema) => {
     if (plannedEvent.eventDetails.length === 0)
       toast({
         title: "Submission Failed",
@@ -70,7 +98,8 @@ const PlannedEventForm = ({
       });
     else {
       plannedEvent.scheduledDate = data.scheduledDate;
-      mutateData(plannedEvent);
+      await mutateData(plannedEvent);
+      //TODO: also delete the event details that were deleted
     }
   };
 
@@ -124,39 +153,55 @@ const PlannedEventForm = ({
           />
 
           <Button
+            disabled={form.formState.isSubmitting}
             type="submit"
             className="absolute bottom-[20px] w-[calc(100%-40px)] bg-orange-act text-base"
           >
-            {plannedEvent.id ? "Update Planned Event" : "Add Planned Event"}
+            {/* TODO: disable if EventDetailsForm is shown */}
+            {form.formState.isSubmitting
+              ? "Submitting..."
+              : plannedEvent.id
+                ? "Update Planned Event"
+                : "Add Planned Event"}
           </Button>
         </form>
       </Form>
-      {showEventDetailsForm ? (
+      {toBeUpdated.index !== null ? (
         <EventDetailsForm
-          setPlannedEvent={(updatePlEv) => {
-            setPlannedEvent(updatePlEv);
-            setShowEventDetailsForm(false);
+          initEventDetails={toBeUpdated.initEventDetails}
+          saveEventDetails={(updatedEventDetails: TEventDetails) => {
+            saveEventDetails(updatedEventDetails, toBeUpdated.index as number);
+            setToBeUpdated({ index: null });
           }}
         />
       ) : (
         <div className="flex flex-col gap-y-[20px] border-b-2 border-bone-white border-opacity-40 pb-[20px]">
-          <EventDetails eventDetails={plannedEvent.eventDetails} />
+          <EventDetails
+            eventDetails={plannedEvent.eventDetails}
+            setToBeUpdated={setToBeUpdated}
+            onDelete={deleteEventDetail}
+          />
           <Button
             type="submit"
-            onClick={() => setShowEventDetailsForm(true)}
+            onClick={() => setToBeUpdated({ index: -1 })}
             className="mx-auto mt-[10px] w-[calc(100%-40px)] border-2 border-orange-act text-base text-orange-act"
           >
             Add Other Event Details
           </Button>
         </div>
       )}
-      {plannedEvent.eventDetails.length !== 0 && showEventDetailsForm && (
+      {toBeUpdated.index !== null && plannedEvent.eventDetails.length !== 0 && (
         <Button
-          onClick={() => setShowEventDetailsForm(false)}
-          className="absolute right-[20px] top-[100px] text-slate-500 shadow-none"
+          onClick={() => setToBeUpdated({ index: null })}
+          className="absolute right-[4px] top-[100px] gap-[3px] text-slate-500 shadow-none"
         >
+          <Image
+            src="icons/arrow-back.svg"
+            width={20}
+            height={20}
+            alt="Go Back"
+          />
           Go Back
-          {/* also add icon */}
         </Button>
       )}
     </div>

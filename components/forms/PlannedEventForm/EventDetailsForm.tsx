@@ -15,32 +15,31 @@ import {
   eventDetailsSchema,
   TEventDetails,
   TEventDetailsSchema,
-  TPlannedEvent,
 } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 
 const EventDetailsForm = ({
-  eventDetails,
-  setPlannedEvent,
+  initEventDetails,
+  saveEventDetails,
 }: {
-  eventDetails?: TEventDetails;
-  setPlannedEvent: React.Dispatch<React.SetStateAction<TPlannedEvent>>;
+  initEventDetails?: TEventDetails;
+  saveEventDetails: (updatedEventDetails: TEventDetails) => void;
 }) => {
-  const submitText = eventDetails
+  const submitText = initEventDetails
     ? "Update Event Details"
     : "Add Event Details";
 
   const form = useForm<TEventDetailsSchema>({
     resolver: zodResolver(eventDetailsSchema),
     defaultValues: {
-      title: eventDetails?.title || "",
-      description: eventDetails?.description || "",
-      startTime: eventDetails?.startTime || "",
+      title: initEventDetails?.title || "",
+      description: initEventDetails?.description || "",
+      startTime: initEventDetails?.startTime || "",
       duration: {
-        minutes: Math.floor((eventDetails?.minutes ?? 0) / 60),
-        hours: (eventDetails?.minutes ?? 0) % 60,
+        minutes: Math.floor((initEventDetails?.minutes ?? 0) / 60),
+        hours: (initEventDetails?.minutes ?? 0) % 60,
       },
     },
   });
@@ -50,23 +49,14 @@ const EventDetailsForm = ({
 
     const updatedEventDetails: TEventDetails = {
       ...rest,
-      ...(eventDetails?.id ? { id: eventDetails.id } : {}),
+      ...(initEventDetails?.id ? { id: initEventDetails.id } : {}),
       ...(startTime ? { startTime } : {}),
       ...(duration.hours || duration.minutes
         ? { minutes: (duration.hours || 0) * 60 + (duration.minutes || 0) }
         : {}),
     };
 
-    setPlannedEvent((prev) => ({
-      ...prev,
-      eventDetails: eventDetails?.id
-        ? // Replace the eventDetails with matching id
-          prev.eventDetails.map((ev) =>
-            ev.id === eventDetails.id ? updatedEventDetails : ev,
-          )
-        : // Add a new eventDetails if no id exists
-          [...(prev.eventDetails || []), updatedEventDetails],
-    }));
+    saveEventDetails(updatedEventDetails);
   };
 
   return (
@@ -107,7 +97,7 @@ const EventDetailsForm = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Scheduled Hour{" "}
+                Scheduled Hour
                 <span className="ml-[5px] opacity-50">(Optional)</span>
               </FormLabel>
               <FormControl>

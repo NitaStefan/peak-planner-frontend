@@ -26,7 +26,7 @@ const PlannedEventsActions = ({
       <UpdateDialog>
         <PlannedEventForm
           initPlannedEvent={plannedEvent}
-          // mutateData={handleUpdatePlannedEvent}
+          mutateData={handleUpdatePlannedEvent}
         />
       </UpdateDialog>
       {/* DuplicateDialog */}

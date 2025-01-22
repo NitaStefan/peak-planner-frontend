@@ -27,3 +27,9 @@ export function formatDuration(minutes: number): string {
 
   return result.trim(); // Remove trailing spaces
 }
+
+export const removeLeadingZero = (time: string | undefined) => {
+  if (!time) return "";
+  const [hours, minutes] = time.split(":");
+  return `${parseInt(hours, 10)}:${minutes}`;
+};
