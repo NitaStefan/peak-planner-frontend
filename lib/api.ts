@@ -27,7 +27,10 @@ export async function apiCall<T, K = undefined>(
     throw new Error(errorData.message || "An error occurred");
   }
 
-  return !(response.headers.get("content-length") === "0") && response.json();
+  return response.headers.get("content-length") === "0" ||
+    response.status === 204
+    ? undefined
+    : response.json();
 }
 
 export async function signUp(data: TSignUpSchema): Promise<void> {
@@ -78,6 +81,8 @@ export async function updatePlannedEvent(
 ) {
   const accessToken = await getAccessToken();
 
+  console.log("plannedEvent", plannedEvent.scheduledDate.toISOString());
+
   await apiCall<undefined, TPlannedEvent & { id: number }>(
     `/planned-events`,
     "PUT",
@@ -90,6 +95,8 @@ export async function updatePlannedEvent(
 
 export async function deleteEventDetails(eventDetailIds: number[]) {
   const accessToken = await getAccessToken();
+
+  console.log("JSON.stringify(eventDetailIds)", JSON.stringify(eventDetailIds));
 
   await apiCall<undefined, number[]>(
     `/planned-events/event-details`,

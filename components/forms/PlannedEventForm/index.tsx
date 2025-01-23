@@ -29,25 +29,24 @@ import { CalendarIcon } from "lucide-react";
 import React, { useRef, useState } from "react";
 import EventDetailsForm from "./EventDetailsForm";
 import EventDetails from "@/components/Events/PlannedEvents/EventDetails";
-import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 import { deleteEventDetails } from "@/lib/api";
+
+type PlannedEventFormProps = {
+  initPlannedEvent?: TPlannedEvent;
+  mutateData: (data: TPlannedEvent) => Promise<void>;
+};
 
 const PlannedEventForm = ({
   initPlannedEvent = undefined,
   mutateData,
-}: {
-  initPlannedEvent?: TPlannedEvent;
-  mutateData: (data: TPlannedEvent) => Promise<void>;
-}) => {
-  const { toast } = useToast();
-
-  const [plannedEvent, setPlannedEvent] = useState(
-    () =>
-      initPlannedEvent ?? {
-        scheduledDate: new Date(new Date().setDate(new Date().getDate() + 1)), // next day
-        eventDetails: [],
-      },
+}: PlannedEventFormProps) => {
+  //TODO: create a custom hook and refactor code + complete functionality
+  const plannedEventRef = useRef<TPlannedEvent>(
+    initPlannedEvent ?? {
+      scheduledDate: new Date(new Date().setDate(new Date().getDate() + 1)), // next day
+      eventDetails: [],
+    },
   );
 
   const eventDetailsIdsForDeletion = useRef<number[]>([]);
@@ -56,61 +55,70 @@ const PlannedEventForm = ({
     index: number | null;
     initEventDetails?: TEventDetails;
   }>({
-    index: plannedEvent.eventDetails.length === 0 ? -1 : null,
+    index: plannedEventRef.current.eventDetails.length === 0 ? -1 : null,
+  });
+
+  const form = useForm<TPlannedEventSchema>({
+    resolver: zodResolver(plannedEventSchema),
+    defaultValues: {
+      scheduledDate: new Date(plannedEventRef.current.scheduledDate),
+    },
   });
 
   const saveEventDetails = (
     updatedEventDetails: TEventDetails,
     indexToUpdate?: number,
   ) => {
-    setPlannedEvent((prev) => ({
-      ...prev,
-      eventDetails:
-        indexToUpdate !== -1
-          ? // Replace the event detail at the given index
-            prev.eventDetails.map((ev, i) =>
-              i === indexToUpdate ? updatedEventDetails : ev,
-            )
-          : // Add a new event detail if no index is -1
-            [...(prev.eventDetails || []), updatedEventDetails],
-    }));
+    plannedEventRef.current.eventDetails =
+      indexToUpdate !== -1
+        ? // Replace the event detail at the given index
+          plannedEventRef.current.eventDetails.map((ev, i) =>
+            i === indexToUpdate ? updatedEventDetails : ev,
+          )
+        : // Add a new event detail if no index is -1
+          [
+            ...(plannedEventRef.current.eventDetails || []),
+            updatedEventDetails,
+          ];
   };
 
   const deleteEventDetail = (indexToRemove: number) => {
-    setPlannedEvent((prev) => ({
-      ...prev,
-      eventDetails: prev.eventDetails.filter(
-        (_, index) => index !== indexToRemove,
-      ),
-    }));
-  };
+    if (plannedEventRef.current.eventDetails[indexToRemove].id)
+      eventDetailsIdsForDeletion.current.push(
+        plannedEventRef.current.eventDetails[indexToRemove].id as number,
+      );
 
-  const form = useForm<TPlannedEventSchema>({
-    resolver: zodResolver(plannedEventSchema),
-    defaultValues: {
-      scheduledDate: new Date(plannedEvent.scheduledDate),
-    },
-  });
+    plannedEventRef.current.eventDetails =
+      plannedEventRef.current.eventDetails.filter(
+        (_, index) => index !== indexToRemove,
+      );
+
+    setToBeUpdated({ index: null });
+  };
 
   const onSubmit = async (data: TPlannedEventSchema) => {
-    if (plannedEvent.eventDetails.length === 0)
-      toast({
-        title: "Submission Failed",
-        description: "Event Details are required",
-        variant: "destructive",
-      });
-    else {
-      plannedEvent.scheduledDate = data.scheduledDate;
-      await deleteEventDetails([]);
-      await mutateData(plannedEvent);
-    }
+    const localDate = new Date(data.scheduledDate);
+    const utcDate = new Date(
+      Date.UTC(
+        localDate.getFullYear(),
+        localDate.getMonth(),
+        localDate.getDate(),
+      ),
+    );
+    plannedEventRef.current.scheduledDate = utcDate;
+    await deleteEventDetails(eventDetailsIdsForDeletion.current);
+    await mutateData(plannedEventRef.current);
   };
 
-  console.log("toBeUpdated", toBeUpdated);
-  console.log("eventDetailsIdsForDeletion", eventDetailsIdsForDeletion.current);
-
   return (
-    <div className="relative rounded-md border-2 border-bone-white border-opacity-40 pb-[76px]">
+    <div
+      className={cn(
+        "relative w-full rounded-md border-2 border-bone-white border-opacity-40 bg-blue-dark pb-[56px]",
+        (plannedEventRef.current.eventDetails.length === 0 ||
+          toBeUpdated.index !== null) &&
+          "pb-0",
+      )}
+    >
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -157,16 +165,20 @@ const PlannedEventForm = ({
               </FormItem>
             )}
           />
-
           <Button
             disabled={form.formState.isSubmitting}
             type="submit"
-            className="absolute bottom-[20px] w-[calc(100%-40px)] bg-orange-act text-base"
+            className={cn(
+              "absolute bottom-[20px] w-[calc(100%-50px)] bg-orange-act text-base max-sm:w-[calc(100%-24px)]",
+              (plannedEventRef.current.eventDetails.length === 0 ||
+                toBeUpdated.index !== null) &&
+                "hidden",
+            )}
           >
             {/* TODO: Dont show Button if EventDetailsForm is shown */}
             {form.formState.isSubmitting
               ? "Submitting..."
-              : plannedEvent.id
+              : plannedEventRef.current.id
                 ? "Update Planned Event"
                 : "Add Planned Event"}
           </Button>
@@ -181,36 +193,38 @@ const PlannedEventForm = ({
           }}
         />
       ) : (
-        <div className="flex flex-col gap-y-[20px] border-b-2 border-bone-white border-opacity-40 pb-[20px]">
+        <div className="flex flex-col gap-y-[20px] border-bone-white border-opacity-40 pb-[20px]">
           <EventDetails
-            eventDetails={plannedEvent.eventDetails}
+            eventDetails={plannedEventRef.current.eventDetails}
             setToBeUpdated={setToBeUpdated}
             onDelete={deleteEventDetail}
-            pendingDeletions={eventDetailsIdsForDeletion.current}
+            // pendingDeletions={eventDetailsIdsForDeletion.current}
           />
-          <Button
-            type="submit"
-            onClick={() => setToBeUpdated({ index: -1 })}
-            className="mx-auto mt-[10px] w-[calc(100%-40px)] border-2 border-orange-act text-base text-orange-act"
-          >
-            Add Other Event Details
-          </Button>
+          <div className="px">
+            <Button
+              onClick={() => setToBeUpdated({ index: -1 })}
+              className="mt-[10px] w-full border-2 border-orange-act text-base text-orange-act"
+            >
+              Add Other Event Details
+            </Button>
+          </div>
         </div>
       )}
-      {toBeUpdated.index !== null && plannedEvent.eventDetails.length !== 0 && (
-        <Button
-          onClick={() => setToBeUpdated({ index: null })}
-          className="absolute right-[4px] top-[100px] gap-[3px] text-slate-500 shadow-none"
-        >
-          <Image
-            src="icons/arrow-back.svg"
-            width={20}
-            height={20}
-            alt="Go Back"
-          />
-          Go Back
-        </Button>
-      )}
+      {toBeUpdated.index !== null &&
+        plannedEventRef.current.eventDetails.length !== 0 && (
+          <Button
+            onClick={() => setToBeUpdated({ index: null })}
+            className="absolute right-[4px] top-[100px] gap-[3px] text-slate-500 shadow-none"
+          >
+            <Image
+              src="icons/arrow-back.svg"
+              width={20}
+              height={20}
+              alt="Go Back"
+            />
+            Go Back
+          </Button>
+        )}
     </div>
   );
 };

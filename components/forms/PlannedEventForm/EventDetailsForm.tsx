@@ -11,12 +11,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { formatTime } from "@/lib/timeHelpers";
 import {
   eventDetailsSchema,
   TEventDetails,
   TEventDetailsSchema,
 } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { XIcon } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -63,7 +65,7 @@ const EventDetailsForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="shadcn-form border-b-2"
+        className="shadcn-form rounded-b-md"
       >
         <FormField
           control={form.control}
@@ -101,7 +103,24 @@ const EventDetailsForm = ({
                 <span className="ml-[5px] opacity-50">(Optional)</span>
               </FormLabel>
               <FormControl>
-                <Input type="time" {...field} />
+                <div className="relative">
+                  <Input
+                    type="time"
+                    {...field}
+                    value={formatTime(field.value || "")}
+                    onChange={(e) => field.onChange(e.target.value)}
+                    className="pr-10"
+                  />
+                  {field.value && (
+                    <Button
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3 py-2"
+                      onClick={() => field.onChange("")}
+                    >
+                      <XIcon />
+                    </Button>
+                  )}
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

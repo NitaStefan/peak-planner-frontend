@@ -16,7 +16,7 @@ const UpdateDialog = ({ children }: { children: React.ReactNode }) => {
         <Image src="icons/edit.svg" width={18} height={18} alt="Edit" />
         Edit
       </DialogTrigger>
-      <DialogContent className="bg-blue-dark">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle className="hidden">Are you sure?</DialogTitle>
         </DialogHeader>

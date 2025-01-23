@@ -1,7 +1,7 @@
 import {
   addMinutesToTime,
   formatDuration,
-  removeLeadingZero,
+  removeLeadingZeros,
 } from "@/lib/timeHelpers";
 import Image from "next/image";
 import React from "react";
@@ -14,7 +14,7 @@ const Time = ({
   minutes?: number;
 }) => {
   let TimeComponent = null;
-  startTime = removeLeadingZero(startTime);
+  startTime = removeLeadingZeros(startTime);
 
   if (!startTime && !minutes) return TimeComponent;
 

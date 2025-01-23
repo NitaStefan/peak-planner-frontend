@@ -14,27 +14,24 @@ type EventDetailsProps =
         }>
       >;
       onDelete: (indexToRemove: number) => void;
-      pendingDeletions: number[];
     }
   | {
       eventDetails: TEventDetails[];
       setToBeUpdated?: undefined;
       onDelete?: undefined;
-      pendingDeletions?: number[];
     };
 
 const EventDetails = ({
   eventDetails,
   setToBeUpdated,
   onDelete,
-  pendingDeletions,
 }: EventDetailsProps) => {
   return eventDetails.map((detail, index) => {
     return (
       <div
         key={index}
         className={cn(
-          "relative flex justify-between rounded-md bg-blue-dark p-[20px] max-sm:p-[15px]",
+          "px relative flex justify-between rounded-md bg-blue-dark py-[20px] max-sm:py-[10px]",
           (detail.startTime || detail.minutes) && "pb-[25px] max-sm:pb-[25px]",
         )}
       >
@@ -51,10 +48,7 @@ const EventDetails = ({
                 initEventDetails: detail,
               })
             }
-            onDelete={() => {
-              onDelete(index);
-              if (detail.id) pendingDeletions.push(detail.id);
-            }}
+            onDelete={() => onDelete(index)}
           />
         )}
       </div>

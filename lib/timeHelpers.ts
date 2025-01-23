@@ -13,7 +13,7 @@ export function addMinutesToTime(time: string, minutesToAdd: number): string {
   const updatedHours = date.getHours().toString().padStart(2, "0");
   const updatedMinutes = date.getMinutes().toString().padStart(2, "0");
 
-  return `${updatedHours}:${updatedMinutes}`;
+  return removeLeadingZeros(`${updatedHours}:${updatedMinutes}`);
 }
 
 export function formatDuration(minutes: number): string {
@@ -28,8 +28,14 @@ export function formatDuration(minutes: number): string {
   return result.trim(); // Remove trailing spaces
 }
 
-export const removeLeadingZero = (time: string | undefined) => {
+export const removeLeadingZeros = (time: string | undefined) => {
   if (!time) return "";
   const [hours, minutes] = time.split(":");
   return `${parseInt(hours, 10)}:${minutes}`;
+};
+
+export const formatTime = (time: string) => {
+  if (!time) return "";
+  const [hours, minutes] = time.split(":");
+  return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
 };
