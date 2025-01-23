@@ -3,8 +3,7 @@ import Time from "./Time";
 import { cn } from "@/lib/utils";
 import { TEventDetails } from "@/lib/validations";
 import EditDeleteDetails from "./EditDeleteDetails";
-import { deleteEventDetail } from "@/lib/api";
-// Either pass both setToBeUpdated and onDelete or none
+// Either pass all the optional props or none of them at all
 type EventDetailsProps =
   | {
       eventDetails: TEventDetails[];
@@ -15,17 +14,20 @@ type EventDetailsProps =
         }>
       >;
       onDelete: (indexToRemove: number) => void;
+      pendingDeletions: number[];
     }
   | {
       eventDetails: TEventDetails[];
       setToBeUpdated?: undefined;
       onDelete?: undefined;
+      pendingDeletions?: number[];
     };
 
 const EventDetails = ({
   eventDetails,
   setToBeUpdated,
   onDelete,
+  pendingDeletions,
 }: EventDetailsProps) => {
   return eventDetails.map((detail, index) => {
     return (
@@ -51,7 +53,7 @@ const EventDetails = ({
             }
             onDelete={() => {
               onDelete(index);
-              if (detail.id) deleteEventDetail(detail.id);
+              if (detail.id) pendingDeletions.push(detail.id);
             }}
           />
         )}

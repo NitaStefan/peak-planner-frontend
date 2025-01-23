@@ -88,14 +88,13 @@ export async function updatePlannedEvent(
   revalidatePath("/events");
 }
 
-export async function deleteEventDetail(eventDetailId: number) {
+export async function deleteEventDetails(eventDetailIds: number[]) {
   const accessToken = await getAccessToken();
 
-  await apiCall<undefined>(
-    `/planned-events/event-details/${eventDetailId}`,
+  await apiCall<undefined, number[]>(
+    `/planned-events/event-details`,
     "DELETE",
     accessToken,
+    eventDetailIds,
   );
-
-  revalidatePath("/events");
 }

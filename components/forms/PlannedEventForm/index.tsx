@@ -26,11 +26,12 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import EventDetailsForm from "./EventDetailsForm";
 import EventDetails from "@/components/Events/PlannedEvents/EventDetails";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
+import { deleteEventDetails } from "@/lib/api";
 
 const PlannedEventForm = ({
   initPlannedEvent = undefined,
@@ -48,6 +49,8 @@ const PlannedEventForm = ({
         eventDetails: [],
       },
   );
+
+  const eventDetailsIdsForDeletion = useRef<number[]>([]);
 
   const [toBeUpdated, setToBeUpdated] = useState<{
     index: number | null;
@@ -98,10 +101,13 @@ const PlannedEventForm = ({
       });
     else {
       plannedEvent.scheduledDate = data.scheduledDate;
+      await deleteEventDetails([]);
       await mutateData(plannedEvent);
-      //TODO: also delete the event details that were deleted
     }
   };
+
+  console.log("toBeUpdated", toBeUpdated);
+  console.log("eventDetailsIdsForDeletion", eventDetailsIdsForDeletion.current);
 
   return (
     <div className="relative rounded-md border-2 border-bone-white border-opacity-40 pb-[76px]">
@@ -157,7 +163,7 @@ const PlannedEventForm = ({
             type="submit"
             className="absolute bottom-[20px] w-[calc(100%-40px)] bg-orange-act text-base"
           >
-            {/* TODO: disable if EventDetailsForm is shown */}
+            {/* TODO: Dont show Button if EventDetailsForm is shown */}
             {form.formState.isSubmitting
               ? "Submitting..."
               : plannedEvent.id
@@ -180,6 +186,7 @@ const PlannedEventForm = ({
             eventDetails={plannedEvent.eventDetails}
             setToBeUpdated={setToBeUpdated}
             onDelete={deleteEventDetail}
+            pendingDeletions={eventDetailsIdsForDeletion.current}
           />
           <Button
             type="submit"
