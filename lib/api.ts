@@ -68,10 +68,15 @@ export async function getPlannedEvents() {
   return response;
 }
 
-export async function deletePlannedEvent(id: number) {
+export async function addPlannedEvent(plannedEvent: TPlannedEvent) {
   const accessToken = await getAccessToken();
 
-  await apiCall<undefined>(`/planned-events/${id}`, "DELETE", accessToken);
+  await apiCall<undefined, TPlannedEvent>(
+    "/planned-events",
+    "POST",
+    accessToken,
+    plannedEvent,
+  );
 
   revalidatePath("/events");
 }
@@ -89,6 +94,14 @@ export async function updatePlannedEvent(
     accessToken,
     plannedEvent,
   );
+
+  revalidatePath("/events");
+}
+
+export async function deletePlannedEvent(id: number) {
+  const accessToken = await getAccessToken();
+
+  await apiCall<undefined>(`/planned-events/${id}`, "DELETE", accessToken);
 
   revalidatePath("/events");
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 import {
@@ -8,10 +10,19 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import PlannedEventForm from "../forms/PlannedEventForm";
+import { addPlannedEvent } from "@/lib/api";
+import { TPlannedEvent } from "@/lib/validations";
 
-const AddPlannedEvent = () => {
+const AddPlannedEvDialog = () => {
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
+  const handleAddPlannedEvent = async (plannedEvent: TPlannedEvent) => {
+    await addPlannedEvent(plannedEvent);
+    setIsDialogOpen(false);
+  };
+
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger className="absolute right-0 top-[-49px] h-auto w-fit rounded-md bg-orange-act px-[10px] py-[7px] text-base hover:bg-orange-act max-sm:px-[7px] sm:top-[-52px]">
         <span className="inline max-sm:hidden">Add Planned Event</span>
         <Image
@@ -26,10 +37,10 @@ const AddPlannedEvent = () => {
         <DialogHeader>
           <DialogTitle className="hidden">Planned Event</DialogTitle>
         </DialogHeader>
-        {/* <PlannedEventForm mutateData={} /> */}
+        <PlannedEventForm mutateData={handleAddPlannedEvent} />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default AddPlannedEvent;
+export default AddPlannedEvDialog;

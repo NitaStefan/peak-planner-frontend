@@ -40,8 +40,8 @@ const EventDetailsForm = ({
       description: initEventDetails?.description || "",
       startTime: initEventDetails?.startTime || "",
       duration: {
-        minutes: Math.floor((initEventDetails?.minutes ?? 0) / 60),
-        hours: (initEventDetails?.minutes ?? 0) % 60,
+        hours: Math.floor((initEventDetails?.minutes ?? 0) / 60),
+        minutes: (initEventDetails?.minutes ?? 0) % 60,
       },
     },
   });
