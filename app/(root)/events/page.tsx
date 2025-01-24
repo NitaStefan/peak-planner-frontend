@@ -1,5 +1,5 @@
-import AddPlannedEvent from "@/components/Events/AddPlannedEvent";
-import PlannedEvents from "@/components/Events/PlannedEvents";
+import AddPlannedEvent from "@/components/events/AddPlannedEvent";
+import PlannedEvents from "@/components/events/PlannedEvents";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { Suspense } from "react";
 

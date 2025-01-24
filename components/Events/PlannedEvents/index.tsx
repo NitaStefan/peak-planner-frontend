@@ -1,9 +1,9 @@
 import { getPlannedEvents } from "@/lib/api";
 import Image from "next/image";
 import React from "react";
-import EventDetails from "./EventDetails";
 import { format } from "date-fns";
-import PlannedEventsActions from "./PlannedEventsActions";
+import PlannedEventsActions from "./crudActions/PlannedEventsActions";
+import EventDetails from "./EventDetails";
 
 const PlannedEvents = async () => {
   const plannedEvents = await getPlannedEvents();

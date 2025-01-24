@@ -15,8 +15,10 @@ import { Button } from "./ui/button";
 
 const DeleteDialog = ({
   deleteEntity,
+  message,
 }: {
   deleteEntity: () => Promise<void>;
+  message: string;
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -38,9 +40,7 @@ const DeleteDialog = ({
       <DialogContent className="bg-blue-dark p-[25px]">
         <DialogHeader>
           <DialogTitle>Are you sure?</DialogTitle>
-          <DialogDescription>
-            This will permanently delete the event.
-          </DialogDescription>
+          <DialogDescription>{message}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="mt-[20px]">
           <Button variant="secondary">Cancel</Button>

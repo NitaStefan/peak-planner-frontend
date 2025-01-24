@@ -28,7 +28,7 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import React, { useRef, useState } from "react";
 import EventDetailsForm from "./EventDetailsForm";
-import EventDetails from "@/components/Events/PlannedEvents/EventDetails";
+import EventDetails from "@/components/events/PlannedEvents/EventDetails";
 import Image from "next/image";
 import { deleteEventDetails } from "@/lib/api";
 

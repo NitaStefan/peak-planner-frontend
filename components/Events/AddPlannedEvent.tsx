@@ -26,7 +26,7 @@ const AddPlannedEvent = () => {
         <DialogHeader>
           <DialogTitle className="hidden">Planned Event</DialogTitle>
         </DialogHeader>
-        <PlannedEventForm mutateData={} />
+        {/* <PlannedEventForm mutateData={} /> */}
       </DialogContent>
     </Dialog>
   );
