@@ -9,24 +9,21 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
+} from "../../../ui/dialog";
 import Image from "next/image";
-import { Button } from "./ui/button";
+import { Button } from "../../../ui/button";
+import { usePlannedEvent } from "@/contexts/PlannedEventContext";
+import { deletePlannedEvent } from "@/lib/api";
 
-const DeleteDialog = ({
-  deleteEntity,
-  message,
-}: {
-  deleteEntity: () => Promise<void>;
-  message: string;
-}) => {
+const DeletePlannedEvDialog = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const { plannedEvent } = usePlannedEvent();
 
   const handleDelete = async () => {
     setIsDeleting(true);
 
-    await deleteEntity();
+    await deletePlannedEvent(plannedEvent.id);
 
     setIsOpen(false);
   };
@@ -40,7 +37,9 @@ const DeleteDialog = ({
       <DialogContent className="bg-blue-dark p-[25px]">
         <DialogHeader>
           <DialogTitle>Are you sure?</DialogTitle>
-          <DialogDescription>{message}</DialogDescription>
+          <DialogDescription>
+            This will permanently delete the event.
+          </DialogDescription>
         </DialogHeader>
         <DialogFooter className="mt-[20px]">
           <Button variant="secondary">Cancel</Button>
@@ -57,4 +56,4 @@ const DeleteDialog = ({
   );
 };
 
-export default DeleteDialog;
+export default DeletePlannedEvDialog;

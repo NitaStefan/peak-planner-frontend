@@ -1,8 +1,8 @@
 import React from "react";
-import Time from "./Time";
 import { cn } from "@/lib/utils";
 import { TEventDetails } from "@/lib/validations";
 import EditDeleteDetails from "./EditDeleteDetails";
+import Time from "./Time";
 // Either pass all the optional props or none of them at all
 type EventDetailsProps =
   | {
@@ -30,15 +30,26 @@ const EventDetails = ({
     return (
       <div
         key={index}
-        className={cn(
-          "px relative flex justify-between rounded-md bg-blue-dark py-[20px] max-sm:py-[10px]",
-          (detail.startTime || detail.minutes) && "pb-[25px] max-sm:pb-[25px]",
-        )}
+        className="px relative flex justify-between rounded-md bg-blue-dark py-[20px]"
       >
         <div>
-          <h2 className="text-lg">{detail.title}</h2>
+          <h2
+            className={cn(
+              "text-lg",
+              !!setToBeUpdated && "w-[380px] truncate max-sm:w-[260px]",
+            )}
+          >
+            {detail.title}
+          </h2>
           <Time startTime={detail.startTime} minutes={detail.minutes} />
-          <div className="pt-[10px] font-karla">{detail.description}</div>
+          <div
+            className={cn(
+              "pt-[10px] font-karla",
+              !!setToBeUpdated && "w-[380px] truncate max-sm:w-[260px]",
+            )}
+          >
+            {detail.description}
+          </div>
         </div>
         {!!setToBeUpdated && (
           <EditDeleteDetails

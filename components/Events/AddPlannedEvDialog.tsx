@@ -13,7 +13,8 @@ import PlannedEventForm from "../forms/PlannedEventForm";
 import { addPlannedEvent } from "@/lib/api";
 import { TPlannedEvent } from "@/lib/validations";
 
-const AddPlannedEvDialog = () => {
+const AddPlannedEvDialog = ({ allDates }: { allDates: Date[] }) => {
+  //TODO: use the allDates
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
   const handleAddPlannedEvent = async (plannedEvent: TPlannedEvent) => {

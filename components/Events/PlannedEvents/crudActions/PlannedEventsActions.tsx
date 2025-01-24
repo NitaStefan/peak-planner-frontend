@@ -1,29 +1,29 @@
 "use client";
-
-import DeleteDialog from "@/components/DeleteDialog";
-import EntityActions from "@/components/EntityActions";
 import UpdatePlannedEvDialog from "@/components/events/PlannedEvents/crudActions/UpdatePlannedEvDialog";
-import { deletePlannedEvent } from "@/lib/api";
-import { TPlannedEvent } from "@/lib/validations";
+import DeletePlannedEvDialog from "./DeletePlannedEvDialog";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import Image from "next/image";
+import { useState } from "react";
 
-const PlannedEventsActions = ({
-  plannedEvent,
-}: {
-  plannedEvent: TPlannedEvent & { id: number };
-}) => {
-  const handleDeletePlannedEvent = async () => {
-    await deletePlannedEvent(plannedEvent.id);
-  };
+const PlannedEventsActions = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <EntityActions>
-      <UpdatePlannedEvDialog plannedEvent={plannedEvent} />
-      {/* DuplicateDialog */}
-      <DeleteDialog
-        deleteEntity={handleDeletePlannedEvent}
-        message="This will permanently delete the event."
-      />
-    </EntityActions>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <PopoverTrigger className="ml-auto">
+        <Image src="icons/options.svg" width={25} height={25} alt="Options" />
+      </PopoverTrigger>
+      <PopoverContent className="flex w-fit flex-col gap-y-[5px] border-2 border-bone-white bg-blue-dark p-[5px]">
+        <UpdatePlannedEvDialog closePopover={() => setIsOpen(false)} />
+        {/* <DuplicatePlannedEvDialog plannedEvent={plannedEvent}
+        otherDates={otherDates}/>*/}
+        <DeletePlannedEvDialog />
+      </PopoverContent>
+    </Popover>
   );
 };
 

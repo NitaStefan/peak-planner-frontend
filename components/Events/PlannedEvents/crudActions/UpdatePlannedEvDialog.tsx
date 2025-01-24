@@ -12,17 +12,21 @@ import React from "react";
 import PlannedEventForm from "../../../forms/PlannedEventForm";
 import { updatePlannedEvent } from "@/lib/api";
 import { TPlannedEvent } from "@/lib/validations";
+import { usePlannedEvent } from "@/contexts/PlannedEventContext";
 
 const UpdatePlannedEvDialog = ({
-  plannedEvent,
+  closePopover,
 }: {
-  plannedEvent: TPlannedEvent & { id: number };
+  closePopover: () => void;
 }) => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
+  const { plannedEvent } = usePlannedEvent();
 
   const handleUpdatePlannedEvent = async (plannedEvent: TPlannedEvent) => {
     await updatePlannedEvent(plannedEvent as TPlannedEvent & { id: number });
     setIsDialogOpen(false);
+    closePopover();
   };
 
   return (
@@ -36,8 +40,8 @@ const UpdatePlannedEvDialog = ({
           <DialogTitle className="hidden">Update</DialogTitle>
         </DialogHeader>
         <PlannedEventForm
-          initPlannedEvent={plannedEvent}
           mutateData={handleUpdatePlannedEvent}
+          initPlannedEvent={plannedEvent}
         />
       </DialogContent>
     </Dialog>

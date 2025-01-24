@@ -41,12 +41,19 @@ const PlannedEventForm = ({
   initPlannedEvent = undefined,
   mutateData,
 }: PlannedEventFormProps) => {
-  //TODO: create a custom hook and refactor code + complete functionality
+  // TODO: get the dates as a props since for adding there is no context
+
+  // make a copy, in case an event detail is deleted and the form is not submitted
   const plannedEventRef = useRef<TPlannedEvent>(
-    initPlannedEvent ?? {
-      scheduledDate: new Date(new Date().setDate(new Date().getDate() + 1)), // next day
-      eventDetails: [],
-    },
+    initPlannedEvent
+      ? {
+          ...initPlannedEvent,
+          eventDetails: [...initPlannedEvent.eventDetails],
+        }
+      : {
+          scheduledDate: new Date(new Date().setDate(new Date().getDate() + 1)),
+          eventDetails: [],
+        },
   );
 
   const eventDetailsIdsForDeletion = useRef<number[]>([]);
@@ -69,6 +76,7 @@ const PlannedEventForm = ({
     updatedEventDetails: TEventDetails,
     indexToUpdate?: number,
   ) => {
+    //TODO: based on the intervals, check if update is possible
     plannedEventRef.current.eventDetails =
       indexToUpdate !== -1
         ? // Replace the event detail at the given index
@@ -193,17 +201,19 @@ const PlannedEventForm = ({
           }}
         />
       ) : (
-        <div className="flex flex-col gap-y-[20px] border-bone-white border-opacity-40 pb-[20px]">
-          <EventDetails
-            eventDetails={plannedEventRef.current.eventDetails}
-            setToBeUpdated={setToBeUpdated}
-            onDelete={deleteEventDetail}
-            // pendingDeletions={eventDetailsIdsForDeletion.current}
-          />
-          <div className="px">
+        <div className="pb-[20px]">
+          <div className="flex max-h-[460px] flex-col gap-y-[12px] overflow-y-auto max-sm:max-h-[340px]">
+            <EventDetails
+              eventDetails={plannedEventRef.current.eventDetails}
+              setToBeUpdated={setToBeUpdated}
+              onDelete={deleteEventDetail}
+              // pendingDeletions={eventDetailsIdsForDeletion.current}
+            />
+          </div>
+          <div className="px pt-[12px]">
             <Button
               onClick={() => setToBeUpdated({ index: -1 })}
-              className="mt-[10px] w-full border-2 border-orange-act text-base text-orange-act"
+              className="w-full border-2 border-orange-act text-base text-orange-act"
             >
               Add Other Event Details
             </Button>

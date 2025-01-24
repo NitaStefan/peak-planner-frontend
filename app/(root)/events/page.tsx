@@ -1,4 +1,3 @@
-import AddPlannedEvDialog from "@/components/events/AddPlannedEvDialog";
 import PlannedEvents from "@/components/events/PlannedEvents";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { Suspense } from "react";
@@ -22,7 +21,6 @@ const Page = () => {
       </TabsList>
       <TabsContent value="planned">
         <div className="relative py-[20px]">
-          <AddPlannedEvDialog />
           <Suspense fallback={<div>Loading...</div>}>
             <PlannedEvents />
           </Suspense>
