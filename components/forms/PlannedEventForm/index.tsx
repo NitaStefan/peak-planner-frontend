@@ -26,44 +26,32 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import React, { useRef, useState } from "react";
 import EventDetailsForm from "./EventDetailsForm";
 import EventDetails from "@/components/events/PlannedEvents/EventDetails";
 import Image from "next/image";
 import { deleteEventDetails } from "@/lib/api";
+import { usePlannedEvent } from "@/hooks/usePlannedEvent";
 
 type PlannedEventFormProps = {
   initPlannedEvent?: TPlannedEvent;
   mutateData: (data: TPlannedEvent) => Promise<void>;
+  otherDates: Date[];
 };
 
 const PlannedEventForm = ({
   initPlannedEvent = undefined,
   mutateData,
+  otherDates,
 }: PlannedEventFormProps) => {
-  // TODO: get the dates as a props since for adding there is no context
-
-  // make a copy, in case an event detail is deleted and the form is not submitted
-  const plannedEventRef = useRef<TPlannedEvent>(
-    initPlannedEvent
-      ? {
-          ...initPlannedEvent,
-          eventDetails: [...initPlannedEvent.eventDetails],
-        }
-      : {
-          scheduledDate: new Date(new Date().setDate(new Date().getDate() + 1)),
-          eventDetails: [],
-        },
-  );
-
-  const eventDetailsIdsForDeletion = useRef<number[]>([]);
-
-  const [toBeUpdated, setToBeUpdated] = useState<{
-    index: number | null;
-    initEventDetails?: TEventDetails;
-  }>({
-    index: plannedEventRef.current.eventDetails.length === 0 ? -1 : null,
-  });
+  const {
+    plannedEventRef,
+    eventDetailsIdsForDeletion,
+    toBeUpdated,
+    setToBeUpdated,
+    saveEventDetails,
+    deleteEventDetail,
+    checkOverlappingEvents,
+  } = usePlannedEvent(initPlannedEvent);
 
   const form = useForm<TPlannedEventSchema>({
     resolver: zodResolver(plannedEventSchema),
@@ -71,38 +59,6 @@ const PlannedEventForm = ({
       scheduledDate: new Date(plannedEventRef.current.scheduledDate),
     },
   });
-
-  const saveEventDetails = (
-    updatedEventDetails: TEventDetails,
-    indexToUpdate?: number,
-  ) => {
-    //TODO: based on the intervals, check if update is possible
-    plannedEventRef.current.eventDetails =
-      indexToUpdate !== -1
-        ? // Replace the event detail at the given index
-          plannedEventRef.current.eventDetails.map((ev, i) =>
-            i === indexToUpdate ? updatedEventDetails : ev,
-          )
-        : // Add a new event detail if no index is -1
-          [
-            ...(plannedEventRef.current.eventDetails || []),
-            updatedEventDetails,
-          ];
-  };
-
-  const deleteEventDetail = (indexToRemove: number) => {
-    if (plannedEventRef.current.eventDetails[indexToRemove].id)
-      eventDetailsIdsForDeletion.current.push(
-        plannedEventRef.current.eventDetails[indexToRemove].id as number,
-      );
-
-    plannedEventRef.current.eventDetails =
-      plannedEventRef.current.eventDetails.filter(
-        (_, index) => index !== indexToRemove,
-      );
-
-    setToBeUpdated({ index: null });
-  };
 
   const onSubmit = async (data: TPlannedEventSchema) => {
     const localDate = new Date(data.scheduledDate);
@@ -113,6 +69,21 @@ const PlannedEventForm = ({
         localDate.getDate(),
       ),
     );
+    //check if the date is already in the list of other dates
+    if (
+      otherDates.some(
+        (date) => new Date(date).toDateString() === utcDate.toDateString(),
+      )
+    ) {
+      form.setError("scheduledDate", {
+        type: "manual",
+        message: "This date is already scheduled",
+      });
+      return;
+    }
+
+    if (checkOverlappingEvents()) return;
+
     plannedEventRef.current.scheduledDate = utcDate;
     await deleteEventDetails(eventDetailsIdsForDeletion.current);
     await mutateData(plannedEventRef.current);
@@ -183,7 +154,6 @@ const PlannedEventForm = ({
                 "hidden",
             )}
           >
-            {/* TODO: Dont show Button if EventDetailsForm is shown */}
             {form.formState.isSubmitting
               ? "Submitting..."
               : plannedEventRef.current.id
@@ -201,13 +171,13 @@ const PlannedEventForm = ({
           }}
         />
       ) : (
+        // TODO: separate Event Details Component
         <div className="pb-[20px]">
-          <div className="flex max-h-[460px] flex-col gap-y-[12px] overflow-y-auto max-sm:max-h-[340px]">
+          <div className="flex max-h-[460px] flex-col gap-y-[12px] overflow-y-auto pb-[12px] max-sm:max-h-[350px]">
             <EventDetails
               eventDetails={plannedEventRef.current.eventDetails}
               setToBeUpdated={setToBeUpdated}
               onDelete={deleteEventDetail}
-              // pendingDeletions={eventDetailsIdsForDeletion.current}
             />
           </div>
           <div className="px pt-[12px]">
@@ -220,6 +190,7 @@ const PlannedEventForm = ({
           </div>
         </div>
       )}
+      {/* TODO: separate Go Back Component */}
       {toBeUpdated.index !== null &&
         plannedEventRef.current.eventDetails.length !== 0 && (
           <Button

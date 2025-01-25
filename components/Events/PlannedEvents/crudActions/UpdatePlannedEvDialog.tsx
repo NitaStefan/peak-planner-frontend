@@ -21,7 +21,7 @@ const UpdatePlannedEvDialog = ({
 }) => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
-  const { plannedEvent } = usePlannedEvent();
+  const { plannedEvent, otherDates } = usePlannedEvent();
 
   const handleUpdatePlannedEvent = async (plannedEvent: TPlannedEvent) => {
     await updatePlannedEvent(plannedEvent as TPlannedEvent & { id: number });
@@ -42,6 +42,7 @@ const UpdatePlannedEvDialog = ({
         <PlannedEventForm
           mutateData={handleUpdatePlannedEvent}
           initPlannedEvent={plannedEvent}
+          otherDates={otherDates}
         />
       </DialogContent>
     </Dialog>

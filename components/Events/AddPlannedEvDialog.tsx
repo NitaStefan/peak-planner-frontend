@@ -14,7 +14,6 @@ import { addPlannedEvent } from "@/lib/api";
 import { TPlannedEvent } from "@/lib/validations";
 
 const AddPlannedEvDialog = ({ allDates }: { allDates: Date[] }) => {
-  //TODO: use the allDates
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
   const handleAddPlannedEvent = async (plannedEvent: TPlannedEvent) => {
@@ -38,7 +37,10 @@ const AddPlannedEvDialog = ({ allDates }: { allDates: Date[] }) => {
         <DialogHeader>
           <DialogTitle className="hidden">Planned Event</DialogTitle>
         </DialogHeader>
-        <PlannedEventForm mutateData={handleAddPlannedEvent} />
+        <PlannedEventForm
+          mutateData={handleAddPlannedEvent}
+          otherDates={allDates}
+        />
       </DialogContent>
     </Dialog>
   );

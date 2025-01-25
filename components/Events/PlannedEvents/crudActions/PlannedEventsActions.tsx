@@ -19,8 +19,7 @@ const PlannedEventsActions = () => {
       </PopoverTrigger>
       <PopoverContent className="flex w-fit flex-col gap-y-[5px] border-2 border-bone-white bg-blue-dark p-[5px]">
         <UpdatePlannedEvDialog closePopover={() => setIsOpen(false)} />
-        {/* <DuplicatePlannedEvDialog plannedEvent={plannedEvent}
-        otherDates={otherDates}/>*/}
+        {/* <DuplicatePlannedEvDialog closePopover={() => setIsOpen(false)}/> */}
         <DeletePlannedEvDialog />
       </PopoverContent>
     </Popover>
