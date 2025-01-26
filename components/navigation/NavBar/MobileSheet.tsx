@@ -7,7 +7,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import React from "react";
-import NavLinks from "../NavLinks";
+import NavLinks from "../navlinks";
 import Logo from "./Logo";
 import Image from "next/image";
 

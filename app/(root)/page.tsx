@@ -1,4 +1,4 @@
-import AuthActions from "@/components/navigation/NavLinks/AuthActions";
+import AuthActions from "@/components/navigation/navlinks/AuthActions";
 import { isLoggedIn } from "@/lib/actions";
 import React from "react";
 

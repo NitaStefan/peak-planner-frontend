@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import Image from "next/image";
 import React from "react";
-import PlannedEventForm from "../../../forms/PlannedEventForm";
+import PlannedEventForm from "../../../forms/planned-event-form";
 import { updatePlannedEvent } from "@/lib/api";
 import { TPlannedEvent } from "@/lib/validations";
 import { usePlannedEvent } from "@/contexts/PlannedEventContext";

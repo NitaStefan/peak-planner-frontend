@@ -1,4 +1,4 @@
-import EventDetails from "@/components/events/PlannedEvents/EventDetails";
+import EventDetails from "@/components/events/planned-events/EventDetails";
 import { Button } from "@/components/ui/button";
 import { TEventDetails } from "@/lib/validations";
 import React, { Dispatch, SetStateAction } from "react";

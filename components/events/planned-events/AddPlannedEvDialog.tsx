@@ -2,16 +2,16 @@
 
 import Image from "next/image";
 import React from "react";
+import { addPlannedEvent } from "@/lib/api";
+import { TPlannedEvent } from "@/lib/validations";
+import PlannedEventForm from "@/components/forms/planned-event-form";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import PlannedEventForm from "../forms/PlannedEventForm";
-import { addPlannedEvent } from "@/lib/api";
-import { TPlannedEvent } from "@/lib/validations";
+} from "@/components/ui/dialog";
 
 const AddPlannedEvDialog = ({ allDates }: { allDates: Date[] }) => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);

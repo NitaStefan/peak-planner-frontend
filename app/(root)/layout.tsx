@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import LeftSideBar from "@/components/navigation/LeftSideBar";
-import NavBar from "@/components/navigation/NavBar";
+import NavBar from "@/components/navigation/navbar";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 

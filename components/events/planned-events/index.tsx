@@ -2,10 +2,10 @@ import { getPlannedEvents } from "@/lib/api";
 import Image from "next/image";
 import React from "react";
 import { format } from "date-fns";
-import PlannedEventsActions from "./crudActions/PlannedEventsActions";
+import PlannedEventsActions from "./crud-actions/PlannedEventsActions";
 import EventDetails from "./EventDetails";
-import AddPlannedEvDialog from "../AddPlannedEvDialog";
 import { PlannedEventContextProvider } from "@/contexts/PlannedEventContext";
+import AddPlannedEvDialog from "./AddPlannedEvDialog";
 
 const PlannedEvents = async () => {
   const plannedEvents = await getPlannedEvents();

@@ -1,5 +1,5 @@
 "use client";
-import UpdatePlannedEvDialog from "@/components/events/PlannedEvents/crudActions/UpdatePlannedEvDialog";
+import UpdatePlannedEvDialog from "@/components/events/planned-events/crud-actions/UpdatePlannedEvDialog";
 import DeletePlannedEvDialog from "./DeletePlannedEvDialog";
 import {
   Popover,

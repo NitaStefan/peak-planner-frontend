@@ -1,5 +1,5 @@
 import React from "react";
-import NavLinks from "./NavLinks";
+import NavLinks from "./navlinks";
 import { isLoggedIn } from "@/lib/actions";
 
 const LeftSideBar = async () => {
