@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/popover";
 import Image from "next/image";
 import { useState } from "react";
+import DuplicatePlannedEvDialog from "./DuplicatePlannedEvDialog";
 
 const PlannedEventsActions = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,7 @@ const PlannedEventsActions = () => {
       </PopoverTrigger>
       <PopoverContent className="flex w-fit flex-col gap-y-[5px] border-2 border-bone-white bg-blue-dark p-[5px]">
         <UpdatePlannedEvDialog closePopover={() => setIsOpen(false)} />
-        {/* <DuplicatePlannedEvDialog closePopover={() => setIsOpen(false)}/> */}
+        <DuplicatePlannedEvDialog closePopover={() => setIsOpen(false)} />
         <DeletePlannedEvDialog />
       </PopoverContent>
     </Popover>

@@ -27,10 +27,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import EventDetailsForm from "./EventDetailsForm";
-import EventDetails from "@/components/events/PlannedEvents/EventDetails";
-import Image from "next/image";
 import { deleteEventDetails } from "@/lib/api";
 import { usePlannedEvent } from "@/hooks/usePlannedEvent";
+import EventDetailsManger from "./EventDetailsManger";
+import GoBackButton from "./GoBackButton";
 
 type PlannedEventFormProps = {
   initPlannedEvent?: TPlannedEvent;
@@ -171,40 +171,15 @@ const PlannedEventForm = ({
           }}
         />
       ) : (
-        // TODO: separate Event Details Component
-        <div className="pb-[20px]">
-          <div className="flex max-h-[460px] flex-col gap-y-[12px] overflow-y-auto pb-[12px] max-sm:max-h-[350px]">
-            <EventDetails
-              eventDetails={plannedEventRef.current.eventDetails}
-              setToBeUpdated={setToBeUpdated}
-              onDelete={deleteEventDetail}
-            />
-          </div>
-          <div className="px pt-[12px]">
-            <Button
-              onClick={() => setToBeUpdated({ index: -1 })}
-              className="w-full border-2 border-orange-act text-base text-orange-act"
-            >
-              Add Other Event Details
-            </Button>
-          </div>
-        </div>
+        <EventDetailsManger
+          eventDetails={plannedEventRef.current.eventDetails}
+          setToBeUpdated={setToBeUpdated}
+          onDelete={deleteEventDetail}
+        />
       )}
-      {/* TODO: separate Go Back Component */}
       {toBeUpdated.index !== null &&
         plannedEventRef.current.eventDetails.length !== 0 && (
-          <Button
-            onClick={() => setToBeUpdated({ index: null })}
-            className="absolute right-[4px] top-[100px] gap-[3px] text-slate-500 shadow-none"
-          >
-            <Image
-              src="icons/arrow-back.svg"
-              width={20}
-              height={20}
-              alt="Go Back"
-            />
-            Go Back
-          </Button>
+          <GoBackButton goBack={() => setToBeUpdated({ index: null })} />
         )}
     </div>
   );
