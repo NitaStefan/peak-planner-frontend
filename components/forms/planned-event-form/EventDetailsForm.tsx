@@ -12,15 +12,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { formatTime } from "@/lib/timeHelpers";
-import {
-  eventDetailsSchema,
-  TEventDetails,
-  TEventDetailsSchema,
-} from "@/lib/validations";
+import { eventDetailsSchema, TEventDetails } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { XIcon } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const EventDetailsForm = ({
   initEventDetails,
@@ -33,7 +30,7 @@ const EventDetailsForm = ({
     ? "Update Event Details"
     : "Add Event Details";
 
-  const form = useForm<TEventDetailsSchema>({
+  const form = useForm<z.infer<typeof eventDetailsSchema>>({
     resolver: zodResolver(eventDetailsSchema),
     defaultValues: {
       title: initEventDetails?.title || "",
@@ -46,7 +43,7 @@ const EventDetailsForm = ({
     },
   });
 
-  const onSubmit = (data: TEventDetailsSchema) => {
+  const onSubmit = (data: z.infer<typeof eventDetailsSchema>) => {
     const { duration, startTime, ...rest } = data;
 
     const updatedEventDetails: TEventDetails = {

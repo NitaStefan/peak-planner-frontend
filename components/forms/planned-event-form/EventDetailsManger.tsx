@@ -17,7 +17,7 @@ type Props = {
 const EventDetailsManger = (props: Props) => {
   return (
     <div className="pb-[20px]">
-      <div className="flex max-h-[460px] flex-col gap-y-[12px] overflow-y-auto pb-[12px] max-sm:max-h-[350px]">
+      <div className="flex max-h-[470px] flex-col gap-y-[12px] overflow-y-auto pb-[12px] max-sm:max-h-[350px]">
         <EventDetails {...props} />
       </div>
       <div className="px pt-[12px]">

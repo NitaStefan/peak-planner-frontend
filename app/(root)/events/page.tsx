@@ -1,3 +1,4 @@
+import FlexibleEvents from "@/components/events/flexible-events";
 import PlannedEvents from "@/components/events/planned-events";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { Suspense } from "react";
@@ -26,7 +27,9 @@ const Page = () => {
           </Suspense>
         </div>
       </TabsContent>
-      <TabsContent value="flexible">Flexible Events Component</TabsContent>
+      <TabsContent value="flexible">
+        <FlexibleEvents />
+      </TabsContent>
     </Tabs>
   );
 };

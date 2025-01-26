@@ -21,7 +21,6 @@ import {
   plannedEventSchema,
   TEventDetails,
   TPlannedEvent,
-  TPlannedEventSchema,
 } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
@@ -31,6 +30,7 @@ import { deleteEventDetails } from "@/lib/api";
 import { usePlannedEvent } from "@/hooks/usePlannedEvent";
 import EventDetailsManger from "./EventDetailsManger";
 import GoBackButton from "./GoBackButton";
+import { z } from "zod";
 
 type PlannedEventFormProps = {
   initPlannedEvent?: TPlannedEvent;
@@ -53,14 +53,14 @@ const PlannedEventForm = ({
     checkOverlappingEvents,
   } = usePlannedEvent(initPlannedEvent);
 
-  const form = useForm<TPlannedEventSchema>({
+  const form = useForm<z.infer<typeof plannedEventSchema>>({
     resolver: zodResolver(plannedEventSchema),
     defaultValues: {
       scheduledDate: new Date(plannedEventRef.current.scheduledDate),
     },
   });
 
-  const onSubmit = async (data: TPlannedEventSchema) => {
+  const onSubmit = async (data: z.infer<typeof plannedEventSchema>) => {
     const localDate = new Date(data.scheduledDate);
     const utcDate = new Date(
       Date.UTC(

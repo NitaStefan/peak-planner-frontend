@@ -41,9 +41,10 @@ export const eventDetailsSchema = z.object({
   }),
 });
 
-export type TEventDetailsSchema = z.infer<typeof eventDetailsSchema>;
-
-export type TEventDetails = Omit<TEventDetailsSchema, "duration"> & {
+export type TEventDetails = Omit<
+  z.infer<typeof eventDetailsSchema>,
+  "duration"
+> & {
   id?: number;
   minutes?: number;
 };
@@ -51,8 +52,6 @@ export type TEventDetails = Omit<TEventDetailsSchema, "duration"> & {
 export const plannedEventSchema = z.object({
   scheduledDate: z.date(),
 });
-
-export type TPlannedEventSchema = z.infer<typeof plannedEventSchema>;
 
 export type TPlannedEvent = z.infer<typeof plannedEventSchema> & {
   id?: number;
@@ -76,4 +75,4 @@ export const flexibleEventSchema = z.object({
     required_error: "Date required",
   }),
 });
-export type TFlexibleEventSchema = z.infer<typeof flexibleEventSchema>;
+export type TFlexibleEvent = z.infer<typeof flexibleEventSchema>;

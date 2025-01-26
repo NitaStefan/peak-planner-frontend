@@ -1,7 +1,12 @@
 "use server";
 
 import { AuthResponse, ErrorResponse } from "./types";
-import { TPlannedEvent, TSignInSchema, TSignUpSchema } from "./validations";
+import {
+  TFlexibleEvent,
+  TPlannedEvent,
+  TSignInSchema,
+  TSignUpSchema,
+} from "./validations";
 import { getAccessToken, storeTokens } from "./actions";
 import { revalidatePath } from "next/cache";
 
@@ -117,4 +122,17 @@ export async function deleteEventDetails(eventDetailIds: number[]) {
     accessToken,
     eventDetailIds,
   );
+}
+
+//Flexible Events
+export async function getFlexibleEvents() {
+  const accessToken = await getAccessToken();
+
+  const response = await apiCall<TFlexibleEvent>(
+    "/flexible-events",
+    "GET",
+    accessToken,
+  );
+
+  return response;
 }
