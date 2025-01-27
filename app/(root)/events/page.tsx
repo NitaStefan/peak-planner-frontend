@@ -20,16 +20,18 @@ const Page = () => {
           Flexible Events
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="planned">
-        <div className="relative py-[20px]">
-          <Suspense fallback={<div>Loading...</div>}>
+      <div className="relative py-[20px]">
+        <TabsContent value="planned">
+          <Suspense fallback={<div>Loading Planned Events..</div>}>
             <PlannedEvents />
           </Suspense>
-        </div>
-      </TabsContent>
-      <TabsContent value="flexible">
-        <FlexibleEvents />
-      </TabsContent>
+        </TabsContent>
+        <TabsContent value="flexible">
+          <Suspense fallback={<div>Loading Flexible Events..</div>}>
+            <FlexibleEvents />
+          </Suspense>
+        </TabsContent>
+      </div>
     </Tabs>
   );
 };

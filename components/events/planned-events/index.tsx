@@ -3,9 +3,9 @@ import Image from "next/image";
 import React from "react";
 import { format } from "date-fns";
 import PlannedEventsActions from "./crud-actions/PlannedEventsActions";
-import EventDetails from "./EventDetails";
+import EventDetails from "./crud-actions/EventDetails";
 import { PlannedEventContextProvider } from "@/contexts/PlannedEventContext";
-import AddPlannedEvDialog from "./AddPlannedEvDialog";
+import AddPlannedEvDialog from "./crud-actions/AddPlannedEvDialog";
 
 const PlannedEvents = async () => {
   const plannedEvents = await getPlannedEvents();
@@ -40,7 +40,7 @@ const PlannedEvents = async () => {
                 <span className="text-xl">{formattedDate}</span>
                 <PlannedEventsActions />
               </div>
-              <div className="mb-[30px] mt-[15px] flex flex-col gap-y-[25px]">
+              <div className="mb-[30px] mt-[10px] flex flex-col gap-y-[25px]">
                 <EventDetails eventDetails={plannedEvent.eventDetails} />
               </div>
             </div>

@@ -75,4 +75,6 @@ export const flexibleEventSchema = z.object({
     required_error: "Date required",
   }),
 });
-export type TFlexibleEvent = z.infer<typeof flexibleEventSchema>;
+export type TFlexibleEvent = z.infer<typeof flexibleEventSchema> & {
+  id?: number;
+};

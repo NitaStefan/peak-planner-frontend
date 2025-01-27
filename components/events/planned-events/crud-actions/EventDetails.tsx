@@ -1,8 +1,8 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { TEventDetails } from "@/lib/validations";
-import EditDeleteDetails from "./EditDeleteDetails";
-import Time from "./Time";
+import EditDeleteDetails from "../EditDeleteDetails";
+import Time from "../Time";
 // Either pass all the optional props or none of them at all
 type EventDetailsProps =
   | {

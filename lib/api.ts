@@ -128,7 +128,7 @@ export async function deleteEventDetails(eventDetailIds: number[]) {
 export async function getFlexibleEvents() {
   const accessToken = await getAccessToken();
 
-  const response = await apiCall<TFlexibleEvent>(
+  const response = await apiCall<TFlexibleEvent[]>(
     "/flexible-events",
     "GET",
     accessToken,
