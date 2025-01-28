@@ -18,7 +18,6 @@ export const usePlannedEvent = (initPlannedEvent?: TPlannedEvent) => {
         },
   );
 
-  const eventDetailsIdsForDeletion = useRef<number[]>([]);
   const { toast } = useToast();
 
   const [toBeUpdated, setToBeUpdated] = useState<{
@@ -41,12 +40,6 @@ export const usePlannedEvent = (initPlannedEvent?: TPlannedEvent) => {
   };
 
   const deleteEventDetail = (indexToRemove: number) => {
-    if (plannedEventRef.current.eventDetails[indexToRemove].id) {
-      eventDetailsIdsForDeletion.current.push(
-        plannedEventRef.current.eventDetails[indexToRemove].id as number,
-      );
-    }
-
     plannedEventRef.current.eventDetails =
       plannedEventRef.current.eventDetails.filter(
         (_, index) => index !== indexToRemove,
@@ -85,7 +78,6 @@ export const usePlannedEvent = (initPlannedEvent?: TPlannedEvent) => {
 
   return {
     plannedEventRef,
-    eventDetailsIdsForDeletion,
     toBeUpdated,
     setToBeUpdated,
     saveEventDetails,

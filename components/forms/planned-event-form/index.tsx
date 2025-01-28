@@ -26,11 +26,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import EventDetailsForm from "./EventDetailsForm";
-import { deleteEventDetails } from "@/lib/api";
 import { usePlannedEvent } from "@/hooks/usePlannedEvent";
 import EventDetailsManger from "./EventDetailsManger";
 import GoBackButton from "./GoBackButton";
 import { z } from "zod";
+import { toUTCDate } from "@/lib/timeHelpers";
 
 type PlannedEventFormProps = {
   initPlannedEvent?: TPlannedEvent;
@@ -45,7 +45,6 @@ const PlannedEventForm = ({
 }: PlannedEventFormProps) => {
   const {
     plannedEventRef,
-    eventDetailsIdsForDeletion,
     toBeUpdated,
     setToBeUpdated,
     saveEventDetails,
@@ -61,14 +60,8 @@ const PlannedEventForm = ({
   });
 
   const onSubmit = async (data: z.infer<typeof plannedEventSchema>) => {
-    const localDate = new Date(data.scheduledDate);
-    const utcDate = new Date(
-      Date.UTC(
-        localDate.getFullYear(),
-        localDate.getMonth(),
-        localDate.getDate(),
-      ),
-    );
+    const utcDate = toUTCDate(data.scheduledDate) as Date;
+
     //check if the date is already in the list of other dates
     if (
       otherDates.some(
@@ -85,7 +78,6 @@ const PlannedEventForm = ({
     if (checkOverlappingEvents()) return;
 
     plannedEventRef.current.scheduledDate = utcDate;
-    await deleteEventDetails(eventDetailsIdsForDeletion.current);
     await mutateData(plannedEventRef.current);
   };
 

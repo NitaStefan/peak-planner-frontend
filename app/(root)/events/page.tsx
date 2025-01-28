@@ -3,9 +3,11 @@ import PlannedEvents from "@/components/events/planned-events";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { Suspense } from "react";
 
-const Page = () => {
+const Page = async ({ searchParams }: { searchParams: { type?: string } }) => {
+  const defaultValue =
+    searchParams.type === "flexible" ? "flexible" : "planned";
   return (
-    <Tabs defaultValue="planned">
+    <Tabs defaultValue={defaultValue}>
       <TabsList className="h-[50px] bg-blue-dark">
         <TabsTrigger
           value="planned"

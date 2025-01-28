@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 import { format } from "date-fns";
 import PlannedEventsActions from "./crud-actions/PlannedEventsActions";
-import EventDetails from "./crud-actions/EventDetails";
+import EventDetails from "./EventDetails";
 import { PlannedEventContextProvider } from "@/contexts/PlannedEventContext";
 import AddPlannedEvDialog from "./crud-actions/AddPlannedEvDialog";
 
@@ -13,7 +13,7 @@ const PlannedEvents = async () => {
   const allDates = plannedEvents.map((event) => event.scheduledDate);
 
   return (
-    <React.Fragment>
+    <>
       {plannedEvents.map((plannedEvent, index) => {
         const formattedDate = format(
           plannedEvent.scheduledDate,
@@ -49,7 +49,7 @@ const PlannedEvents = async () => {
       })}
 
       <AddPlannedEvDialog allDates={allDates} />
-    </React.Fragment>
+    </>
   );
 };
 

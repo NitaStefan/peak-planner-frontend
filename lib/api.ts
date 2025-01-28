@@ -125,14 +125,51 @@ export async function deleteEventDetails(eventDetailIds: number[]) {
 }
 
 //Flexible Events
+//TODO: revalidate flexible path
 export async function getFlexibleEvents() {
   const accessToken = await getAccessToken();
 
-  const response = await apiCall<TFlexibleEvent[]>(
+  const response = await apiCall<(TFlexibleEvent & { id: number })[]>(
     "/flexible-events",
     "GET",
     accessToken,
   );
 
   return response;
+}
+
+export async function addFlexibleEvent(flexibleEvent: TFlexibleEvent) {
+  const accessToken = await getAccessToken();
+
+  await apiCall<undefined, TFlexibleEvent>(
+    "/flexible-events",
+    "POST",
+    accessToken,
+    flexibleEvent,
+  );
+
+  revalidatePath("/events");
+}
+
+export async function updateFlexibleEvent(
+  flexibleEvent: TFlexibleEvent & { id: number },
+) {
+  const accessToken = await getAccessToken();
+
+  await apiCall<undefined, TFlexibleEvent & { id: number }>(
+    `/flexible-events`,
+    "PUT",
+    accessToken,
+    flexibleEvent,
+  );
+
+  revalidatePath("/events");
+}
+
+export async function deleteFlexibleEvent(id: number) {
+  const accessToken = await getAccessToken();
+
+  await apiCall<undefined>(`/flexible-events/${id}`, "DELETE", accessToken);
+
+  revalidatePath("/events");
 }

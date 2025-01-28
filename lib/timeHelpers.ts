@@ -39,3 +39,15 @@ export const formatTime = (time: string) => {
   const [hours, minutes] = time.split(":");
   return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
 };
+
+export const toUTCDate = (dateString: Date | undefined) => {
+  if (!dateString) return undefined;
+  const localDate = new Date(dateString);
+  return new Date(
+    Date.UTC(
+      localDate.getFullYear(),
+      localDate.getMonth(),
+      localDate.getDate(),
+    ),
+  );
+};
