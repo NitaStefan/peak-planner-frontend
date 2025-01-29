@@ -10,7 +10,7 @@ import {
 import Image from "next/image";
 import React from "react";
 import { updateFlexibleEvent } from "@/lib/api";
-import { TFlexibleEvent } from "@/lib/validations";
+import { TFlexibleEventRequest } from "@/lib/validations";
 import { useFlexibleEvent } from "@/contexts/FlexibleEventContext";
 import FlexibleEventForm from "@/components/forms/FlexibleEventForm";
 
@@ -23,8 +23,10 @@ const UpdateFlexibleEvDialog = ({
 
   const { flexibleEvent } = useFlexibleEvent();
 
-  const handleUpdateFlexibleEvent = async (flexibleEvent: TFlexibleEvent) => {
-    await updateFlexibleEvent(flexibleEvent as TFlexibleEvent & { id: number });
+  const handleUpdateFlexibleEvent = async (
+    flexibleEvent: TFlexibleEventRequest,
+  ) => {
+    await updateFlexibleEvent(flexibleEvent);
     setIsDialogOpen(false);
     closePopover();
   };

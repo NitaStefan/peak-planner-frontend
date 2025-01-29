@@ -4,9 +4,14 @@ import PlannedEvents from "@/components/events/planned-events";
 import { TabsContent } from "@/components/ui/tabs";
 import React, { Suspense } from "react";
 
-const Page = ({ searchParams }: { searchParams: { type?: string } }) => {
+const Page = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string }>;
+}) => {
   const defaultValue =
-    searchParams.type === "flexible" ? "flexible" : "planned";
+    (await searchParams).type === "flexible" ? "flexible" : "planned";
+
   return (
     <EventTabs defaultValue={defaultValue}>
       <div className="relative py-[20px]">

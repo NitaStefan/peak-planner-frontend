@@ -2,7 +2,8 @@
 
 import { AuthResponse, ErrorResponse } from "./types";
 import {
-  TFlexibleEvent,
+  TFlexibleEventRequest,
+  TFlexibleEventResponse,
   TPlannedEvent,
   TSignInSchema,
   TSignUpSchema,
@@ -128,7 +129,7 @@ export async function deleteEventDetails(eventDetailIds: number[]) {
 export async function getFlexibleEvents() {
   const accessToken = await getAccessToken();
 
-  const response = await apiCall<(TFlexibleEvent & { id: number })[]>(
+  const response = await apiCall<TFlexibleEventResponse[]>(
     "/flexible-events",
     "GET",
     accessToken,
@@ -137,10 +138,10 @@ export async function getFlexibleEvents() {
   return response;
 }
 
-export async function addFlexibleEvent(flexibleEvent: TFlexibleEvent) {
+export async function addFlexibleEvent(flexibleEvent: TFlexibleEventRequest) {
   const accessToken = await getAccessToken();
 
-  await apiCall<undefined, TFlexibleEvent>(
+  await apiCall<undefined, TFlexibleEventRequest>(
     "/flexible-events",
     "POST",
     accessToken,
@@ -151,11 +152,11 @@ export async function addFlexibleEvent(flexibleEvent: TFlexibleEvent) {
 }
 
 export async function updateFlexibleEvent(
-  flexibleEvent: TFlexibleEvent & { id: number },
+  flexibleEvent: TFlexibleEventRequest,
 ) {
   const accessToken = await getAccessToken();
 
-  await apiCall<undefined, TFlexibleEvent & { id: number }>(
+  await apiCall<undefined, TFlexibleEventRequest>(
     `/flexible-events`,
     "PUT",
     accessToken,

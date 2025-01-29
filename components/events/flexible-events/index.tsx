@@ -5,6 +5,7 @@ import React from "react";
 import AddFlexibleEvDialog from "./crud-actions/AddFlexibleEvDialog";
 import FlexibleEventsActions from "./crud-actions/FlexibleEventsActions";
 import { FlexibleEventContextProvider } from "@/contexts/FlexibleEventContext";
+import { cn } from "@/lib/utils";
 
 const FlexibleEvents = async () => {
   const flexibleEvents = await getFlexibleEvents();
@@ -47,7 +48,12 @@ const FlexibleEvents = async () => {
                 <span className="text-xl max-sm:text-lg">{endDate}</span>
                 <FlexibleEventsActions />
               </div>
-              <div className="px mb-[30px] mt-[10px] rounded-md bg-blue-dark py-[20px]">
+              <div
+                className={cn(
+                  "px mb-[30px] mt-[10px] rounded-md py-[20px]",
+                  flexibleEvent.isActive ? "bg-blue-medium" : "bg-blue-dark",
+                )}
+              >
                 <h2 className="text-lg">{flexibleEvent.title}</h2>
                 <div className="pt-[10px] font-karla">
                   {flexibleEvent.description}

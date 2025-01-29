@@ -1,10 +1,10 @@
 "use client";
 
-import { TFlexibleEvent } from "@/lib/validations";
+import { TFlexibleEventResponse } from "@/lib/validations";
 import React, { createContext, ReactNode, useContext } from "react";
 
 type FlexibleEventContextType = {
-  flexibleEvent: TFlexibleEvent & { id: number };
+  flexibleEvent: TFlexibleEventResponse & { id: number };
 };
 
 const FlexibleEventContext = createContext<FlexibleEventContextType | null>(

@@ -1,6 +1,10 @@
 "use client";
 
-import { flexibleEventSchema, TFlexibleEvent } from "@/lib/validations";
+import {
+  flexibleEventSchema,
+  TFlexibleEventRequest,
+  TFlexibleEventResponse,
+} from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -27,8 +31,8 @@ const FlexibleEventForm = ({
   initFlexibleEvent = undefined,
   mutateData,
 }: {
-  initFlexibleEvent?: TFlexibleEvent;
-  mutateData: (data: TFlexibleEvent) => Promise<void>;
+  initFlexibleEvent?: TFlexibleEventResponse;
+  mutateData: (data: TFlexibleEventRequest) => Promise<void>;
 }) => {
   const form = useForm<z.infer<typeof flexibleEventSchema>>({
     resolver: zodResolver(flexibleEventSchema),

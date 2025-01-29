@@ -9,14 +9,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { TFlexibleEvent } from "@/lib/validations";
+import { TFlexibleEventRequest } from "@/lib/validations";
 import { addFlexibleEvent } from "@/lib/api";
 import FlexibleEventForm from "@/components/forms/FlexibleEventForm";
 
 const AddFlexibleEvDialog = () => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
-  const handleAddFlexibleEvent = async (flexibleEvent: TFlexibleEvent) => {
+  const handleAddFlexibleEvent = async (
+    flexibleEvent: TFlexibleEventRequest,
+  ) => {
     await addFlexibleEvent(flexibleEvent);
     setIsDialogOpen(false);
   };
