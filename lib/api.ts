@@ -125,7 +125,6 @@ export async function deleteEventDetails(eventDetailIds: number[]) {
 }
 
 //Flexible Events
-//TODO: revalidate flexible path
 export async function getFlexibleEvents() {
   const accessToken = await getAccessToken();
 
@@ -148,7 +147,7 @@ export async function addFlexibleEvent(flexibleEvent: TFlexibleEvent) {
     flexibleEvent,
   );
 
-  revalidatePath("/events");
+  revalidatePath("/events?type=flexible");
 }
 
 export async function updateFlexibleEvent(
@@ -163,7 +162,7 @@ export async function updateFlexibleEvent(
     flexibleEvent,
   );
 
-  revalidatePath("/events");
+  revalidatePath("/events?type=flexible");
 }
 
 export async function deleteFlexibleEvent(id: number) {
@@ -171,5 +170,5 @@ export async function deleteFlexibleEvent(id: number) {
 
   await apiCall<undefined>(`/flexible-events/${id}`, "DELETE", accessToken);
 
-  revalidatePath("/events");
+  revalidatePath("/events?type=flexible");
 }

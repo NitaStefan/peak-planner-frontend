@@ -1,27 +1,14 @@
+import EventTabs from "@/components/events/EventTabs";
 import FlexibleEvents from "@/components/events/flexible-events";
 import PlannedEvents from "@/components/events/planned-events";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TabsContent } from "@/components/ui/tabs";
 import React, { Suspense } from "react";
 
-const Page = async ({ searchParams }: { searchParams: { type?: string } }) => {
+const Page = ({ searchParams }: { searchParams: { type?: string } }) => {
   const defaultValue =
     searchParams.type === "flexible" ? "flexible" : "planned";
   return (
-    <Tabs defaultValue={defaultValue}>
-      <TabsList className="h-[50px] bg-blue-dark">
-        <TabsTrigger
-          value="planned"
-          className="text-xl text-bone-white data-[state=active]:bg-orange-act data-[state=active]:text-bone-white"
-        >
-          Planned Events
-        </TabsTrigger>
-        <TabsTrigger
-          value="flexible"
-          className="text-xl text-bone-white data-[state=active]:bg-orange-act data-[state=active]:text-bone-white"
-        >
-          Flexible Events
-        </TabsTrigger>
-      </TabsList>
+    <EventTabs defaultValue={defaultValue}>
       <div className="relative py-[20px]">
         <TabsContent value="planned">
           <Suspense fallback={<div>Loading Planned Events..</div>}>
@@ -34,7 +21,7 @@ const Page = async ({ searchParams }: { searchParams: { type?: string } }) => {
           </Suspense>
         </TabsContent>
       </div>
-    </Tabs>
+    </EventTabs>
   );
 };
 
