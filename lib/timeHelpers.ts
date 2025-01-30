@@ -34,20 +34,40 @@ export const removeLeadingZeros = (time: string | undefined) => {
   return `${parseInt(hours, 10)}:${minutes}`;
 };
 
-export const formatTime = (time: string) => {
+export const formatTime = (time: string | undefined) => {
   if (!time) return "";
   const [hours, minutes] = time.split(":");
   return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
 };
 
-export const toUTCDate = (dateString: Date | undefined) => {
-  if (!dateString) return undefined;
-  const localDate = new Date(dateString);
-  return new Date(
-    Date.UTC(
-      localDate.getFullYear(),
-      localDate.getMonth(),
-      localDate.getDate(),
-    ),
-  );
+export const convertTimeToISO = (time: string): string => {
+  const [hours, minutes] = time.split(":").map(Number);
+  if (isNaN(hours) || isNaN(minutes)) throw new Error("Invalid time format");
+
+  // Get current local date and set the time
+  const now = new Date();
+  now.setHours(hours, minutes, 0, 0); // Set the local time
+  now.setFullYear(2025, 0, 1); // Ensure fixed date to avoid DST issues
+
+  // Convert local time to UTC using `toISOString()`
+  const utcTime = now.toISOString().split("T")[1].slice(0, 5);
+
+  return utcTime;
+};
+
+export const convertUTCToLocal = (utcTime?: string): string => {
+  if (!utcTime) return "";
+
+  const [hours, minutes] = utcTime.split(":").map(Number);
+  if (isNaN(hours) || isNaN(minutes)) throw new Error("Invalid time format");
+
+  // Create a Date object with today's date but UTC time
+  const utcDate = new Date();
+  utcDate.setUTCHours(hours, minutes, 0, 0); // Set time in UTC
+
+  // Convert to local time
+  const localHours = utcDate.getHours().toString().padStart(2, "0");
+  const localMinutes = utcDate.getMinutes().toString().padStart(2, "0");
+
+  return `${localHours}:${localMinutes}`;
 };

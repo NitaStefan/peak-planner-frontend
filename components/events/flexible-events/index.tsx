@@ -40,8 +40,8 @@ const FlexibleEvents = async () => {
                 <span className="text-xl max-sm:text-lg">{startDate}</span>
                 <Image
                   src="icons/curved-arrow.svg"
-                  width={24}
-                  height={24}
+                  width={22}
+                  height={22}
                   alt="Arrow"
                   className="rotate-90"
                 />

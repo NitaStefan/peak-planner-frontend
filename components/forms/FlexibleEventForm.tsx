@@ -25,7 +25,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { Textarea } from "../ui/textarea";
 import { z } from "zod";
-import { toUTCDate } from "@/lib/timeHelpers";
+import { DateRange } from "react-day-picker";
 
 const FlexibleEventForm = ({
   initFlexibleEvent = undefined,
@@ -48,13 +48,16 @@ const FlexibleEventForm = ({
     },
   });
 
-  const startDate = form.watch("startDate");
-
   const onSubmit = async (data: z.infer<typeof flexibleEventSchema>) => {
     const finalData = {
       ...data,
       ...(initFlexibleEvent && { id: initFlexibleEvent.id }),
+      startDate: data.startDate,
+      endDate: data.endDate,
     };
+
+    console.log(finalData);
+
     await mutateData(finalData);
   };
 
@@ -90,7 +93,61 @@ const FlexibleEventForm = ({
             </FormItem>
           )}
         />
-        <div className="flex justify-between gap-x-[15px]">
+        <FormItem className="flex flex-col">
+          <FormLabel>Date Interval</FormLabel>
+          <Popover>
+            <PopoverTrigger asChild>
+              <FormControl>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full justify-start bg-transparent text-left font-normal hover:bg-transparent hover:text-bone-white",
+                    (!form.watch("startDate") || !form.watch("endDate")) &&
+                      "text-muted-foreground",
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {form.watch("startDate") && form.watch("endDate") ? (
+                    <>
+                      {format(form.watch("startDate"), "LLL dd, y")} -{" "}
+                      {format(form.watch("endDate"), "LLL dd, y")}
+                    </>
+                  ) : (
+                    <span>Pick a date range</span>
+                  )}
+                </Button>
+              </FormControl>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                initialFocus
+                mode="range"
+                defaultMonth={form.watch("startDate") || new Date()}
+                selected={{
+                  from: form.watch("startDate"),
+                  to: form.watch("endDate"),
+                }}
+                onSelect={(range: DateRange | undefined) => {
+                  if (range?.from)
+                    form.setValue("startDate", range.from, {
+                      shouldValidate: true,
+                    });
+                  if (range?.to)
+                    form.setValue("endDate", range.to, {
+                      shouldValidate: true,
+                    });
+                }}
+                numberOfMonths={2}
+                disabled={(date) => date < new Date()}
+              />
+            </PopoverContent>
+          </Popover>
+          <FormMessage>
+            {form.formState.errors.startDate?.message ||
+              form.formState.errors.endDate?.message}
+          </FormMessage>
+        </FormItem>
+        {/* <div className="flex justify-between gap-x-[15px]">
           <FormField
             control={form.control}
             name="startDate"
@@ -118,8 +175,8 @@ const FlexibleEventForm = ({
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={field.value}
-                      onSelect={(date) => field.onChange(toUTCDate(date))}
+                      selected={new Date(field.value)}
+                      onSelect={field.onChange}
                       disabled={(date) => date < new Date()}
                       initialFocus
                       // className="bg-blue-darker "
@@ -157,8 +214,8 @@ const FlexibleEventForm = ({
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
-                      selected={field.value}
-                      onSelect={(date) => field.onChange(toUTCDate(date))}
+                      selected={new Date(field.value)}
+                      onSelect={field.onChange}
                       disabled={(date) =>
                         date < new Date() ||
                         (startDate && date < new Date(startDate))
@@ -171,7 +228,7 @@ const FlexibleEventForm = ({
               </FormItem>
             )}
           />
-        </div>
+        </div> */}
         <Button
           type="submit"
           className="bg-orange-act text-base"

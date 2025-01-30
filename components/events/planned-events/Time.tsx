@@ -13,7 +13,6 @@ const Time = ({
   startTime?: string;
   minutes?: number;
 }) => {
-  //TODO: separetely add the duration next to the interval
   let TimeComponent = null;
   startTime = removeLeadingZeros(startTime);
 

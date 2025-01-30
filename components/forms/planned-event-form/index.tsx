@@ -30,7 +30,6 @@ import { usePlannedEvent } from "@/hooks/usePlannedEvent";
 import EventDetailsManger from "./EventDetailsManger";
 import GoBackButton from "./GoBackButton";
 import { z } from "zod";
-import { toUTCDate } from "@/lib/timeHelpers";
 
 type PlannedEventFormProps = {
   initPlannedEvent?: TPlannedEvent;
@@ -60,12 +59,14 @@ const PlannedEventForm = ({
   });
 
   const onSubmit = async (data: z.infer<typeof plannedEventSchema>) => {
-    const utcDate = toUTCDate(data.scheduledDate) as Date;
+    const theDate = data.scheduledDate;
+    theDate.setHours(0, 0, 0, 0);
 
-    //check if the date is already in the list of other dates
     if (
       otherDates.some(
-        (date) => new Date(date).toDateString() === utcDate.toDateString(),
+        (date) =>
+          new Date(date).toISOString().split("T")[0] ===
+          theDate.toISOString().split("T")[0],
       )
     ) {
       form.setError("scheduledDate", {
@@ -77,7 +78,8 @@ const PlannedEventForm = ({
 
     if (checkOverlappingEvents()) return;
 
-    plannedEventRef.current.scheduledDate = utcDate;
+    plannedEventRef.current.scheduledDate = theDate;
+
     await mutateData(plannedEventRef.current);
   };
 

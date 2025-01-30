@@ -10,6 +10,7 @@ import {
 } from "./validations";
 import { getAccessToken, storeTokens } from "./actions";
 import { revalidatePath } from "next/cache";
+import { convertTimeToISO, convertUTCToLocal } from "./timeHelpers";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -65,13 +66,22 @@ export async function signIn(data: TSignInSchema): Promise<void> {
 export async function getPlannedEvents() {
   const accessToken = await getAccessToken();
 
-  const response = await apiCall<(TPlannedEvent & { id: number })[]>(
-    "/planned-events",
+  const plannedEvents = await apiCall<(TPlannedEvent & { id: number })[]>(
+    `/planned-events`,
     "GET",
     accessToken,
   );
 
-  return response;
+  // convert the utc time to local time
+  return plannedEvents.map((event) => ({
+    ...event,
+    eventDetails: event.eventDetails.map((detail) => ({
+      ...detail,
+      startTime: detail.startTime
+        ? convertUTCToLocal(detail.startTime)
+        : undefined,
+    })),
+  }));
 }
 
 export async function addPlannedEvent(plannedEvent: TPlannedEvent) {
@@ -92,7 +102,9 @@ export async function updatePlannedEvent(
 ) {
   const accessToken = await getAccessToken();
 
-  console.log("plannedEvent", plannedEvent.scheduledDate.toISOString());
+  plannedEvent.eventDetails.forEach((detail) => {
+    if (detail.startTime) detail.startTime = convertTimeToISO(detail.startTime);
+  });
 
   await apiCall<undefined, TPlannedEvent & { id: number }>(
     `/planned-events`,

@@ -104,7 +104,7 @@ const EventDetailsForm = ({
                   <Input
                     type="time"
                     {...field}
-                    value={formatTime(field.value || "")}
+                    value={formatTime(field.value)}
                     onChange={(e) => field.onChange(e.target.value)}
                     className="pr-10"
                   />
