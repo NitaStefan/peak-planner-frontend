@@ -84,3 +84,45 @@ export type TFlexibleEventResponse = TFlexibleEventRequest & {
   id: number;
   isActive: boolean;
 };
+
+// Goal
+export const goalSchema = z.object({
+  title: z
+    .string()
+    .max(45, "Title must be less than 45 characters")
+    .min(1, "Title is required"),
+  startDate: z.date({
+    required_error: "Date required",
+  }),
+});
+
+export const stepSchema = z.object({
+  title: z
+    .string()
+    .max(45, "Title must be less than 45 characters")
+    .min(1, "Title is required"),
+  description: z
+    .string()
+    .max(400, "Description must be less than 400 characters")
+    .min(1, "Description is required"),
+  days: z
+    .number()
+    .min(1, "Days must be at least 1")
+    .max(32000, "You cannot have that many days"),
+  orderIndex: z.number().min(1, "Order number must be at least 1").optional(),
+});
+
+export type TStepRequest = z.infer<typeof stepSchema> & { id?: number };
+
+export type TStepResponse = TStepRequest & {
+  id: number;
+  orderIndex: number;
+  endDate: Date;
+  isActive: boolean;
+};
+
+export type TGoalRequest = z.infer<typeof goalSchema> & { id?: number };
+
+export type TGoalResponse = z.infer<typeof goalSchema> & {
+  id: number;
+};

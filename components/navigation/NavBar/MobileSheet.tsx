@@ -16,7 +16,7 @@ const MobileSheet = () => {
     <Sheet>
       <SheetTrigger className="w-[70px] max-sm:w-[30px]">
         <Image
-          src="icons/menu.svg"
+          src="/icons/menu.svg"
           width={35}
           height={35}
           alt="Menu"

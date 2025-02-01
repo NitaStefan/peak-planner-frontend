@@ -16,7 +16,7 @@ const PlannedEventsActions = () => {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger className="ml-auto">
-        <Image src="icons/options.svg" width={25} height={25} alt="Options" />
+        <Image src="/icons/options.svg" width={25} height={25} alt="Options" />
       </PopoverTrigger>
       <PopoverContent className="flex w-fit flex-col gap-y-[5px] border-2 border-bone-white bg-blue-dark p-[5px]">
         <UpdatePlannedEvDialog closePopover={() => setIsOpen(false)} />

@@ -13,7 +13,7 @@ const Logo = ({
 }) => {
   const LinkComponent = (
     <Link href="/" className="flex items-center gap-[6px]">
-      <Image src="logo.svg" width="36" height="36" alt="Peak Planner Logo" />
+      <Image src="/logo.svg" width="36" height="36" alt="Peak Planner Logo" />
       <span
         className={cn(
           "font-permanent-marker text-xl text-white",

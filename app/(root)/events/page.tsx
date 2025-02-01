@@ -4,16 +4,9 @@ import PlannedEvents from "@/components/events/planned-events";
 import { TabsContent } from "@/components/ui/tabs";
 import React, { Suspense } from "react";
 
-const Page = async ({
-  searchParams,
-}: {
-  searchParams: Promise<{ type?: string }>;
-}) => {
-  const defaultValue =
-    (await searchParams).type === "flexible" ? "flexible" : "planned";
-
+const Page = () => {
   return (
-    <EventTabs defaultValue={defaultValue}>
+    <EventTabs>
       <div className="relative py-[20px]">
         <TabsContent value="planned">
           <Suspense fallback={<div>Loading Planned Events..</div>}>

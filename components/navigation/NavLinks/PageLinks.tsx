@@ -14,7 +14,11 @@ const PageLinks = ({ isMobile }: { isMobile?: boolean }) => {
   return (
     <>
       {sidebarLinks.map((item) => {
-        const isActive = pathname === item.route;
+        const isActive =
+          item.route === "/"
+            ? pathname === "/"
+            : pathname.startsWith(item.route);
+
         const LinkComponent = (
           <Link
             href={item.route}

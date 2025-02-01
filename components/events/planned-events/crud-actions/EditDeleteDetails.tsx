@@ -16,7 +16,7 @@ const EditDeleteDetails = ({
         className="h-fit border-2 border-orange-act p-[4px]"
       >
         <Image
-          src="icons/delete-act.svg"
+          src="/icons/delete-act.svg"
           width={16}
           height={16}
           alt="Delete Details"
@@ -27,7 +27,7 @@ const EditDeleteDetails = ({
         className="h-fit border-2 border-orange-act p-[4px]"
       >
         <Image
-          src="icons/edit-act.svg"
+          src="/icons/edit-act.svg"
           width={16}
           height={16}
           alt="Edit Details"

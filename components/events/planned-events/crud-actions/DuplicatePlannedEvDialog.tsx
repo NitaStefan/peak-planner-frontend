@@ -46,7 +46,7 @@ const DuplicatePlannedEvDialog = ({
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger className="flex w-full items-center justify-start gap-1 bg-transparent px-[16px] py-[8px] text-sm text-bone-white shadow-none">
-        <Image src="icons/duplicate.svg" width={18} height={18} alt="Edit" />
+        <Image src="/icons/duplicate.svg" width={18} height={18} alt="Edit" />
         Duplicate
       </DialogTrigger>
       <DialogContent>

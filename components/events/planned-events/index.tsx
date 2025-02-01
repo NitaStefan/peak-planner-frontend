@@ -32,7 +32,7 @@ const PlannedEvents = async () => {
             <div>
               <div className="flex items-center gap-x-[5px]">
                 <Image
-                  src="icons/calendar.svg"
+                  src="/icons/calendar.svg"
                   width={24}
                   height={24}
                   alt="Scheduled Date"

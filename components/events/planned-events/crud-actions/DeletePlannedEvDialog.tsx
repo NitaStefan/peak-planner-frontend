@@ -31,7 +31,7 @@ const DeletePlannedEvDialog = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="flex w-full items-center justify-start gap-1 bg-transparent px-[16px] py-[8px] text-sm text-bone-white shadow-none">
-        <Image src="icons/delete.svg" width={18} height={18} alt="Delete" />
+        <Image src="/icons/delete.svg" width={18} height={18} alt="Delete" />
         Delete
       </DialogTrigger>
       <DialogContent className="bg-blue-dark p-[25px]">

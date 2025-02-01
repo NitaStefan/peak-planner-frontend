@@ -22,7 +22,7 @@ const Time = ({
     TimeComponent = (
       <>
         <Image
-          src="icons/time.svg"
+          src="/icons/time.svg"
           width={16}
           height={16}
           alt="Time"
@@ -36,7 +36,7 @@ const Time = ({
     TimeComponent = (
       <>
         <Image
-          src="icons/duration.svg"
+          src="/icons/duration.svg"
           width={16}
           height={16}
           alt="Duration"
@@ -51,7 +51,7 @@ const Time = ({
       <>
         <span>{startTime}</span>
         <Image
-          src="icons/curved-arrow.svg"
+          src="/icons/curved-arrow.svg"
           width={16}
           height={16}
           alt="Arrow"

@@ -4,13 +4,16 @@ import { AuthResponse, ErrorResponse } from "./types";
 import {
   TFlexibleEventRequest,
   TFlexibleEventResponse,
+  TGoalResponse,
   TPlannedEvent,
   TSignInSchema,
   TSignUpSchema,
+  TStepResponse,
 } from "./validations";
 import { getAccessToken, storeTokens } from "./actions";
 import { revalidatePath } from "next/cache";
 import { convertTimeToISO, convertUTCToLocal } from "./timeHelpers";
+import { cache } from "react";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -184,4 +187,25 @@ export async function deleteFlexibleEvent(id: number) {
   await apiCall<undefined>(`/flexible-events/${id}`, "DELETE", accessToken);
 
   revalidatePath("/events?type=flexible");
+}
+
+//Goals
+export const getGoals = cache(async () => {
+  const accessToken = await getAccessToken();
+
+  const response = await apiCall<TGoalResponse[]>(`/goals`, "GET", accessToken);
+
+  return response;
+});
+
+export async function getGoalSteps(id: number) {
+  const accessToken = await getAccessToken();
+
+  const response = await apiCall<TStepResponse[]>(
+    `/goals/${id}/steps`,
+    "GET",
+    accessToken,
+  );
+
+  return response;
 }
