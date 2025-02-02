@@ -1,8 +1,5 @@
-import {
-  addMinutesToTime,
-  formatDuration,
-  removeLeadingZeros,
-} from "@/lib/timeHelpers";
+import { formatDuration, removeLeadingZeros } from "@/lib/format";
+import { addMinutesToTime } from "@/lib/timeHelpers";
 import Image from "next/image";
 import React from "react";
 

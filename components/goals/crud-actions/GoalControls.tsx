@@ -1,32 +1,36 @@
 import React from "react";
-import { Button } from "../ui/button";
 import Image from "next/image";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const GoalControls = () => {
   return (
     <>
-      <Button className="grow gap-x-[3px] border-2 border-orange-act text-orange-act max-md:hidden">
+      <Button className="border-orange-sec text-orange-sec grow gap-x-[3px] border-2 max-md:hidden">
         <Image
-          src="/icons/edit-act.svg"
+          src="/icons/edit-sec.svg"
           width={18}
           height={18}
           alt="Edit Goal"
         />
         <span>Edit This Goal</span>
       </Button>
-      <Button className="grow gap-x-[3px] border-2 border-orange-act text-orange-act max-md:hidden">
+      <Button className="border-orange-sec text-orange-sec grow gap-x-[3px] border-2 max-md:hidden">
         <Image
-          src="/icons/delete-act.svg"
+          src="/icons/delete-sec.svg"
           width={18}
           height={18}
           alt="Edit Goal"
         />
         Delete This Goal
       </Button>
-      <Button className="grow gap-x-[3px] border-2 border-orange-act text-orange-act max-md:hidden">
+      <Button className="border-orange-sec text-orange-sec grow gap-x-[3px] border-2 max-md:hidden">
         <Image
-          src="/icons/add-act.svg"
+          src="/icons/add-sec.svg"
           width={18}
           height={18}
           alt="Edit Goal"
@@ -34,9 +38,9 @@ const GoalControls = () => {
         Add New Goal
       </Button>
       <Popover>
-        <PopoverTrigger className="flex grow items-center justify-center gap-x-[3px] rounded-md border-2 border-orange-act text-sm text-orange-act md:hidden">
+        <PopoverTrigger className="border-orange-sec text-orange-sec flex grow items-center justify-center gap-x-[3px] rounded-md border-2 text-sm md:hidden">
           <Image
-            src="/icons/controls-act.svg"
+            src="/icons/controls-sec.svg"
             width={18}
             height={18}
             alt="Edit Goal"
@@ -44,27 +48,27 @@ const GoalControls = () => {
           Goal Controls
         </PopoverTrigger>
         <PopoverContent className="flex w-fit flex-col items-start gap-y-[4px] border-2 border-blue-dark bg-blue-darker p-[5px]">
-          <Button className="grow gap-x-[3px] text-orange-act shadow-none">
+          <Button className="text-orange-sec grow gap-x-[3px] shadow-none">
             <Image
-              src="/icons/edit-act.svg"
+              src="/icons/edit-sec.svg"
               width={18}
               height={18}
               alt="Edit Goal"
             />
             <span>Edit This Goal</span>
           </Button>
-          <Button className="grow gap-x-[3px] text-orange-act shadow-none">
+          <Button className="text-orange-sec grow gap-x-[3px] shadow-none">
             <Image
-              src="/icons/delete-act.svg"
+              src="/icons/delete-sec.svg"
               width={18}
               height={18}
               alt="Edit Goal"
             />
             Delete This Goal
           </Button>
-          <Button className="grow gap-x-[3px] text-orange-act shadow-none">
+          <Button className="text-orange-sec grow gap-x-[3px] shadow-none">
             <Image
-              src="/icons/add-act.svg"
+              src="/icons/add-sec.svg"
               width={18}
               height={18}
               alt="Edit Goal"

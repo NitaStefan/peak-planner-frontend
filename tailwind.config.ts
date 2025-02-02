@@ -14,6 +14,7 @@ export default {
         "blue-dark": "#0f2d33",
         "blue-darker": "#091b1f",
         "orange-act": "#C76C32",
+        "orange-sec": "#ba5624",
         "cream-light": "#F2E5BF",
         "bone-white": "#F9F6EE",
       },

@@ -11,9 +11,9 @@ import {
 import { ChevronsUpDown } from "lucide-react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import { format, parseISO } from "date-fns";
 import Image from "next/image";
 import CurrentGoalActions from "./crud-actions/CurrentGoalActions";
+import { formatDate4M2d4y } from "@/lib/format";
 
 const GoalsCollapsible = ({ goals }: { goals: TGoalResponse[] }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,12 +31,9 @@ const GoalsCollapsible = ({ goals }: { goals: TGoalResponse[] }) => {
 
   const otherGoals = goals.filter((goal) => goal.id !== currentGoal?.id);
 
-  const formattedStartDate = currentGoal.startDate
-    ? format(
-        parseISO(new Date(currentGoal.startDate).toISOString()),
-        "MMMM dd, yyyy",
-      )
-    : "Unknown Date";
+  const formattedStartDate = formatDate4M2d4y(
+    new Date(currentGoal.startDate).toISOString(),
+  );
 
   return (
     <>
@@ -50,7 +47,7 @@ const GoalsCollapsible = ({ goals }: { goals: TGoalResponse[] }) => {
       >
         <CollapsibleTrigger className="flex w-full items-center justify-between px-[8px] pt-[8px]">
           <div className="mx-auto flex flex-col gap-y-[6px]">
-            <span className="rounded-md bg-orange-act px-[12px] py-[4px] text-lg">
+            <span className="bg-orange-sec rounded-md px-[12px] py-[4px] text-xl">
               {currentGoal.title}
             </span>
             <div className="flex items-center gap-[4px]">
@@ -66,7 +63,7 @@ const GoalsCollapsible = ({ goals }: { goals: TGoalResponse[] }) => {
           </div>
           <ChevronsUpDown className="h-[18px] w-[18px]" />
         </CollapsibleTrigger>
-        <CollapsibleContent className="absolute w-full rounded-b-md bg-blue-dark p-[8px]">
+        <CollapsibleContent className="absolute w-full rounded-b-md border-t-2 border-slate-500 bg-blue-dark p-[8px]">
           {otherGoals.map((goal) => (
             <Button
               className="mx-auto w-[calc(100%-18px)] rounded-md px-[12px] py-[4px] text-lg"

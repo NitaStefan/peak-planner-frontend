@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { formatTime } from "@/lib/timeHelpers";
+import { formatTime } from "@/lib/format";
 import { eventDetailsSchema, TEventDetails } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { XIcon } from "lucide-react";
