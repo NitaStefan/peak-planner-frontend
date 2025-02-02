@@ -1,3 +1,4 @@
+import StepActions from "@/components/goals/crud-actions/StepActions";
 import {
   Accordion,
   AccordionContent,
@@ -49,15 +50,21 @@ const GoalPage = async ({
             <AccordionItem
               key={step.id}
               value={`item-${step.id}`}
-              className={cn(
-                "px relative rounded-md bg-blue-dark",
-                step.isActive && "shadow-orange-sec shadow-md",
-              )}
+              className="px relative rounded-md bg-blue-dark"
             >
               <AccordionTrigger className="text-lg">
-                {step.title} - {progress}
+                <span
+                  className={cn(
+                    step.isActive && "border-b-2 border-orange-sec",
+                  )}
+                >
+                  {step.title}
+                </span>
               </AccordionTrigger>
-              <AccordionContent>{step.description}</AccordionContent>
+              <AccordionContent className="flex justify-between gap-[10px] font-karla text-base">
+                <div>{step.description}</div>
+                <StepActions />
+              </AccordionContent>
               <span className="absolute left-[6px] top-[2px] text-sm text-slate-500">{`${step.orderIndex} )`}</span>
               <div className="absolute left-0 flex translate-y-[5px] items-center gap-[3px] text-sm">
                 <Image

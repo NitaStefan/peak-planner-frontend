@@ -12,17 +12,6 @@ const EditDeleteDetails = ({
   return (
     <div className="flex flex-col gap-y-[10px]">
       <Button
-        onClick={onDelete}
-        className="h-fit border-2 border-orange-act p-[4px]"
-      >
-        <Image
-          src="/icons/delete-act.svg"
-          width={16}
-          height={16}
-          alt="Delete Details"
-        />
-      </Button>
-      <Button
         onClick={onUpdate}
         className="h-fit border-2 border-orange-act p-[4px]"
       >
@@ -31,6 +20,17 @@ const EditDeleteDetails = ({
           width={16}
           height={16}
           alt="Edit Details"
+        />
+      </Button>
+      <Button
+        onClick={onDelete}
+        className="h-fit border-2 border-orange-act p-[4px]"
+      >
+        <Image
+          src="/icons/delete-act.svg"
+          width={16}
+          height={16}
+          alt="Delete Details"
         />
       </Button>
     </div>

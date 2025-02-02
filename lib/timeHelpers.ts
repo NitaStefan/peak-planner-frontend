@@ -25,7 +25,7 @@ export const subtractDaysFromDate = (date: Date, days: number): Date => {
 };
 
 export const calculateProgress = (endDate: Date, days: number): number => {
-  const timeDiff = new Date(endDate).getTime() - new Date().getTime();
+  const timeDiff = new Date(endDate).getTime() - new Date().getTime(); // miliseconds
   const elapsedDays =
     days - Math.max(0, Math.ceil(timeDiff / (1000 * 60 * 60 * 24))); // Days passed
 

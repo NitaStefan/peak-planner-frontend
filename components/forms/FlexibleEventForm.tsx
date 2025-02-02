@@ -52,11 +52,7 @@ const FlexibleEventForm = ({
     const finalData = {
       ...data,
       ...(initFlexibleEvent && { id: initFlexibleEvent.id }),
-      startDate: data.startDate,
-      endDate: data.endDate,
     };
-
-    console.log(finalData);
 
     await mutateData(finalData);
   };
@@ -147,88 +143,6 @@ const FlexibleEventForm = ({
               form.formState.errors.endDate?.message}
           </FormMessage>
         </FormItem>
-        {/* <div className="flex justify-between gap-x-[15px]">
-          <FormField
-            control={form.control}
-            name="startDate"
-            render={({ field }) => (
-              <FormItem className="flex grow flex-col">
-                <FormLabel>From</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        className={cn(
-                          "date-button pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground",
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "EEE, MMM d, yyyy")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-40" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={new Date(field.value)}
-                      onSelect={field.onChange}
-                      disabled={(date) => date < new Date()}
-                      initialFocus
-                      // className="bg-blue-darker "
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="endDate"
-            render={({ field }) => (
-              <FormItem className="flex grow flex-col">
-                <FormLabel>To</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        className={cn(
-                          "date-button pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground",
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "EEE, MMM d, yyyy")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-40" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={new Date(field.value)}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date < new Date() ||
-                        (startDate && date < new Date(startDate))
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div> */}
         <Button
           type="submit"
           className="bg-orange-act text-base"

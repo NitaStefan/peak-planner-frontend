@@ -1,44 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { TGoalResponse } from "@/lib/validations";
+import UpdateGoalDialog from "./UpdateGoalDialog";
+import AddGoalDialog from "./AddGoalDialog";
+import DeleteGoalDialog from "./DeleteGoalDialog";
 
-const GoalControls = () => {
+const GoalControls = ({ goal }: { goal: TGoalResponse }) => {
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
   return (
     <>
-      <Button className="border-orange-sec text-orange-sec grow gap-x-[3px] border-2 max-md:hidden">
-        <Image
-          src="/icons/edit-sec.svg"
-          width={18}
-          height={18}
-          alt="Edit Goal"
-        />
-        <span>Edit This Goal</span>
-      </Button>
-      <Button className="border-orange-sec text-orange-sec grow gap-x-[3px] border-2 max-md:hidden">
-        <Image
-          src="/icons/delete-sec.svg"
-          width={18}
-          height={18}
-          alt="Edit Goal"
-        />
-        Delete This Goal
-      </Button>
-      <Button className="border-orange-sec text-orange-sec grow gap-x-[3px] border-2 max-md:hidden">
-        <Image
-          src="/icons/add-sec.svg"
-          width={18}
-          height={18}
-          alt="Edit Goal"
-        />
-        Add New Goal
-      </Button>
-      <Popover>
-        <PopoverTrigger className="border-orange-sec text-orange-sec flex grow items-center justify-center gap-x-[3px] rounded-md border-2 text-sm md:hidden">
+      <UpdateGoalDialog goal={goal} className="max-md:hidden" />
+      <DeleteGoalDialog id={goal.id} className="max-md:hidden" />
+      <AddGoalDialog className="max-md:hidden" />
+      <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+        <PopoverTrigger className="flex grow items-center justify-center gap-x-[3px] rounded-md border-2 border-orange-sec text-sm text-orange-sec md:hidden">
           <Image
             src="/icons/controls-sec.svg"
             width={18}
@@ -48,33 +29,20 @@ const GoalControls = () => {
           Goal Controls
         </PopoverTrigger>
         <PopoverContent className="flex w-fit flex-col items-start gap-y-[4px] border-2 border-blue-dark bg-blue-darker p-[5px]">
-          <Button className="text-orange-sec grow gap-x-[3px] shadow-none">
-            <Image
-              src="/icons/edit-sec.svg"
-              width={18}
-              height={18}
-              alt="Edit Goal"
-            />
-            <span>Edit This Goal</span>
-          </Button>
-          <Button className="text-orange-sec grow gap-x-[3px] shadow-none">
-            <Image
-              src="/icons/delete-sec.svg"
-              width={18}
-              height={18}
-              alt="Edit Goal"
-            />
-            Delete This Goal
-          </Button>
-          <Button className="text-orange-sec grow gap-x-[3px] shadow-none">
-            <Image
-              src="/icons/add-sec.svg"
-              width={18}
-              height={18}
-              alt="Edit Goal"
-            />
-            Add New Goal
-          </Button>
+          <UpdateGoalDialog
+            closePopover={() => setIsPopoverOpen(false)}
+            goal={goal}
+            className="border-none px-[16px] py-[8px]"
+          />
+          <DeleteGoalDialog
+            id={goal.id}
+            closePopover={() => setIsPopoverOpen(false)}
+            className="border-none px-[16px] py-[8px]"
+          />
+          <AddGoalDialog
+            className="border-none px-[16px] py-[8px]"
+            closePopover={() => setIsPopoverOpen(false)}
+          />
         </PopoverContent>
       </Popover>
     </>

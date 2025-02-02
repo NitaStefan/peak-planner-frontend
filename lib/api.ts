@@ -4,6 +4,7 @@ import { AuthResponse, ErrorResponse } from "./types";
 import {
   TFlexibleEventRequest,
   TFlexibleEventResponse,
+  TGoalRequest,
   TGoalResponse,
   TPlannedEvent,
   TSignInSchema,
@@ -209,3 +210,27 @@ export async function getGoalSteps(id: number) {
 
   return response;
 }
+
+export const addGoal = async (goal: TGoalRequest) => {
+  const accessToken = await getAccessToken();
+
+  await apiCall<undefined, TGoalRequest>(`/goals`, "POST", accessToken, goal);
+
+  revalidatePath("/goals");
+};
+
+export const updateGoal = async (goal: TGoalRequest & { id: number }) => {
+  const accessToken = await getAccessToken();
+
+  await apiCall<undefined, TGoalRequest>(`/goals`, "PUT", accessToken, goal);
+
+  revalidatePath("/goals");
+};
+
+export const deleteGoal = async (id: number) => {
+  const accessToken = await getAccessToken();
+
+  await apiCall<undefined>(`/goals/${id}`, "DELETE", accessToken);
+
+  revalidatePath("/goals");
+};

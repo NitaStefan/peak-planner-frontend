@@ -47,7 +47,7 @@ const GoalsCollapsible = ({ goals }: { goals: TGoalResponse[] }) => {
       >
         <CollapsibleTrigger className="flex w-full items-center justify-between px-[8px] pt-[8px]">
           <div className="mx-auto flex flex-col gap-y-[6px]">
-            <span className="bg-orange-sec rounded-md px-[12px] py-[4px] text-xl">
+            <span className="rounded-md bg-orange-sec px-[12px] py-[4px] text-xl">
               {currentGoal.title}
             </span>
             <div className="flex items-center gap-[4px]">
@@ -63,10 +63,10 @@ const GoalsCollapsible = ({ goals }: { goals: TGoalResponse[] }) => {
           </div>
           <ChevronsUpDown className="h-[18px] w-[18px]" />
         </CollapsibleTrigger>
-        <CollapsibleContent className="absolute w-full rounded-b-md border-t-2 border-slate-500 bg-blue-dark p-[8px]">
+        <CollapsibleContent className="absolute z-[1000] w-full rounded-xl border-2 border-slate-500 bg-blue-darker p-[8px]">
           {otherGoals.map((goal) => (
             <Button
-              className="mx-auto w-[calc(100%-18px)] rounded-md px-[12px] py-[4px] text-lg"
+              className="mx-auto w-[calc(100%-18px)] rounded-md px-[12px] py-[4px] text-lg shadow-none"
               key={goal.id}
               onClick={() => {
                 setIsOpen(false);
@@ -76,9 +76,12 @@ const GoalsCollapsible = ({ goals }: { goals: TGoalResponse[] }) => {
               {goal.title}
             </Button>
           ))}
+          {goals.length === 1 && (
+            <div className="mx-auto w-fit">There are no other goals...</div>
+          )}
         </CollapsibleContent>
       </Collapsible>
-      <CurrentGoalActions />
+      <CurrentGoalActions goal={currentGoal} />
     </>
   );
 };
