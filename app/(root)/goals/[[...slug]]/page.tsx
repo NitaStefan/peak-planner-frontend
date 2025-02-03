@@ -8,7 +8,6 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { getGoals, getGoalSteps } from "@/lib/api";
 import { formatDate4M2d4y } from "@/lib/format";
-import { calculateProgress, subtractDaysFromDate } from "@/lib/timeHelpers";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
@@ -19,34 +18,27 @@ const GoalPage = async ({
   params: Promise<{ slug?: string[] }>;
 }) => {
   const slug = (await params).slug;
-  const id = slug?.length ? Number(slug[0]) : (await getGoals())[0]?.id; // the cached goals
+  const goalId = slug?.length ? Number(slug[0]) : (await getGoals())[0]?.id; // the cached goals
 
-  const steps = await getGoalSteps(id);
+  if (!goalId) return null;
+
+  const steps = await getGoalSteps(goalId);
 
   const activeStep = steps.find((step) => step.isActive);
   const defaultActiveValue = activeStep ? `item-${activeStep.id}` : undefined;
 
-  let beforeActive = true;
-  const isGoalStarted =
-    subtractDaysFromDate(steps[0].endDate, steps[0].days) < new Date();
+  console.log("Hello - GoalPage");
 
   return (
-    id && (
+    goalId && (
       <Accordion
         type="single"
         collapsible
         defaultValue={defaultActiveValue}
         className="flex flex-col gap-y-[50px] pl-[15px]"
       >
-        {steps.map((step) => {
-          let progress = beforeActive && isGoalStarted ? 100 : 0;
-
-          if (step.isActive) {
-            beforeActive = false;
-            progress = calculateProgress(step.endDate, step.days);
-          }
-
-          return (
+        {steps.length ? (
+          steps.map((step) => (
             <AccordionItem
               key={step.id}
               value={`item-${step.id}`}
@@ -63,9 +55,9 @@ const GoalPage = async ({
               </AccordionTrigger>
               <AccordionContent className="flex justify-between gap-[10px] font-karla text-base">
                 <div>{step.description}</div>
-                <StepActions />
+                <StepActions step={step} numberOfSteps={steps.length} />
               </AccordionContent>
-              <span className="absolute left-[6px] top-[2px] text-sm text-slate-500">{`${step.orderIndex} )`}</span>
+              <span className="absolute left-[6px] top-[1px] text-sm text-slate-500">{`${step.orderIndex} )`}</span>
               <div className="absolute left-0 flex translate-y-[5px] items-center gap-[3px] text-sm">
                 <Image
                   src="/icons/calendar.svg"
@@ -86,11 +78,13 @@ const GoalPage = async ({
               </div>
               <Progress
                 className="absolute left-[-15px] top-0 h-[calc(100%+25px)]"
-                value={progress}
+                value={step.progress}
               />
             </AccordionItem>
-          );
-        })}
+          ))
+        ) : (
+          <div>No steps yet...</div>
+        )}
       </Accordion>
     )
   );

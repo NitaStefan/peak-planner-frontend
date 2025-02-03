@@ -11,8 +11,8 @@ import Image from "next/image";
 import React from "react";
 import { addGoal } from "@/lib/api";
 import { TGoalRequest } from "@/lib/validations";
-import GoalForm from "@/components/forms/GoalForm";
 import { cn } from "@/lib/utils";
+import GoalForm from "@/components/forms/goals/GoalForm";
 
 const AddGoalDialog = ({
   closePopover = () => {},

@@ -119,10 +119,12 @@ export type TStepResponse = TStepRequest & {
   orderIndex: number;
   endDate: Date;
   isActive: boolean;
+  progress: number;
 };
 
 export type TGoalRequest = z.infer<typeof goalSchema> & { id?: number };
 
 export type TGoalResponse = z.infer<typeof goalSchema> & {
   id: number;
+  numberOfSteps: number;
 };

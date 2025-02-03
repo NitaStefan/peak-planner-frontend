@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 import { addPlannedEvent } from "@/lib/api";
 import { TPlannedEvent } from "@/lib/validations";
-import PlannedEventForm from "@/components/forms/planned-event-form";
+import PlannedEventForm from "@/components/forms/planned-events";
 import {
   Dialog,
   DialogContent,

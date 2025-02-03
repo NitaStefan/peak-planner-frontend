@@ -9,6 +9,7 @@ import {
   TPlannedEvent,
   TSignInSchema,
   TSignUpSchema,
+  TStepRequest,
   TStepResponse,
 } from "./validations";
 import { getAccessToken, storeTokens } from "./actions";
@@ -194,6 +195,8 @@ export async function deleteFlexibleEvent(id: number) {
 export const getGoals = cache(async () => {
   const accessToken = await getAccessToken();
 
+  console.log("GET GOALS API");
+
   const response = await apiCall<TGoalResponse[]>(`/goals`, "GET", accessToken);
 
   return response;
@@ -231,6 +234,38 @@ export const deleteGoal = async (id: number) => {
   const accessToken = await getAccessToken();
 
   await apiCall<undefined>(`/goals/${id}`, "DELETE", accessToken);
+};
+
+export const addStepToGoal = async (goalId: number, step: TStepRequest) => {
+  const accessToken = await getAccessToken();
+
+  await apiCall<undefined, TStepRequest>(
+    `/goals/${goalId}/steps`,
+    "POST",
+    accessToken,
+    step,
+  );
+
+  revalidatePath("/goals");
+};
+
+export const updateStep = async (step: TStepRequest & { id: number }) => {
+  const accessToken = await getAccessToken();
+
+  await apiCall<undefined, TStepRequest>(
+    `/goals/steps`,
+    "PUT",
+    accessToken,
+    step,
+  );
+
+  revalidatePath("/goals");
+};
+
+export const deleteStep = async (id: number) => {
+  const accessToken = await getAccessToken();
+
+  await apiCall<undefined>(`/goals/steps/${id}`, "DELETE", accessToken);
 
   revalidatePath("/goals");
 };

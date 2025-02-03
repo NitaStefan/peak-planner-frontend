@@ -1,7 +1,7 @@
 "use client";
 
 import { TGoalResponse } from "@/lib/validations";
-import { notFound, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import {
   Collapsible,
@@ -24,16 +24,10 @@ const GoalsCollapsible = ({ goals }: { goals: TGoalResponse[] }) => {
   const goalIdFromPath =
     pathSegments.length > 1 ? Number(pathSegments[1]) : null;
 
-  const potentialGoal = goals.find((goal) => goal.id === goalIdFromPath);
-  if (goalIdFromPath !== null && !potentialGoal) notFound();
-
-  const currentGoal = potentialGoal ?? goals[0];
+  const currentGoal =
+    goals.find((goal) => goal.id === goalIdFromPath) ?? goals[0];
 
   const otherGoals = goals.filter((goal) => goal.id !== currentGoal?.id);
-
-  const formattedStartDate = formatDate4M2d4y(
-    new Date(currentGoal.startDate).toISOString(),
-  );
 
   return (
     <>
@@ -58,7 +52,11 @@ const GoalsCollapsible = ({ goals }: { goals: TGoalResponse[] }) => {
                 height={18}
                 alt="Goal Start Date"
               />
-              <span>{formattedStartDate}</span>
+              <span>
+                {formatDate4M2d4y(
+                  new Date(currentGoal.startDate).toISOString(),
+                )}
+              </span>
             </div>
           </div>
           <ChevronsUpDown className="h-[18px] w-[18px]" />

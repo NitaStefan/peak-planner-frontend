@@ -33,9 +33,11 @@ const DeleteGoalDialog = ({
     setIsDeleting(true);
 
     await deleteGoal(id);
+    router.replace("/goals");
+
     setIsOpen(false);
     closePopover();
-    router.push("/goals");
+    setIsDeleting(false);
   };
 
   return (
