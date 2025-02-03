@@ -3,18 +3,13 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRouter, useSearchParams } from "next/navigation";
 import type React from "react";
-import { useEffect, useState } from "react";
 
 const EventTabs = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [activeTab, setActiveTab] = useState<string>("planned");
-
-  useEffect(() => {
-    const type = searchParams.get("type");
-    setActiveTab(type === "flexible" ? "flexible" : "planned");
-  }, [searchParams]);
+  const activeTab =
+    searchParams.get("type") === "flexible" ? "flexible" : "planned";
 
   const handleTabChange = (value: string) => {
     const params = new URLSearchParams(searchParams);
@@ -23,7 +18,7 @@ const EventTabs = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <Tabs defaultValue={activeTab} onValueChange={handleTabChange}>
+    <Tabs value={activeTab} onValueChange={handleTabChange}>
       <TabsList className="h-[50px] bg-blue-dark p-[8px]">
         <TabsTrigger
           value="planned"
