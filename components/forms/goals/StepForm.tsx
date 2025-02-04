@@ -128,7 +128,9 @@ const StepForm = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="next">Place Next</SelectItem>
+                    {!initStep && (
+                      <SelectItem value="next">Place Next</SelectItem>
+                    )}
                     {Array.from({ length: numberOfSteps }, (_, i) => (
                       <SelectItem key={i} value={String(i + 1)}>
                         {i + 1}

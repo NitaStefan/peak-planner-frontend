@@ -41,7 +41,7 @@ const GoalsCollapsible = ({ goals }: { goals: TGoalResponse[] }) => {
       >
         <CollapsibleTrigger className="flex w-full items-center justify-between px-[8px] pt-[8px]">
           <div className="mx-auto flex flex-col gap-y-[6px]">
-            <span className="rounded-md bg-orange-sec px-[12px] py-[4px] text-xl">
+            <span className="w-full truncate rounded-md bg-orange-sec px-[12px] py-[4px] text-xl max-sm:max-w-[300px]">
               {currentGoal.title}
             </span>
             <div className="flex items-center gap-[4px]">

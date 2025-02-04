@@ -236,6 +236,7 @@ export const deleteGoal = async (id: number) => {
   await apiCall<undefined>(`/goals/${id}`, "DELETE", accessToken);
 };
 
+//TODO: cache fetched goals and revalidate only the changed goal's steps
 export const addStepToGoal = async (goalId: number, step: TStepRequest) => {
   const accessToken = await getAccessToken();
 
