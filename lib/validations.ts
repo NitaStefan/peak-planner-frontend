@@ -109,7 +109,11 @@ export const stepSchema = z.object({
     .number()
     .min(1, "Days must be at least 1")
     .max(32000, "You cannot have that many days"),
-  orderIndex: z.number().min(1, "Order number must be at least 1").optional(),
+  orderIndex: z.number().min(1, "Order number must be at least 1"),
+  impact: z
+    .number()
+    .min(1, "Impact level number must be at least 1")
+    .max(10, "Impact level must be at most 10"),
 });
 
 export type TStepRequest = z.infer<typeof stepSchema> & { id?: number };

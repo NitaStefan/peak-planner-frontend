@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
 import { stepSchema, TStepRequest, TStepResponse } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,6 +41,7 @@ const StepForm = ({
       description: initStep?.description || "",
       days: initStep?.days || 7,
       orderIndex: initStep?.orderIndex || numberOfSteps + 1,
+      impact: initStep?.impact || 6,
     },
   });
 
@@ -143,6 +145,28 @@ const StepForm = ({
             )}
           />
         </div>
+        <FormField
+          control={form.control}
+          name="impact"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Impact Level</FormLabel>
+              <FormControl>
+                <div className="flex items-center space-x-4">
+                  <Slider
+                    min={1}
+                    max={10}
+                    step={1}
+                    value={[field.value]}
+                    onValueChange={(value) => field.onChange(value[0])}
+                  />
+                  <span>{field.value}</span>
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button
           type="submit"
           className="bg-orange-act text-base"

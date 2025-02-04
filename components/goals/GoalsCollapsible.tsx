@@ -44,8 +44,8 @@ const GoalsCollapsible = ({ goals }: { goals: TGoalResponse[] }) => {
             <span className="w-full truncate rounded-md bg-orange-sec px-[12px] py-[4px] text-xl max-sm:max-w-[300px]">
               {currentGoal.title}
             </span>
-            <div className="flex items-center gap-[4px]">
-              <span className="pr-[4px] text-slate-500">From</span>
+            <div className="mx-auto flex items-center gap-[4px]">
+              <span className="pr-[2px] text-sm text-slate-500">From</span>
               <Image
                 src="/icons/calendar.svg"
                 width={18}

@@ -1,4 +1,5 @@
 import StepActions from "@/components/goals/crud-actions/StepActions";
+import ImpactIndicator from "@/components/ImpactIndicator";
 import {
   Accordion,
   AccordionContent,
@@ -44,7 +45,7 @@ const GoalPage = async ({
               value={`item-${step.id}`}
               className="px relative rounded-md bg-blue-dark"
             >
-              <AccordionTrigger className="text-lg">
+              <AccordionTrigger className="relative text-lg">
                 <span
                   className={cn(
                     step.isActive && "border-b-2 border-orange-sec",
@@ -52,6 +53,7 @@ const GoalPage = async ({
                 >
                   {step.title}
                 </span>
+                <ImpactIndicator impact={step.impact} />
               </AccordionTrigger>
               <AccordionContent className="flex justify-between gap-[10px] font-karla text-base">
                 <div>{step.description}</div>
