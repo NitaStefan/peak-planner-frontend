@@ -1,11 +1,11 @@
-import AuthActions from "@/components/navigation/navlinks/AuthActions";
-import { isLoggedIn } from "@/lib/actions";
+// import AuthActions from "@/components/navigation/navlinks/AuthActions";
+import DayTabs from "@/components/schedule/DayTabs";
 import React from "react";
 
 const Page = async () => {
-  const isAuthenticated = await isLoggedIn();
+  // const isAuthenticated = await isLoggedIn();
 
-  return isAuthenticated ? <p>Authenticated!</p> : <AuthActions />;
+  return <DayTabs />;
 };
 
 export default Page;
