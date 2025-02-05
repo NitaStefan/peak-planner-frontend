@@ -15,10 +15,11 @@ const EventTabs = ({ children }: { children: React.ReactNode }) => {
   );
 
   const handleTabChange = (value: string) => {
+    setActiveTab(value);
+
     const params = new URLSearchParams(searchParams);
     params.set("type", value);
     router.push(`/events?${params.toString()}`, { scroll: false });
-    setActiveTab(value);
   };
 
   return (

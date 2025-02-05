@@ -41,5 +41,10 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/events(.*)", "/timeline(.*)", "/goals(.*)"],
+  matcher: [
+    "/events(.*)",
+    "/timeline(.*)",
+    "/goals(.*)",
+    "/update-schedule(.*)",
+  ],
 };

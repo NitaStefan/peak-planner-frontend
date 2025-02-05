@@ -11,6 +11,7 @@ import {
   TSignUpSchema,
   TStepRequest,
   TStepResponse,
+  TWeekDay,
 } from "./validations";
 import { getAccessToken, storeTokens } from "./actions";
 import { revalidatePath } from "next/cache";
@@ -270,3 +271,16 @@ export const deleteStep = async (id: number) => {
 
   revalidatePath("/goals");
 };
+
+//Schedule
+export async function getSchedule() {
+  const accessToken = await getAccessToken();
+
+  const response = await apiCall<TWeekDay[]>(
+    `/days-of-week`,
+    "GET",
+    accessToken,
+  );
+
+  return response;
+}

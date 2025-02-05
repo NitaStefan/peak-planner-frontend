@@ -4,6 +4,7 @@ import React from "react";
 
 const Page = async () => {
   // const isAuthenticated = await isLoggedIn();
+  //TODO: show the landing page if not authenticated
 
   return <DayTabs />;
 };

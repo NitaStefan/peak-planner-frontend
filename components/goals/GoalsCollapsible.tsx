@@ -1,7 +1,7 @@
 "use client";
 
 import { TGoalResponse } from "@/lib/validations";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import {
   Collapsible,
@@ -14,10 +14,11 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import CurrentGoalActions from "./crud-actions/CurrentGoalActions";
 import { formatDate4M2d4y } from "@/lib/format";
+import Link from "next/link";
+import ROUTES from "@/constants/routes";
 
 const GoalsCollapsible = ({ goals }: { goals: TGoalResponse[] }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
   const pathname = usePathname(); // state that rerenders on pathname change
 
   const pathSegments = pathname.split("/").filter(Boolean);
@@ -64,14 +65,16 @@ const GoalsCollapsible = ({ goals }: { goals: TGoalResponse[] }) => {
         <CollapsibleContent className="absolute z-[1000] w-full rounded-xl border-2 border-slate-500 bg-blue-darker p-[8px]">
           {otherGoals.map((goal) => (
             <Button
+              asChild
               className="mx-auto w-[calc(100%-18px)] rounded-md px-[12px] py-[4px] text-lg shadow-none"
               key={goal.id}
-              onClick={() => {
-                setIsOpen(false);
-                router.push(`/goals/${goal.id}`);
-              }}
             >
-              {goal.title}
+              <Link
+                href={ROUTES.GOAL(goal.id)}
+                onClick={() => setIsOpen(false)}
+              >
+                {goal.title}
+              </Link>
             </Button>
           ))}
           {goals.length === 1 && (

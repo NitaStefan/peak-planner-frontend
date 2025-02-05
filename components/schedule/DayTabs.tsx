@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import ManageScheduleButton from "./ManageScheduleButton";
 
 const DayTabs = () => {
   const today = new Date();
@@ -44,17 +45,17 @@ const DayTabs = () => {
             );
           })}
         </TabsList>
-        <div className="cursor-pointer rounded-md border-2 border-orange-act p-[10px] text-xl text-orange-act">
-          Modify
-        </div>
+        <ManageScheduleButton />
       </div>
 
       {/* Mobile View */}
       <div className="flex items-center justify-between sm:hidden">
         <Select value={selectedDay} onValueChange={setSelectedDay}>
-          <SelectTrigger className="w-[180px] border-none bg-orange-act text-xl text-bone-white">
-            <SelectValue placeholder="Select Day" />
-          </SelectTrigger>
+          <div className="rounded-md bg-blue-dark p-[6px]">
+            <SelectTrigger className="h-[28px] w-[170px] border-none bg-orange-act px-[8px] text-xl text-bone-white">
+              <SelectValue placeholder="Select Day" />
+            </SelectTrigger>
+          </div>
           <SelectContent className="border-none bg-blue-dark text-bone-white">
             {daysOfWeek.map((day, index) => {
               const date = addDays(startOfThisWeek, index);
@@ -69,9 +70,7 @@ const DayTabs = () => {
             })}
           </SelectContent>
         </Select>
-        <div className="cursor-pointer rounded-md border-2 border-orange-act p-[10px] text-center text-xl text-orange-act">
-          Modify
-        </div>
+        <ManageScheduleButton />
       </div>
 
       {daysOfWeek.map((day) => (

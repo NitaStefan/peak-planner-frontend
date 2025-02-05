@@ -132,3 +132,48 @@ export type TGoalResponse = z.infer<typeof goalSchema> & {
   id: number;
   numberOfSteps: number;
 };
+
+//Schedule
+export const activitySchema = z.object({
+  title: z
+    .string()
+    .max(45, "Title must be less than 45 characters")
+    .min(1, "Title is required"),
+  description: z
+    .string()
+    .max(400, "Description must be less than 400 characters")
+    .min(1, "Description is required"),
+  startTime: z.string(),
+  duration: z.object({
+    hours: z
+      .number()
+      .min(0, "Cannot have negative hours")
+      .max(24, "Cannot have more than 24 hours"),
+    minutes: z
+      .number()
+      .max(59, "Minutes must be less than 60")
+      .min(0, "Cannot have negative minutes"),
+  }),
+  impact: z
+    .number()
+    .min(1, "Impact level number must be at least 1")
+    .max(10, "Impact level must be at most 10"),
+});
+
+type TActivity = Omit<z.infer<typeof activitySchema>, "duration"> & {
+  id?: number;
+  minutes?: number;
+};
+
+export type TWeekDay = {
+  id: number;
+  day:
+    | "MONDAY"
+    | "TUESDAY"
+    | "WEDNESDAY"
+    | "THURSDAY"
+    | "FRIDAY"
+    | "SATURDAY"
+    | "SUNDAY";
+  activities: TActivity[];
+};
