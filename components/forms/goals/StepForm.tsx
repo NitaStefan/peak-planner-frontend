@@ -1,5 +1,6 @@
 "use client";
 
+import ImpactIndicator from "@/components/ImpactIndicator";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -160,7 +161,7 @@ const StepForm = ({
                     value={[field.value]}
                     onValueChange={(value) => field.onChange(value[0])}
                   />
-                  <span>{field.value}</span>
+                  <ImpactIndicator impact={field.value} isStatic />
                 </div>
               </FormControl>
               <FormMessage />
