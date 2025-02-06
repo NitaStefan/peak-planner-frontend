@@ -13,6 +13,7 @@ export async function logout() {
 // cached function persists through a single render cycle
 // navigation naturally triggers a new render cycle, resetting the cache
 export const isLoggedIn = cache(async () => {
+  console.log("AUTH CHECK");
   const cookieStore = await cookies();
   return !!cookieStore.get("refreshToken");
 });

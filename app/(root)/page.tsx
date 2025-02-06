@@ -1,12 +1,13 @@
-// import AuthActions from "@/components/navigation/navlinks/AuthActions";
+import DaysTabsContent from "@/components/schedule/DaysTabsContent";
 import DayTabs from "@/components/schedule/DayTabs";
 import React from "react";
 
-const Page = async () => {
-  // const isAuthenticated = await isLoggedIn();
-  //TODO: show the landing page if not authenticated
-
-  return <DayTabs />;
+const SchedulePage = () => {
+  return (
+    <DayTabs>
+      <DaysTabsContent />
+    </DayTabs>
+  );
 };
 
-export default Page;
+export default SchedulePage;

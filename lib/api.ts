@@ -1,7 +1,8 @@
 "use server";
 
-import { AuthResponse, ErrorResponse } from "./types";
+import { AuthResponse, DayOfWeek, ErrorResponse } from "./types";
 import {
+  TActivityRes,
   TFlexibleEventRequest,
   TFlexibleEventResponse,
   TGoalRequest,
@@ -11,7 +12,7 @@ import {
   TSignUpSchema,
   TStepRequest,
   TStepResponse,
-  TWeekDay,
+  TWeekDayRes,
 } from "./validations";
 import { getAccessToken, storeTokens } from "./actions";
 import { revalidatePath } from "next/cache";
@@ -276,8 +277,20 @@ export const deleteStep = async (id: number) => {
 export async function getSchedule() {
   const accessToken = await getAccessToken();
 
-  const response = await apiCall<TWeekDay[]>(
+  const response = await apiCall<TWeekDayRes[]>(
     `/days-of-week`,
+    "GET",
+    accessToken,
+  );
+
+  return response;
+}
+
+export async function getDayOfWeekActivities(day: DayOfWeek) {
+  const accessToken = await getAccessToken();
+
+  const response = await apiCall<TActivityRes[]>(
+    `/days-of-week/${day}`,
     "GET",
     accessToken,
   );

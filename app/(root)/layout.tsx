@@ -3,8 +3,13 @@ import LeftSideBar from "@/components/navigation/LeftSideBar";
 import NavBar from "@/components/navigation/navbar";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
+import { isLoggedIn } from "@/lib/actions";
 
-const RootLayout = ({ children }: { children: ReactNode }) => {
+const RootLayout = async ({ children }: { children: ReactNode }) => {
+  const isAuthenticated = await isLoggedIn();
+
+  if (!isAuthenticated) return <div>LANDING PAGE + sign in/up options</div>;
+
   return (
     <main className="flex">
       <NavBar />

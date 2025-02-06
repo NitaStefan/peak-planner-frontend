@@ -1,10 +1,9 @@
 "use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { daysOfWeek } from "@/constants/daysOfWeek";
 import type React from "react";
-import { Suspense, useState } from "react";
-import DayActivities from "./DayActivities";
+import { ReactNode, useState } from "react";
 import { addDays, format, startOfWeek } from "date-fns";
 import {
   Select,
@@ -15,9 +14,9 @@ import {
 } from "../ui/select";
 import ManageScheduleButton from "./ManageScheduleButton";
 
-const DayTabs = () => {
+const DayTabs = ({ children }: { children: ReactNode }) => {
   const today = new Date();
-  const todayName = format(today, "EEEE");
+  const todayName = format(new Date(), "EEEE");
   const startOfThisWeek = startOfWeek(today, { weekStartsOn: 1 }); // get this week's Monday
 
   const [selectedDay, setSelectedDay] = useState(todayName);
@@ -73,13 +72,7 @@ const DayTabs = () => {
         <ManageScheduleButton />
       </div>
 
-      {daysOfWeek.map((day) => (
-        <TabsContent key={day} value={day}>
-          <Suspense fallback={<div>Loading {day} Activities...</div>}>
-            <DayActivities day={day} />
-          </Suspense>
-        </TabsContent>
-      ))}
+      {children}
     </Tabs>
   );
 };

@@ -3,11 +3,8 @@ import Logo from "./Logo";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import MobileSheet from "./MobileSheet";
-import { isLoggedIn } from "@/lib/actions";
 
-const NavBar = async () => {
-  const isAuthenticated = await isLoggedIn();
-
+const NavBar = () => {
   return (
     <nav className="fixed top-0 z-10 flex h-[80px] w-screen items-center bg-blue-dark px-[25px]">
       <Logo />
@@ -20,12 +17,13 @@ const NavBar = async () => {
         />
         <Input
           placeholder={
-            isAuthenticated ? "Search globally..." : "Search users..."
+            // isAuthenticated ? "Search globally..." : "Search users..."
+            "Search users..."
           }
           className="w-[250px] border-0 max-sm:w-[180px]"
         />
       </div>
-      {isAuthenticated && <MobileSheet />}
+      <MobileSheet />
     </nav>
   );
 };

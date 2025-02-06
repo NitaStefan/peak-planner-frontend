@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DayOfWeek } from "./types";
 
 export const signUpSchema = z.object({
   username: z
@@ -138,11 +139,13 @@ export const activitySchema = z.object({
   title: z
     .string()
     .max(45, "Title must be less than 45 characters")
-    .min(1, "Title is required"),
+    .min(1, "Title is required")
+    .optional(),
   description: z
     .string()
     .max(400, "Description must be less than 400 characters")
-    .min(1, "Description is required"),
+    .min(1, "Description is required")
+    .optional(),
   startTime: z.string(),
   duration: z.object({
     hours: z
@@ -157,23 +160,38 @@ export const activitySchema = z.object({
   impact: z
     .number()
     .min(1, "Impact level number must be at least 1")
-    .max(10, "Impact level must be at most 10"),
+    .max(10, "Impact level must be at most 10")
+    .optional(),
 });
 
-type TActivity = Omit<z.infer<typeof activitySchema>, "duration"> & {
-  id?: number;
-  minutes?: number;
+export type TActivityRes = Omit<
+  z.infer<typeof activitySchema>,
+  "duration" | "title" | "description" | "impact"
+> & {
+  id: number;
+  minutes: number;
+  isActive: boolean;
+  endTime: string;
+  goalTitle?: string;
+  title: string;
+  description: string;
+  impact: number;
 };
 
-export type TWeekDay = {
+type TActivityReq = Omit<z.infer<typeof activitySchema>, "duration"> & {
+  id?: number;
+  minutes: number;
+  goalId?: number;
+};
+
+export type TWeekDayRes = {
   id: number;
-  day:
-    | "MONDAY"
-    | "TUESDAY"
-    | "WEDNESDAY"
-    | "THURSDAY"
-    | "FRIDAY"
-    | "SATURDAY"
-    | "SUNDAY";
-  activities: TActivity[];
+  day: DayOfWeek;
+  activities: TActivityRes[];
+};
+
+export type TWeekDayReq = {
+  id: number;
+  day: DayOfWeek;
+  activities: TActivityReq[];
 };
