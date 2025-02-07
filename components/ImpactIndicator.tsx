@@ -14,7 +14,7 @@ const ImpactIndicator = ({
   return (
     <span
       className={cn(
-        "absolute right-[-8px] top-0 translate-y-[-50%] rounded-full border-[3px] px-[10px] text-base leading-none text-bone-white backdrop-blur",
+        "absolute right-[16px] top-0 translate-y-[-50%] rounded-full border-[3px] px-[10px] text-base leading-none text-bone-white backdrop-blur",
         isStatic && "static",
       )}
       style={{

@@ -23,7 +23,7 @@ const DayTabs = ({ children }: { children: ReactNode }) => {
 
   return (
     <Tabs value={selectedDay} onValueChange={setSelectedDay}>
-      <div className="hidden items-center justify-between sm:flex">
+      <div className="hidden items-center justify-between md:flex">
         <TabsList className="h-[50px] bg-blue-dark p-[8px]">
           {daysOfWeek.map((day, index) => {
             const date = addDays(startOfThisWeek, index);
@@ -48,7 +48,7 @@ const DayTabs = ({ children }: { children: ReactNode }) => {
       </div>
 
       {/* Mobile View */}
-      <div className="flex items-center justify-between sm:hidden">
+      <div className="flex items-center justify-between md:hidden">
         <Select value={selectedDay} onValueChange={setSelectedDay}>
           <div className="rounded-md bg-blue-dark p-[6px]">
             <SelectTrigger className="h-[28px] w-[170px] border-none bg-orange-act px-[8px] text-xl text-bone-white">

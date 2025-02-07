@@ -10,7 +10,7 @@ import SundayActivities from "./days/SundayActivities";
 
 const DaysTabsContent = () => {
   return (
-    <>
+    <div className="py-[40px]">
       <TabsContent value="Monday">
         <Suspense fallback={<div>Loading Monday Activities...</div>}>
           <MondayActivities />
@@ -46,7 +46,7 @@ const DaysTabsContent = () => {
           <SundayActivities />
         </Suspense>
       </TabsContent>
-    </>
+    </div>
   );
 };
 

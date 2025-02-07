@@ -45,15 +45,16 @@ const GoalPage = async ({
               value={`item-${step.id}`}
               className="px relative rounded-md bg-blue-dark"
             >
-              <AccordionTrigger className="relative text-lg">
+              <AccordionTrigger className="text-lg">
                 <span
                   className={cn(
-                    step.isActive && "border-b-2 border-orange-sec",
+                    "truncate max-sm:max-w-[270px]",
+                    step.isActive &&
+                      "rounded-b-xl border-b-[4px] border-orange-sec px-[6px]",
                   )}
                 >
                   {step.title}
                 </span>
-                <ImpactIndicator impact={step.impact} />
               </AccordionTrigger>
               <AccordionContent className="flex justify-between gap-[10px] font-karla text-base">
                 <div>{step.description}</div>
@@ -82,6 +83,7 @@ const GoalPage = async ({
                 className="absolute left-[-15px] top-0 h-[calc(100%+25px)]"
                 value={step.progress}
               />
+              <ImpactIndicator impact={step.impact} />
             </AccordionItem>
           ))
         ) : (

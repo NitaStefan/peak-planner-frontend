@@ -7,7 +7,7 @@ const ManageScheduleButton = () => {
   return (
     <Button
       asChild
-      className="bg-orange-act text-lg max-sm:h-[32px] max-sm:px-[12px] max-sm:text-base"
+      className="bg-orange-act text-lg max-md:h-[32px] max-md:px-[12px] max-md:text-base"
     >
       <Link href={ROUTES.MANAGE_SCHEDULE}>Manage Schedule</Link>
     </Button>

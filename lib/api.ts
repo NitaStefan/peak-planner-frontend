@@ -134,8 +134,6 @@ export async function deletePlannedEvent(id: number) {
 export async function deleteEventDetails(eventDetailIds: number[]) {
   const accessToken = await getAccessToken();
 
-  console.log("JSON.stringify(eventDetailIds)", JSON.stringify(eventDetailIds));
-
   await apiCall<undefined, number[]>(
     `/planned-events/event-details`,
     "DELETE",
@@ -289,11 +287,15 @@ export async function getSchedule() {
 export async function getDayOfWeekActivities(day: DayOfWeek) {
   const accessToken = await getAccessToken();
 
-  const response = await apiCall<TActivityRes[]>(
+  const activities = await apiCall<TActivityRes[]>(
     `/days-of-week/${day}`,
     "GET",
     accessToken,
   );
 
-  return response;
+  return activities.map((activity) => ({
+    ...activity,
+    startTime: convertUTCToLocal(activity.startTime),
+    endTime: convertUTCToLocal(activity.endTime),
+  }));
 }
