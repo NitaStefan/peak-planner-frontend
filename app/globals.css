@@ -45,4 +45,18 @@ html {
   .px {
     @apply px-[12px] sm:px-[25px];
   }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: #e5e7eb;
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #6b7280;
+    border-radius: 4px;
+  }
 }

@@ -18,8 +18,8 @@ const ImpactIndicator = ({
       className={cn(
         "absolute right-[16px] top-0 translate-y-[-50%] rounded-full border-[3px] px-[10px] text-base leading-none text-bone-white",
         isStatic && "static",
-        // TODO: fix background for inside grid
-        insideGrid && "right-[-3px] top-[6px] border-none px-[4px] text-xs",
+        insideGrid &&
+          "right-[-3px] top-[4px] border-none !bg-transparent px-[4px] text-xs",
         !insideGrid && "backdrop-blur",
       )}
       style={{
