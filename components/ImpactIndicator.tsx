@@ -19,7 +19,7 @@ const ImpactIndicator = ({
         "absolute right-[16px] top-0 translate-y-[-50%] rounded-full border-[3px] px-[10px] text-base leading-none text-bone-white",
         isStatic && "static",
         insideGrid &&
-          "right-[-3px] top-[4px] border-none !bg-transparent px-[4px] text-xs",
+          "right-[-2px] top-[4px] border-none !bg-transparent px-[4px] text-xs",
         !insideGrid && "backdrop-blur",
       )}
       style={{
