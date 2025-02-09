@@ -6,7 +6,7 @@ const HoursColumn = () => {
       {Array.from({ length: 23 }, (_, hour) => (
         <div
           key={hour + 1}
-          className="sticky left-[4px] z-30 flex -translate-y-1/2 items-center justify-end bg-blue-darker pr-[4px] text-xs text-slate-300"
+          className="sticky left-[4px] z-30 flex -translate-y-1/2 items-center justify-end bg-blue-darker pr-[4px] text-xs text-slate-400"
           style={{
             gridColumn: "1",
             gridRow: `${2 + (hour + 1) * 12} / span 12`,
