@@ -162,11 +162,24 @@ export const activitySchema = z.object({
     .min(1, "Impact level number must be at least 1")
     .max(10, "Impact level must be at most 10")
     .optional(),
+  goalId: z.number().optional(),
 });
+// .refine(
+//   (data) => {
+//     if (data.goalId) {
+//       return !data.title && !data.description && !data.impact;
+//     }
+//     return !!data.title && !!data.description && !!data.impact;
+//   },
+//   {
+//     message:
+//       "Title, description, and impact are required when no goalId is provided",
+//   },
+// );
 
 export type TActivityRes = Omit<
   z.infer<typeof activitySchema>,
-  "duration" | "title" | "description" | "impact"
+  "duration" | "title" | "description" | "impact" | "goalId"
 > & {
   id: number;
   minutes: number;
@@ -178,10 +191,9 @@ export type TActivityRes = Omit<
   impact: number;
 };
 
-type TActivityReq = Omit<z.infer<typeof activitySchema>, "duration"> & {
+export type TActivityReq = Omit<z.infer<typeof activitySchema>, "duration"> & {
   id?: number;
   minutes: number;
-  goalId?: number;
 };
 
 export type TWeekDayRes = {
