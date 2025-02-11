@@ -1,6 +1,11 @@
 "use server";
 
-import { AuthResponse, DayOfWeek, ErrorResponse } from "./types";
+import {
+  AuthResponse,
+  DayOfWeek,
+  ErrorResponse,
+  GoalWithCurrStep,
+} from "./types";
 import {
   TActivityRes,
   TFlexibleEventRequest,
@@ -298,4 +303,16 @@ export async function getDayOfWeekActivities(day: DayOfWeek) {
     startTime: convertUTCToLocal(activity.startTime),
     endTime: convertUTCToLocal(activity.endTime),
   }));
+}
+
+export async function getGoalsWithCurrentStep() {
+  const accessToken = await getAccessToken();
+
+  const response = await apiCall<GoalWithCurrStep[]>(
+    `/goals/with-current-step`,
+    "GET",
+    accessToken,
+  );
+
+  return response;
 }

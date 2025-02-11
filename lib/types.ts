@@ -16,3 +16,11 @@ export type DayOfWeek =
   | "FRIDAY"
   | "SATURDAY"
   | "SUNDAY";
+
+export type GoalWithCurrStep = {
+  id: number;
+  title: string;
+  currStepTitle: string;
+  currStepDescription?: string;
+  currStepImpact?: number;
+};
