@@ -1,7 +1,8 @@
+import Loading from "@/components/Loading";
 import React from "react";
 
-const Loading = () => {
-  return <div>Loading steps...</div>;
+const LoadingGoalSteps = () => {
+  return <Loading />;
 };
 
-export default Loading;
+export default LoadingGoalSteps;

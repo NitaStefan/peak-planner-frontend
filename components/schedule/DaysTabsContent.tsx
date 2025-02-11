@@ -7,42 +7,43 @@ import ThursdayActivities from "./days/ThursdayActivities";
 import FridayActivities from "./days/FridayActivities";
 import SaturdayActivities from "./days/SaturdayActivities";
 import SundayActivities from "./days/SundayActivities";
+import Loading from "../Loading";
 
 const DaysTabsContent = () => {
   return (
     <div className="py-[40px]">
       <TabsContent value="Monday">
-        <Suspense fallback={<div>Loading Monday Activities...</div>}>
+        <Suspense fallback={<Loading />}>
           <MondayActivities />
         </Suspense>
       </TabsContent>
       <TabsContent value="Tuesday">
-        <Suspense fallback={<div>Loading Tuesday Activities...</div>}>
+        <Suspense fallback={<Loading />}>
           <TuesdayActivities />
         </Suspense>
       </TabsContent>
       <TabsContent value="Wednesday">
-        <Suspense fallback={<div>Loading Wednesday Activities...</div>}>
+        <Suspense fallback={<Loading />}>
           <WednesdayActivities />
         </Suspense>
       </TabsContent>
       <TabsContent value="Thursday">
-        <Suspense fallback={<div>Loading Thursday Activities...</div>}>
+        <Suspense fallback={<Loading />}>
           <ThursdayActivities />
         </Suspense>
       </TabsContent>
       <TabsContent value="Friday">
-        <Suspense fallback={<div>Loading Friday Activities...</div>}>
+        <Suspense fallback={<Loading />}>
           <FridayActivities />
         </Suspense>
       </TabsContent>
       <TabsContent value="Saturday">
-        <Suspense fallback={<div>Loading Saturday Activities...</div>}>
+        <Suspense fallback={<Loading />}>
           <SaturdayActivities />
         </Suspense>
       </TabsContent>
       <TabsContent value="Sunday">
-        <Suspense fallback={<div>Loading Sunday Activities...</div>}>
+        <Suspense fallback={<Loading />}>
           <SundayActivities />
         </Suspense>
       </TabsContent>
