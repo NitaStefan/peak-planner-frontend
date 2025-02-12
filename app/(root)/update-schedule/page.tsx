@@ -1,7 +1,7 @@
 import { getGoalsWithCurrentStep, getSchedule } from "@/lib/api";
 import React, { Suspense } from "react";
-import ManageSchedule from "@/components/schedule/ManageSchedule";
 import Loading from "@/components/Loading";
+import ManageSchedule from "@/components/schedule/manage-schedule/ManageSchedule";
 
 const ModifySchedulePage = async () => {
   const weekDays = await getSchedule();
