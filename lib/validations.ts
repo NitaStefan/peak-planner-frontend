@@ -171,21 +171,20 @@ export const activitySchema = z
     goalId: z.string().optional(),
   })
   .refine(
-    (data) => {
-      if (data.goalId === "0") {
-        return (
-          !!data.title &&
-          !!data.description &&
-          data.impact !== undefined &&
-          data.title.trim() !== "" &&
-          data.description.trim() !== ""
-        );
-      }
-      return true;
-    },
+    (data) =>
+      data.goalId !== "0" || (data.title && data.title.trim().length > 0),
     {
-      message: "Associate a goal or define title and description",
-      path: ["goalId"],
+      message: "Title is required ",
+      path: ["title"],
+    },
+  )
+  .refine(
+    (data) =>
+      data.goalId !== "0" ||
+      (data.description && data.description.trim().length > 0),
+    {
+      message: "Description is required",
+      path: ["description"],
     },
   );
 

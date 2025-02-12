@@ -77,10 +77,8 @@ const ActivityForm = ({
   const onSubmit = (data: z.infer<typeof activitySchema>) => {
     const { duration, goalId, startTime, title, description, impact } = data;
 
-    // Compute total minutes
     const totalMinutes = (duration.hours || 0) * 60 + (duration.minutes || 0);
 
-    // Structure the final activity object
     const updatedActivity: TActivityReq = {
       ...(initActivity?.id ? { id: initActivity.id } : {}),
       startTime,
@@ -141,8 +139,7 @@ const ActivityForm = ({
 
                 <Select
                   onValueChange={field.onChange}
-                  value={field.value}
-                  defaultValue={field.value}
+                  value={field.value ?? "0"}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -182,7 +179,7 @@ const ActivityForm = ({
             <Input
               value={
                 goalOptions.find((goal) => goal.id === Number(watchGoalId))
-                  ?.currStepTitle
+                  ?.currStepTitle ?? ""
               }
               disabled
             />
