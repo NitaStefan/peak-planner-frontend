@@ -1,12 +1,21 @@
-import { TWeekDayRes } from "@/lib/validations";
+import { TActivityReq, TWeekDayRes } from "@/lib/validations";
 import React from "react";
 import BgMask from "./BgMask";
 import TimeIcon from "./TimeIcon";
 import HoursColumn from "./HoursColumn";
 import WeekdayHeaders from "./WeekdayHeaders";
-import Activities from "./Activities";
+import GridActivities from "./GridActivities";
 
-const ScheduleGrid = ({ weekDays }: { weekDays: TWeekDayRes[] }) => {
+type ScheduleGridProps =
+  | { weekDays: TWeekDayRes[] }
+  | {
+      weekDays: TWeekDayRes[];
+      getSelectedActivity: (activity: TActivityReq) => void;
+      deleteSelectedActivity: (activityId: number) => void;
+      isDeleting: boolean;
+    };
+
+const ScheduleGrid = (props: ScheduleGridProps) => {
   return (
     <div className="relative w-full max-sm:w-[calc(100vw-30px)] sm:max-w-[calc(100vw-150px)] lg:max-w-[calc(100vw-300px)]">
       <div
@@ -27,10 +36,10 @@ const ScheduleGrid = ({ weekDays }: { weekDays: TWeekDayRes[] }) => {
         <HoursColumn />
 
         {/* Weekday Headers */}
-        <WeekdayHeaders weekDayNames={weekDays.map((day) => day.day)} />
+        <WeekdayHeaders weekDayNames={props.weekDays.map((day) => day.day)} />
 
         {/* Activities */}
-        <Activities weekDays={weekDays} />
+        <GridActivities {...props} />
       </div>
     </div>
   );

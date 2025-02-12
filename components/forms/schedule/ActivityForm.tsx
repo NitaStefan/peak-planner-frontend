@@ -36,10 +36,12 @@ const ActivityForm = ({
   initActivity,
   //   mutateScheduleState,
   goalOptionsPromise,
+  closeForm,
 }: {
   initActivity?: TActivityReq;
   //   mutateScheduleState: () => void; // uses setter
   goalOptionsPromise: Promise<GoalWithCurrStep[]>;
+  closeForm: () => void;
 }) => {
   const [goalOptions, setGoalOptions] = useState<GoalWithCurrStep[]>([]);
 
@@ -58,76 +60,76 @@ const ActivityForm = ({
   const form = useForm<z.infer<typeof activitySchema>>({
     resolver: zodResolver(activitySchema),
     defaultValues: {
-      title: initActivity?.title || "",
-      description: initActivity?.description || "",
-      startTime: initActivity?.startTime || "",
+      title: initActivity?.title ?? "",
+      description: initActivity?.description ?? "",
+      startTime: initActivity?.startTime ?? "",
       duration: {
         hours: Math.floor((initActivity?.minutes ?? 0) / 60),
         minutes: (initActivity?.minutes ?? 0) % 60,
       },
-      impact: initActivity?.impact || 0,
-      goalId: initActivity?.goalId || 0,
+      impact: initActivity?.impact ?? 6,
+      goalId: (initActivity?.goalId ?? 0).toString(),
     },
   });
 
-  //TODO: change logic
-  const submitText = initActivity ? "Update Activity" : "Add Activity";
+  const submitText = initActivity ? "Update Activity" : "Create Activity";
 
   const onSubmit = (data: z.infer<typeof activitySchema>) => {
-    console.log(data);
-    // const { duration, startTime, ...rest } = data;
+    const { duration, goalId, startTime, title, description, impact } = data;
 
-    // const updatedEventDetails: TEventDetails = {
-    //   ...rest,
-    //   ...(initEventDetails?.id ? { id: initEventDetails.id } : {}),
-    //   ...(startTime ? { startTime } : {}),
-    //   ...(duration.hours || duration.minutes
-    //     ? { minutes: (duration.hours || 0) * 60 + (duration.minutes || 0) }
-    //     : {}),
-    // };
+    // Compute total minutes
+    const totalMinutes = (duration.hours || 0) * 60 + (duration.minutes || 0);
 
-    // saveEventDetails(updatedEventDetails);
+    // Structure the final activity object
+    const updatedActivity: TActivityReq = {
+      ...(initActivity?.id ? { id: initActivity.id } : {}),
+      startTime,
+      minutes: totalMinutes,
+      ...(goalId !== "0"
+        ? { goalId: Number(goalId) }
+        : { title, description, impact }),
+    };
+
+    console.log(updatedActivity);
   };
 
   const watchGoalId = form.watch("goalId");
 
-  const currentStep = goalOptions.find(
+  const selectedGoal = goalOptions.find(
     (goal) => goal.id === Number(watchGoalId),
   );
 
-  const showImpact = watchGoalId === 0 || currentStep?.currStepImpact;
+  const showImpact = watchGoalId === "0" || selectedGoal?.currStepImpact;
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="shadcn-form rounded-md border-2"
+        className="shadcn-form relative rounded-md border-2"
       >
-        <div className="flex items-end gap-x-[15px]">
-          {!watchGoalId && (
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem className="grow">
-                  <FormLabel>Title</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
+        <div className="flex items-start gap-x-[15px] max-sm:gap-x-[6px]">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem className={cn("grow", watchGoalId !== "0" && "hidden")}>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          {!watchGoalId && <OR />}
+          {watchGoalId === "0" && <OR />}
 
           <FormField
             control={form.control}
             name="goalId"
             render={({ field }) => (
               <FormItem className={cn(watchGoalId && "grow")}>
-                <div className="flex items-center gap-x-[4px]">
+                <div className="mb-[12px] flex items-center gap-x-[4px]">
                   <Image
                     src="/icons/goal-sec.svg"
                     height={15}
@@ -138,8 +140,9 @@ const ActivityForm = ({
                 </div>
 
                 <Select
-                  onValueChange={(val) => field.onChange(Number(val))}
-                  defaultValue={field.value?.toString()}
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -160,34 +163,31 @@ const ActivityForm = ({
             )}
           />
         </div>
-        {!watchGoalId ? (
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <Textarea disabled={!!currentStep} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ) : (
-          <FormItem>
-            <FormLabel>Current Step of the Goal</FormLabel>
-            <FormControl>
-              <Input
-                value={
-                  goalOptions.find((goal) => goal.id === Number(watchGoalId))
-                    ?.currStepTitle
-                }
-                disabled
-              />
-            </FormControl>
-          </FormItem>
-        )}
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem className={cn(watchGoalId !== "0" && "hidden")}>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea disabled={!!selectedGoal} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormItem className={cn(watchGoalId === "0" && "hidden")}>
+          <FormLabel>Current Step of the Goal</FormLabel>
+          <FormControl>
+            <Input
+              value={
+                goalOptions.find((goal) => goal.id === Number(watchGoalId))
+                  ?.currStepTitle
+              }
+              disabled
+            />
+          </FormControl>
+        </FormItem>
 
         <FormField
           control={form.control}
@@ -268,49 +268,53 @@ const ActivityForm = ({
             />
           </div>
         </div>
-        {showImpact && (
-          <FormField
-            control={form.control}
-            name="impact"
-            render={({ field }) => {
-              const impactValue =
-                currentStep?.currStepImpact ?? (field.value || 1);
+        <FormField
+          control={form.control}
+          name="impact"
+          render={({ field }) => {
+            const impactValue =
+              selectedGoal?.currStepImpact ?? (field.value || 1);
 
-              return (
-                <FormItem>
-                  <FormLabel>
-                    Impact Level{" "}
-                    <span className={cn(!currentStep && "hidden")}>
-                      of Current Step
-                    </span>
-                  </FormLabel>
-                  <FormControl>
-                    <div className="flex items-center space-x-4">
-                      <Slider
-                        disabled={!!currentStep}
-                        min={1}
-                        max={10}
-                        step={1}
-                        value={[impactValue]}
-                        onValueChange={(value) => field.onChange(value[0])}
-                        className={cn(
-                          !!currentStep && "cursor-not-allowed opacity-50",
-                        )}
-                      />
-                      <ImpactIndicator impact={impactValue} isStatic />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-        )}
+            return (
+              <FormItem className={cn(!showImpact && "hidden")}>
+                <FormLabel>
+                  Impact Level{" "}
+                  <span className={cn(!selectedGoal && "hidden")}>
+                    of Current Step
+                  </span>
+                </FormLabel>
+                <FormControl>
+                  <div className="flex items-center space-x-4">
+                    <Slider
+                      disabled={!!selectedGoal}
+                      min={1}
+                      max={10}
+                      step={1}
+                      value={[impactValue]}
+                      onValueChange={(value) => field.onChange(value[0])}
+                      className={cn(
+                        !!selectedGoal && "cursor-not-allowed opacity-50",
+                      )}
+                    />
+                    <ImpactIndicator impact={impactValue} isStatic />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            );
+          }}
+        />
         <Button
           type="submit"
           className="border-2 border-orange-act text-base text-orange-act"
         >
           {submitText}
+        </Button>
+        <Button
+          onClick={closeForm}
+          className="absolute right-[-10px] top-[-4px]"
+        >
+          <XIcon />
         </Button>
       </form>
     </Form>

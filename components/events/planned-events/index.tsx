@@ -10,17 +10,6 @@ import AddPlannedEvDialog from "./crud-actions/AddPlannedEvDialog";
 const PlannedEvents = async () => {
   const plannedEvents = await getPlannedEvents();
 
-  const delay = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-
-  async function someFunction() {
-    console.log("Before delay");
-    await delay(8000); // Wait for 3 seconds
-    console.log("After delay");
-  }
-
-  await someFunction();
-
   const allDates = plannedEvents.map((event) => event.scheduledDate);
 
   return (

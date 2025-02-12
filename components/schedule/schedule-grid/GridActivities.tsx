@@ -1,25 +1,60 @@
 import ImpactIndicator from "@/components/ImpactIndicator";
 import { removeLeadingZeros } from "@/lib/format";
 import { calculateGridPosition, cn } from "@/lib/utils";
-import { TWeekDayRes } from "@/lib/validations";
+import { TActivityReq, TWeekDayRes } from "@/lib/validations";
 import React from "react";
 
-const Activities = ({ weekDays }: { weekDays: TWeekDayRes[] }) => {
-  return weekDays.map((day, dayIndex) =>
+type GridActivitiesProps =
+  | { weekDays: TWeekDayRes[] }
+  | {
+      weekDays: TWeekDayRes[];
+      getSelectedActivity: (activity: TActivityReq) => void;
+      deleteSelectedActivity: (activityId: number) => void;
+      isDeleting: boolean;
+    };
+
+const GridActivities = (props: GridActivitiesProps) => {
+  const editMode = "isDeleting" in props;
+
+  return props.weekDays.map((day, dayIndex) =>
     day.activities.map((activity) => {
       const { startRow, rowSpan } = calculateGridPosition(
         activity.startTime,
         activity.minutes,
       );
 
+      const activityReq: TActivityReq = {
+        startTime: activity.startTime,
+        minutes: activity.minutes,
+        ...(activity.id && { id: activity.id }),
+        ...(activity.goalId
+          ? { goalId: activity.goalId }
+          : {
+              title: activity.title,
+              description: activity.description,
+              impact: activity.impact,
+            }),
+      };
+
       return (
         <div
           key={activity.id}
+          onClick={() => {
+            if (editMode) {
+              if (props.isDeleting) {
+                props.deleteSelectedActivity(activity.id);
+              } else {
+                props.getSelectedActivity(activityReq);
+              }
+            }
+          }}
           className={cn(
             "relative flex flex-col items-center justify-between rounded-sm border-x border-slate-500 bg-blue-dark bg-opacity-70 p-[2px] text-xs",
             activity.minutes <= 15 && "p-0 text-[9px]",
             activity.goalTitle &&
               "bg-[url('/icons/goal-sec.svg')] bg-left bg-no-repeat",
+            editMode && props.isDeleting && "border-x-2 border-red-400",
+            editMode && "cursor-pointer",
           )}
           style={{
             gridColumn: dayIndex + 2,
@@ -54,4 +89,4 @@ const Activities = ({ weekDays }: { weekDays: TWeekDayRes[] }) => {
   );
 };
 
-export default Activities;
+export default GridActivities;

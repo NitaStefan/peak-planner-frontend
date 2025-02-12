@@ -58,6 +58,8 @@ const EventDetailsForm = ({
     saveEventDetails(updatedEventDetails);
   };
 
+  const { errors } = form.formState;
+
   return (
     <Form {...form}>
       <form
@@ -172,8 +174,14 @@ const EventDetailsForm = ({
                 </FormItem>
               )}
             />
+            {errors.duration && (
+              <p className="mt-1 text-sm text-red-400">
+                {errors.duration.message}
+              </p>
+            )}
           </div>
         </div>
+
         <Button
           type="submit"
           className="border-2 border-orange-act text-base text-orange-act"
