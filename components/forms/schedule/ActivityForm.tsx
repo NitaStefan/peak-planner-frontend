@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { formatTime } from "@/lib/format";
-import { activitySchema, TActivityReq } from "@/lib/validations";
+import { activitySchema, TActivityReq, TActivityRes } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { XIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -31,17 +31,18 @@ import {
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import OR from "./OR";
+import { addMinutesToTime } from "@/lib/timeHelpers";
 
 const ActivityForm = ({
   initActivity,
-  //   mutateScheduleState,
+  submit,
   goalOptionsPromise,
-  closeForm,
+  cancel,
 }: {
   initActivity?: TActivityReq;
-  //   mutateScheduleState: () => void; // uses setter
+  submit: (activity: TActivityRes) => void;
   goalOptionsPromise: Promise<GoalWithCurrStep[]>;
-  closeForm: () => void;
+  cancel: () => void;
 }) => {
   const [goalOptions, setGoalOptions] = useState<GoalWithCurrStep[]>([]);
 
@@ -72,23 +73,53 @@ const ActivityForm = ({
     },
   });
 
-  const submitText = initActivity ? "Update Activity" : "Create Activity";
-
   const onSubmit = (data: z.infer<typeof activitySchema>) => {
     const { duration, goalId, startTime, title, description, impact } = data;
-
     const totalMinutes = (duration.hours || 0) * 60 + (duration.minutes || 0);
 
-    const updatedActivity: TActivityReq = {
-      ...(initActivity?.id ? { id: initActivity.id } : {}),
-      startTime,
-      minutes: totalMinutes,
-      ...(goalId !== "0"
-        ? { goalId: Number(goalId) }
-        : { title, description, impact }),
-    };
+    const endTime = addMinutesToTime(startTime, totalMinutes);
 
-    console.log(updatedActivity);
+    let finalActivity: TActivityRes;
+
+    if (goalId !== "0") {
+      const selectedGoal = goalOptions.find(
+        (goal) => goal.id === Number(goalId),
+      );
+
+      if (!selectedGoal) {
+        console.error("Selected goal not found.");
+        return;
+      }
+
+      // Assign goal-specific values
+      finalActivity = {
+        ...(initActivity?.id ? { id: initActivity.id } : { id: 0 }),
+        startTime,
+        endTime,
+        minutes: totalMinutes,
+        goalId: selectedGoal.id,
+        goalTitle: selectedGoal.title,
+        title: selectedGoal.currStepTitle,
+        description: selectedGoal.currStepDescription as string,
+        impact: selectedGoal.currStepImpact ?? 0,
+        isActive: false,
+      };
+    } else {
+      finalActivity = {
+        ...(initActivity?.id ? { id: initActivity.id } : { id: 0 }),
+        startTime,
+        endTime, // Always include endTime
+        minutes: totalMinutes,
+        title: title as string,
+        description: description as string,
+        impact: impact as number,
+        isActive: false,
+      };
+    }
+
+    console.log("finalActivity", finalActivity);
+
+    submit(finalActivity);
   };
 
   const watchGoalId = form.watch("goalId");
@@ -305,12 +336,11 @@ const ActivityForm = ({
           type="submit"
           className="border-2 border-orange-act text-base text-orange-act"
         >
-          {submitText}
+          {initActivity && initActivity.id !== 0
+            ? "Update Activity"
+            : "Create Activity"}
         </Button>
-        <Button
-          onClick={closeForm}
-          className="absolute right-[-10px] top-[-4px]"
-        >
+        <Button onClick={cancel} className="absolute right-[-10px] top-[-4px]">
           <XIcon />
         </Button>
       </form>

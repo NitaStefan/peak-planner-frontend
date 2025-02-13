@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { DayOfWeek } from "./types";
+import { addMinutesToTime } from "./timeHelpers";
 
 export const signUpSchema = z.object({
   username: z
@@ -185,6 +186,36 @@ export const activitySchema = z
     {
       message: "Description is required",
       path: ["description"],
+    },
+  )
+  .refine(
+    (data) => {
+      if (!data.startTime || data.startTime.trim() === "") return true;
+
+      const totalMinutes =
+        (data.duration.hours || 0) * 60 + (data.duration.minutes || 0);
+      const endTime = addMinutesToTime(data.startTime, totalMinutes);
+
+      console.log("startTime", data.startTime.length);
+
+      if (endTime === "0:00") return true;
+
+      // Convert times to minutes for easier comparison
+      const startTimeInMinutes = data.startTime
+        .split(":")
+        .map(Number)
+        .reduce((h, m) => h * 60 + m);
+      const endTimeInMinutes = endTime
+        .split(":")
+        .map(Number)
+        .reduce((h, m) => h * 60 + m);
+
+      // Allow if endTime is after startTime OR is exactly 00:00
+      return endTimeInMinutes >= startTimeInMinutes;
+    },
+    {
+      message: "Activity cannot cross over midnight",
+      path: ["duration.hours"],
     },
   );
 

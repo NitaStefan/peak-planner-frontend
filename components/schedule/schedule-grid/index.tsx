@@ -1,16 +1,17 @@
-import { TActivityReq, TWeekDayRes } from "@/lib/validations";
+import { TActivityRes, TWeekDayRes } from "@/lib/validations";
 import React from "react";
 import BgMask from "./BgMask";
 import TimeIcon from "./TimeIcon";
 import HoursColumn from "./HoursColumn";
 import WeekdayHeaders from "./WeekdayHeaders";
 import GridActivities from "./GridActivities";
+import { DayOfWeek } from "@/lib/types";
 
 type ScheduleGridProps =
   | { weekDays: TWeekDayRes[] }
   | {
       weekDays: TWeekDayRes[];
-      getSelectedActivity: (activity: TActivityReq) => void;
+      getSelectedActivity: (activity: TActivityRes, day: DayOfWeek) => void;
       deleteSelectedActivity: (activityId: number) => void;
       isDeleting: boolean;
     };

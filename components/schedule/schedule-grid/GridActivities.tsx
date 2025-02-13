@@ -1,14 +1,15 @@
 import ImpactIndicator from "@/components/ImpactIndicator";
 import { removeLeadingZeros } from "@/lib/format";
+import { DayOfWeek } from "@/lib/types";
 import { calculateGridPosition, cn } from "@/lib/utils";
-import { TActivityReq, TWeekDayRes } from "@/lib/validations";
+import { TActivityRes, TWeekDayRes } from "@/lib/validations";
 import React from "react";
 
 type GridActivitiesProps =
   | { weekDays: TWeekDayRes[] }
   | {
       weekDays: TWeekDayRes[];
-      getSelectedActivity: (activity: TActivityReq) => void;
+      getSelectedActivity: (activity: TActivityRes, day?: DayOfWeek) => void;
       deleteSelectedActivity: (activityId: number) => void;
       isDeleting: boolean;
     };
@@ -23,19 +24,6 @@ const GridActivities = (props: GridActivitiesProps) => {
         activity.minutes,
       );
 
-      const activityReq: TActivityReq = {
-        startTime: activity.startTime,
-        minutes: activity.minutes,
-        ...(activity.id && { id: activity.id }),
-        ...(activity.goalId
-          ? { goalId: activity.goalId }
-          : {
-              title: activity.title,
-              description: activity.description,
-              impact: activity.impact,
-            }),
-      };
-
       return (
         <div
           key={activity.id}
@@ -44,7 +32,7 @@ const GridActivities = (props: GridActivitiesProps) => {
               if (props.isDeleting) {
                 props.deleteSelectedActivity(activity.id);
               } else {
-                props.getSelectedActivity(activityReq);
+                props.getSelectedActivity(activity, day.day);
               }
             }
           }}

@@ -9,6 +9,8 @@ const ImpactIndicator = ({
   isStatic?: boolean;
   insideGrid?: boolean;
 }) => {
+  if (impact === 0) return null;
+
   // Calculate the percentage for color mixing
   const percentage = ((impact - 1) / 9) * 100;
 
