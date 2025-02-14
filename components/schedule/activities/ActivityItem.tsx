@@ -15,12 +15,10 @@ const ActivityItem = ({
   activity,
   isDayActive = false,
   onEdit,
-  onDuplicate,
 }: {
   activity: TActivityRes;
   isDayActive?: boolean;
   onEdit?: () => void;
-  onDuplicate?: () => void;
 }) => {
   const isCurrentActivity = activity.isActive && isDayActive;
 
@@ -44,7 +42,7 @@ const ActivityItem = ({
               event.stopPropagation();
               onEdit();
             }}
-            className="ml-auto flex items-center gap-x-[3px] pr-[10px] text-base text-orange-act"
+            className="ml-auto mr-[10px] flex items-center gap-x-[3px] rounded-md border-2 border-orange-act px-[5px] py-[2px] text-base text-orange-act"
           >
             <Image
               src="/icons/edit-act.svg"
@@ -55,23 +53,6 @@ const ActivityItem = ({
             Edit
           </div>
         )}
-        {onDuplicate && (
-          <div
-            onClick={(event) => {
-              event.stopPropagation();
-              onDuplicate();
-            }}
-            className="ml-auto flex items-center gap-x-[3px] pr-[10px] text-base text-orange-act"
-          >
-            <Image
-              src="/icons/duplicate-act.svg"
-              width={18}
-              height={18}
-              alt="Duplicate"
-            />
-            Duplicate
-          </div>
-        )}
       </AccordionTrigger>
       <AccordionContent className="font-karla text-base">
         {activity.description}
@@ -79,7 +60,7 @@ const ActivityItem = ({
       <TimeInterval
         startTime={activity.startTime}
         endTime={activity.endTime}
-        isCurrentActivity={isCurrentActivity}
+        isCurrentActivity={isCurrentActivity || !!onEdit}
         duration={activity.minutes}
       />
       <GoalTitle title={activity.goalTitle} />

@@ -14,6 +14,7 @@ type ScheduleGridProps =
       getSelectedActivity: (activity: TActivityRes, day: DayOfWeek) => void;
       deleteSelectedActivity: (activityId: number) => void;
       isDeleting: boolean;
+      selectedActivityId?: number;
     };
 
 const ScheduleGrid = (props: ScheduleGridProps) => {

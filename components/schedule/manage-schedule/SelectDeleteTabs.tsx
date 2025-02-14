@@ -3,13 +3,15 @@ import { MousePointer2, Trash2 } from "lucide-react";
 
 const SelectDeleteTabs = ({
   setIsDeleting,
+  isDeleting,
 }: {
   setIsDeleting: React.Dispatch<React.SetStateAction<boolean>>;
+  isDeleting: boolean;
 }) => {
   return (
     <Tabs
-      defaultValue="select"
-      className="flex flex-row-reverse rounded-md bg-blue-dark p-[10px] pl-[20px]"
+      value={isDeleting ? "delete" : "select"}
+      className="flex grow flex-row-reverse justify-end rounded-md bg-blue-dark p-[10px] pl-[20px]"
     >
       <TabsList className="bg-blue-darker">
         <TabsTrigger

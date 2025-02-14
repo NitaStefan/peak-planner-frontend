@@ -332,13 +332,8 @@ const ActivityForm = ({
             );
           }}
         />
-        <Button
-          type="submit"
-          className="border-2 border-orange-act text-base text-orange-act"
-        >
-          {initActivity && initActivity.id !== 0
-            ? "Update Activity"
-            : "Create Activity"}
+        <Button type="submit" className="bg-orange-act text-base">
+          Ok
         </Button>
         <Button onClick={cancel} className="absolute right-[-10px] top-[-4px]">
           <XIcon />

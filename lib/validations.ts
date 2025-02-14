@@ -160,10 +160,18 @@ export const activitySchema = z
           .max(59, "Minutes must be less than 60")
           .min(0, "Cannot have negative minutes"),
       })
-      .refine((data) => (data.hours || 0) * 60 + (data.minutes || 0) >= 10, {
-        message: "Duration must be at least 10 minutes",
-        path: ["minutes"],
-      }),
+      .refine(
+        (data) => {
+          // If at least 1 hour is set, no need to validate minutes
+          if (data.hours > 0) return true;
+          // Otherwise, ensure at least 10 minutes
+          return data.minutes >= 10;
+        },
+        {
+          message: "Duration must be at least 10 minutes",
+          path: ["minutes"], // Only show error on minutes
+        },
+      ),
     impact: z
       .number()
       .min(1, "Impact level number must be at least 1")

@@ -5,8 +5,10 @@ import {
   DayOfWeek,
   ErrorResponse,
   GoalWithCurrStep,
+  ScheduleUpdateRequest,
 } from "./types";
 import {
+  TActivityReq,
   TActivityRes,
   TFlexibleEventRequest,
   TFlexibleEventResponse,
@@ -23,6 +25,7 @@ import { getAccessToken, storeTokens } from "./actions";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
 import { convertTimeToISO, convertUTCToLocal } from "./format";
+import { redirect } from "next/navigation";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -286,7 +289,14 @@ export async function getSchedule() {
     accessToken,
   );
 
-  return response;
+  return response.map((day) => ({
+    ...day,
+    activities: day.activities.map((activity) => ({
+      ...activity,
+      startTime: convertUTCToLocal(activity.startTime),
+      endTime: convertUTCToLocal(activity.endTime),
+    })),
+  }));
 }
 
 export async function getDayOfWeekActivities(day: DayOfWeek) {
@@ -298,11 +308,46 @@ export async function getDayOfWeekActivities(day: DayOfWeek) {
     accessToken,
   );
 
-  return activities.map((activity) => ({
-    ...activity,
-    startTime: convertUTCToLocal(activity.startTime),
-    endTime: convertUTCToLocal(activity.endTime),
-  }));
+  return activities
+    .map((activity) => ({
+      ...activity,
+      startTime: convertUTCToLocal(activity.startTime),
+      endTime: convertUTCToLocal(activity.endTime),
+    }))
+    .sort((a, b) => a.startTime.localeCompare(b.startTime)); // Sort by startTime
+}
+
+export async function updateSchedule(
+  scheduleUpdateRequest: ScheduleUpdateRequest,
+) {
+  const accessToken = await getAccessToken();
+
+  // Remove arbitrary ids of the activities
+  scheduleUpdateRequest.activitiesToAdd = Object.fromEntries(
+    Object.entries(scheduleUpdateRequest.activitiesToAdd).map(
+      ([key, value]) => [
+        key as DayOfWeek, // Explicitly cast key to DayOfWeek
+        // Remove id and keep startTime to align with the request structure
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        value.map(({ id, startTime, ...rest }) => ({
+          ...rest,
+          startTime: convertTimeToISO(startTime), // Convert time before sending
+        })),
+      ],
+    ),
+  ) as Record<DayOfWeek, TActivityReq[]>; // Cast the final object
+
+  console.log("Updated Schedule Request:", scheduleUpdateRequest);
+
+  await apiCall<undefined, ScheduleUpdateRequest>(
+    `/days-of-week`,
+    "PUT",
+    accessToken,
+    scheduleUpdateRequest,
+  );
+
+  revalidatePath("/");
+  redirect("/");
 }
 
 export async function getGoalsWithCurrentStep() {

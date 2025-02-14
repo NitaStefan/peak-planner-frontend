@@ -9,9 +9,10 @@ type GridActivitiesProps =
   | { weekDays: TWeekDayRes[] }
   | {
       weekDays: TWeekDayRes[];
-      getSelectedActivity: (activity: TActivityRes, day?: DayOfWeek) => void;
+      getSelectedActivity: (activity: TActivityRes, day: DayOfWeek) => void;
       deleteSelectedActivity: (activityId: number) => void;
       isDeleting: boolean;
+      selectedActivityId?: number;
     };
 
 const GridActivities = (props: GridActivitiesProps) => {
@@ -43,6 +44,9 @@ const GridActivities = (props: GridActivitiesProps) => {
               "bg-[url('/icons/goal-sec.svg')] bg-left bg-no-repeat",
             editMode && props.isDeleting && "border-x-2 border-red-400",
             editMode && "cursor-pointer",
+            editMode &&
+              props.selectedActivityId === activity.id &&
+              "bg-blue-medium",
           )}
           style={{
             gridColumn: dayIndex + 2,

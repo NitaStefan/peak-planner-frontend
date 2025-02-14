@@ -1,3 +1,5 @@
+import { TActivityReq } from "./validations";
+
 export type AuthResponse = {
   accessToken: string;
   refreshToken: string;
@@ -23,4 +25,9 @@ export type GoalWithCurrStep = {
   currStepTitle: string;
   currStepDescription?: string;
   currStepImpact?: number;
+};
+
+export type ScheduleUpdateRequest = {
+  idsToDelete: number[];
+  activitiesToAdd: Record<DayOfWeek, TActivityReq[]>;
 };

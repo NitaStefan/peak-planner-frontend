@@ -67,7 +67,7 @@ export const usePlannedEvent = (initPlannedEvent?: TPlannedEvent) => {
     if (overlappingTitles) {
       toast({
         title: "Overlapping Events",
-        description: `The events "${overlappingTitles.title1}" and "${overlappingTitles.title2}" have overlapping intervals. Please adjust them.`,
+        description: `Events "${overlappingTitles.title1}" and "${overlappingTitles.title2}" have overlapping intervals. Please adjust them.`,
         variant: "destructive",
       });
       return true;
