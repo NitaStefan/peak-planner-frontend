@@ -5,6 +5,7 @@
 html {
   font-family: var(--font-inter);
   @apply text-bone-white;
+  overflow-x: hidden;
 }
 
 .logo {

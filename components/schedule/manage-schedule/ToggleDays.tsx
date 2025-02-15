@@ -1,20 +1,26 @@
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { hasOverlappingIntervals } from "@/lib/checks";
 import { DayOfWeek } from "@/lib/types";
+import { TActivityRes, TWeekDayRes } from "@/lib/validations";
 import React from "react";
 
-const ToggleDays = ({
-  ableToAddToDay,
-  selectedDays,
-  setSelectedDays,
-  addActivityToDay,
-  removeActivityFromDay,
-}: {
-  ableToAddToDay: (day: DayOfWeek) => boolean;
+type ToggleDaysProps = {
+  currentActivity: TActivityRes;
+  weekDays: TWeekDayRes[];
   selectedDays: DayOfWeek[];
   setSelectedDays: React.Dispatch<React.SetStateAction<DayOfWeek[]>>;
   addActivityToDay: (day: DayOfWeek) => void;
   removeActivityFromDay: (day: DayOfWeek) => void;
-}) => {
+};
+
+const ToggleDays = ({
+  currentActivity,
+  weekDays,
+  selectedDays,
+  setSelectedDays,
+  addActivityToDay,
+  removeActivityFromDay,
+}: ToggleDaysProps) => {
   const handleClick = (day: DayOfWeek) => {
     if (selectedDays.includes(day)) {
       // If selected, remove it
@@ -25,6 +31,32 @@ const ToggleDays = ({
       setSelectedDays((prev) => [...prev, day]);
       addActivityToDay(day);
     }
+  };
+
+  const ableToAddToDay = (day: DayOfWeek): boolean => {
+    // Find the weekDay object corresponding to the given day
+    const weekDay = weekDays.find((wd) => wd.day === day);
+    if (!weekDay) return false; // If day not found, return false
+
+    // Extract existing activities for that day
+    const existingIntervals = weekDay.activities.map((activity) => ({
+      h1: activity.startTime,
+      h2: activity.endTime,
+    }));
+
+    // Ensure there is a current activity to check against
+    if (!currentActivity) return false;
+
+    // Create the interval for the currentActivity
+    const currentActivityInterval = {
+      h1: currentActivity.startTime,
+      h2: currentActivity.endTime,
+    };
+
+    return !hasOverlappingIntervals([
+      ...existingIntervals,
+      currentActivityInterval,
+    ]);
   };
 
   return (

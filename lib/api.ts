@@ -326,8 +326,7 @@ export async function updateSchedule(
   scheduleUpdateRequest.activitiesToAdd = Object.fromEntries(
     Object.entries(scheduleUpdateRequest.activitiesToAdd).map(
       ([key, value]) => [
-        key as DayOfWeek, // Explicitly cast key to DayOfWeek
-        // Remove id and keep startTime to align with the request structure
+        key as DayOfWeek,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         value.map(({ id, startTime, ...rest }) => ({
           ...rest,
@@ -337,8 +336,6 @@ export async function updateSchedule(
     ),
   ) as Record<DayOfWeek, TActivityReq[]>; // Cast the final object
 
-  console.log("Updated Schedule Request:", scheduleUpdateRequest);
-
   await apiCall<undefined, ScheduleUpdateRequest>(
     `/days-of-week`,
     "PUT",
@@ -346,6 +343,7 @@ export async function updateSchedule(
     scheduleUpdateRequest,
   );
 
+  //TODO: redirect is enough?
   revalidatePath("/");
   redirect("/");
 }
