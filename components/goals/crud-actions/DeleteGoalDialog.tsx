@@ -60,7 +60,7 @@ const DeleteGoalDialog = ({
         <DialogHeader>
           <DialogTitle>Are you sure?</DialogTitle>
           <DialogDescription>
-            This will permanently delete the goal.
+            Associated activities, if any, are also deleted.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="mt-[20px]">

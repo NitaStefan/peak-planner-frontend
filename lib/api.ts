@@ -225,9 +225,14 @@ export async function getGoalSteps(id: number) {
 export const addGoal = async (goal: TGoalRequest) => {
   const accessToken = await getAccessToken();
 
-  await apiCall<undefined, TGoalRequest>(`/goals`, "POST", accessToken, goal);
+  const response = await apiCall<TGoalResponse, TGoalRequest>(
+    `/goals`,
+    "POST",
+    accessToken,
+    goal,
+  );
 
-  revalidatePath("/goals");
+  return response;
 };
 
 export const updateGoal = async (goal: TGoalRequest & { id: number }) => {
@@ -343,8 +348,6 @@ export async function updateSchedule(
     scheduleUpdateRequest,
   );
 
-  //TODO: redirect is enough?
-  revalidatePath("/");
   redirect("/");
 }
 

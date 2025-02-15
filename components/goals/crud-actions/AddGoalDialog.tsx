@@ -13,6 +13,7 @@ import { addGoal } from "@/lib/api";
 import { TGoalRequest } from "@/lib/validations";
 import { cn } from "@/lib/utils";
 import GoalForm from "@/components/forms/goals/GoalForm";
+import { useRouter } from "next/navigation";
 
 const AddGoalDialog = ({
   closePopover = () => {},
@@ -22,11 +23,15 @@ const AddGoalDialog = ({
   className?: string;
 }) => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const router = useRouter();
 
   const handleAddGoal = async (goal: TGoalRequest) => {
-    await addGoal(goal);
+    const { id } = await addGoal(goal);
+
     setIsDialogOpen(false);
     closePopover();
+
+    router.push(`/goals/${id}`);
   };
 
   return (

@@ -117,8 +117,6 @@ const ActivityForm = ({
       };
     }
 
-    console.log("finalActivity", finalActivity);
-
     submit(finalActivity);
   };
 

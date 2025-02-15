@@ -59,6 +59,9 @@ const ManageSchedule = ({
       })),
     );
 
+    if (activityId === selectedActivityId.current)
+      selectedActivityId.current = undefined;
+
     // Check if removed manually instead of by day
     let removedDay: DayOfWeek | undefined;
     activityIdPerDay.current.forEach((id, day) => {
@@ -116,6 +119,9 @@ const ManageSchedule = ({
       activityIdPerDay.current.delete(day);
     }
   };
+
+  console.log(currentActivity);
+  console.log(selectedActivityId.current);
 
   return (
     <div className="flex w-full flex-col items-center gap-y-[20px]">
