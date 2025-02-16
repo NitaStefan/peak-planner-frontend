@@ -56,7 +56,7 @@ const GoalPage = async ({
                   {step.title}
                 </span>
               </AccordionTrigger>
-              <AccordionContent className="flex justify-between gap-[10px] font-karla text-base">
+              <AccordionContent className="flex justify-between gap-[10px] whitespace-pre-line font-karla text-base">
                 <div>{step.description}</div>
                 <StepActions step={step} numberOfSteps={steps.length} />
               </AccordionContent>

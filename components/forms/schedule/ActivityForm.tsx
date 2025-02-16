@@ -35,11 +35,13 @@ import { addMinutesToTime } from "@/lib/timeHelpers";
 
 const ActivityForm = ({
   initActivity,
+  selectedActId,
   submit,
   goalOptionsPromise,
   cancel,
 }: {
   initActivity?: TActivityReq;
+  selectedActId?: number;
   submit: (activity: TActivityRes) => void;
   goalOptionsPromise: Promise<GoalWithCurrStep[]>;
   cancel: () => void;
@@ -132,7 +134,10 @@ const ActivityForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="shadcn-form relative rounded-md border-2"
+        className={cn(
+          "shadcn-form relative rounded-md border-2",
+          selectedActId && "pb-[40px]",
+        )}
       >
         <div className="flex items-start gap-x-[15px] max-sm:gap-x-[6px]">
           <FormField
@@ -336,6 +341,12 @@ const ActivityForm = ({
         <Button onClick={cancel} className="absolute right-[-10px] top-[-4px]">
           <XIcon />
         </Button>
+        {selectedActId && (
+          <span className="absolute bottom-[-2px] text-sm text-slate-500 sm:bottom-[3px]">
+            * To replace selected activity, you can first remove it after
+            pressing Ok.
+          </span>
+        )}
       </form>
     </Form>
   );

@@ -29,7 +29,13 @@ const FlexibleEvents = async () => {
             flexibleEvent={flexibleEvent}
           >
             <div>
-              <div className="flex items-center gap-x-[4px]">
+              <div
+                className={cn(
+                  "flex items-center gap-x-[4px]",
+                  flexibleEvent.isActive &&
+                    "rounded-md border-b-2 border-blue-medium",
+                )}
+              >
                 <Image
                   src="/icons/calendar.svg"
                   width={24}
@@ -48,14 +54,9 @@ const FlexibleEvents = async () => {
                 <span className="text-xl max-sm:text-lg">{endDate}</span>
                 <FlexibleEventsActions />
               </div>
-              <div
-                className={cn(
-                  "px mb-[30px] mt-[10px] rounded-md py-[20px]",
-                  flexibleEvent.isActive ? "bg-blue-medium" : "bg-blue-dark",
-                )}
-              >
+              <div className="px mb-[30px] mt-[10px] rounded-md bg-blue-dark py-[20px]">
                 <h2 className="text-lg">{flexibleEvent.title}</h2>
-                <div className="pt-[10px] font-karla">
+                <div className="whitespace-pre-line pt-[10px] font-karla">
                   {flexibleEvent.description}
                 </div>
               </div>

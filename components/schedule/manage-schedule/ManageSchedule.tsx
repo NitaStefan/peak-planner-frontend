@@ -120,9 +120,6 @@ const ManageSchedule = ({
     }
   };
 
-  console.log(currentActivity);
-  console.log(selectedActivityId.current);
-
   return (
     <div className="flex w-full flex-col items-center gap-y-[20px]">
       {!currentActivity && currentAction === "start" && (
@@ -148,12 +145,10 @@ const ManageSchedule = ({
             setCurrentActivity(activity);
             setCurrentAction("start");
             setSelectedDays([]);
-
-            // TODO: replace selected activity with the one edited if possible
-            // selectedActivityId.current = undefined;
             activityIdPerDay.current = new Map<DayOfWeek, number>();
           }}
           initActivity={mapActivityToRequestVersion(currentActivity)}
+          selectedActId={selectedActivityId.current}
           goalOptionsPromise={goalOptionsPromise}
           cancel={() => setCurrentAction("start")}
         />

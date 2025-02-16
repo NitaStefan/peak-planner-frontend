@@ -54,7 +54,7 @@ const ActivityItem = ({
           </div>
         )}
       </AccordionTrigger>
-      <AccordionContent className="font-karla text-base">
+      <AccordionContent className="whitespace-pre-line font-karla text-base">
         {activity.description}
       </AccordionContent>
       <TimeInterval
