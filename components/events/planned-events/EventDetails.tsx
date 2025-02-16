@@ -44,8 +44,9 @@ const EventDetails = ({
           <Time startTime={detail.startTime} minutes={detail.minutes} />
           <div
             className={cn(
-              "whitespace-pre-line pt-[10px] font-karla",
+              "pt-[10px] font-karla",
               !!setToBeUpdated && "w-[380px] truncate max-sm:w-[260px]",
+              !setToBeUpdated && "whitespace-pre-line",
             )}
           >
             {detail.description}
