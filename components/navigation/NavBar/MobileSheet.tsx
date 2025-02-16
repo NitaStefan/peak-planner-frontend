@@ -30,7 +30,7 @@ const MobileSheet = () => {
             Navigate through the pages even if on the mobile
           </SheetDescription>
         </SheetHeader>
-        <Logo showFull isMobile />
+        <Logo isMobile />
         <section className="mt-[50px] flex h-[calc(100%-80px)] w-[192px] flex-col justify-between gap-[15px] overflow-y-auto">
           <NavLinks isMobile />
         </section>

@@ -5,7 +5,7 @@ import React, { createContext, ReactNode, useContext } from "react";
 
 type PlannedEventContextType = {
   plannedEvent: TPlannedEvent & { id: number };
-  otherDates: Date[];
+  otherDates?: Date[];
 };
 
 const PlannedEventContext = createContext<PlannedEventContextType | null>(null);

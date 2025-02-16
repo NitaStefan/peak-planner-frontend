@@ -34,13 +34,13 @@ import { z } from "zod";
 type PlannedEventFormProps = {
   initPlannedEvent?: TPlannedEvent;
   mutateData: (data: TPlannedEvent) => Promise<void>;
-  otherDates: Date[];
+  otherDates?: Date[];
 };
 
 const PlannedEventForm = ({
   initPlannedEvent = undefined,
   mutateData,
-  otherDates,
+  otherDates = [],
 }: PlannedEventFormProps) => {
   const {
     plannedEventRef,

@@ -15,7 +15,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
       <NavBar />
       <LeftSideBar />
       <section className={cn("min-h-screen grow")}>
-        <div className="mx-auto max-w-5xl px-[30px] pb-[20px] pt-[120px] max-sm:px-[10px] max-sm:pt-[100px]">
+        <div className="mx-auto max-w-5xl px-[30px] pb-[20px] pt-[90px] max-sm:px-[10px] max-sm:pt-[80px]">
           {children}
         </div>
       </section>

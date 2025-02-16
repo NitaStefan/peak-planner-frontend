@@ -28,15 +28,12 @@ const GridActivities = (props: GridActivitiesProps) => {
       return (
         <div
           key={activity.id}
-          onClick={() => {
-            if (editMode) {
-              if (props.isDeleting) {
-                props.deleteSelectedActivity(activity.id);
-              } else {
-                props.getSelectedActivity(activity, day.day);
-              }
-            }
-          }}
+          {...(editMode && {
+            onClick: () => {
+              if (props.isDeleting) props.deleteSelectedActivity(activity.id);
+              else props.getSelectedActivity(activity, day.day);
+            },
+          })}
           className={cn(
             "relative flex flex-col items-center justify-between rounded-sm border-x border-slate-500 bg-blue-dark bg-opacity-70 p-[2px] text-xs",
             activity.minutes <= 15 && "p-0 text-[9px]",

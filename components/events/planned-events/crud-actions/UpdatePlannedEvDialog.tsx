@@ -17,7 +17,7 @@ import { usePlannedEvent } from "@/contexts/PlannedEventContext";
 const UpdatePlannedEvDialog = ({
   closePopover,
 }: {
-  closePopover: () => void;
+  closePopover?: () => void;
 }) => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
@@ -26,7 +26,7 @@ const UpdatePlannedEvDialog = ({
   const handleUpdatePlannedEvent = async (plannedEvent: TPlannedEvent) => {
     await updatePlannedEvent(plannedEvent as TPlannedEvent & { id: number });
     setIsDialogOpen(false);
-    closePopover();
+    if (closePopover) closePopover();
   };
 
   return (

@@ -67,3 +67,6 @@ export const removeLeadingZeros = (time: string | undefined) => {
   const [hours, minutes] = time.split(":");
   return `${parseInt(hours, 10)}:${minutes}`;
 };
+
+export const formatPlannedEventDate = (date: Date) =>
+  format(date, "EEEE,\u00A0\u00A0MMMM dd,\u00A0\u00A0yyyy");
