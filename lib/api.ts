@@ -90,12 +90,18 @@ export async function getPlannedEvents() {
   // convert the utc time to local time
   return plannedEvents.map((event) => ({
     ...event,
-    eventDetails: event.eventDetails.map((detail) => ({
-      ...detail,
-      startTime: detail.startTime
-        ? convertUTCToLocal(detail.startTime)
-        : undefined,
-    })),
+    eventDetails: event.eventDetails
+      .map((detail) => ({
+        ...detail,
+        startTime: detail.startTime
+          ? convertUTCToLocal(detail.startTime)
+          : undefined,
+      }))
+      .sort((a, b) => {
+        if (!a.startTime) return 1; // Move events without startTime to the end
+        if (!b.startTime) return -1;
+        return a.startTime.localeCompare(b.startTime);
+      }),
   }));
 }
 

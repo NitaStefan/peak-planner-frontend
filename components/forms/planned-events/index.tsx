@@ -54,32 +54,17 @@ const PlannedEventForm = ({
   const form = useForm<z.infer<typeof plannedEventSchema>>({
     resolver: zodResolver(plannedEventSchema),
     defaultValues: {
-      scheduledDate: new Date(plannedEventRef.current.scheduledDate),
+      scheduledDate: initPlannedEvent
+        ? new Date(initPlannedEvent.scheduledDate)
+        : undefined,
     },
   });
 
   const onSubmit = async (data: z.infer<typeof plannedEventSchema>) => {
-    const theDate = data.scheduledDate;
-    theDate.setHours(0, 0, 0, 0);
-
-    if (
-      otherDates.some(
-        (date) =>
-          new Date(date).toISOString().split("T")[0] ===
-          theDate.toISOString().split("T")[0],
-      )
-    ) {
-      form.setError("scheduledDate", {
-        type: "manual",
-        message: "This date is already scheduled",
-      });
-      return;
-    }
-
+    // Show toast error if there are overlapping events
     if (checkOverlappingEvents()) return;
 
-    plannedEventRef.current.scheduledDate = theDate;
-
+    plannedEventRef.current.scheduledDate = data.scheduledDate;
     await mutateData(plannedEventRef.current);
   };
 
@@ -128,8 +113,20 @@ const PlannedEventForm = ({
                     <Calendar
                       mode="single"
                       selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) => date < new Date()}
+                      onSelect={(date) => {
+                        if (date) {
+                          const normalizedDate = new Date(date);
+                          normalizedDate.setHours(0, 0, 0, 0);
+                          field.onChange(normalizedDate);
+                        }
+                      }}
+                      disabled={(date) =>
+                        date < new Date() ||
+                        otherDates.some(
+                          (d) =>
+                            new Date(d).toISOString() === date.toISOString(),
+                        )
+                      }
                       initialFocus
                     />
                   </PopoverContent>

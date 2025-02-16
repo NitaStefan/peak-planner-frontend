@@ -13,7 +13,7 @@ export const usePlannedEvent = (initPlannedEvent?: TPlannedEvent) => {
           eventDetails: [...initPlannedEvent.eventDetails],
         }
       : {
-          scheduledDate: new Date(new Date().setDate(new Date().getDate() + 1)),
+          scheduledDate: new Date(), // arbitrary
           eventDetails: [],
         },
   );
