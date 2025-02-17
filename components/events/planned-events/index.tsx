@@ -1,31 +1,20 @@
-import { getPlannedEvents } from "@/lib/api";
 import React from "react";
 import PlannedEventsActions from "./crud-actions/PlannedEventsActions";
 import EventDetails from "./EventDetails";
 import { PlannedEventContextProvider } from "@/contexts/PlannedEventContext";
 import AddPlannedEvDialog from "./crud-actions/AddPlannedEvDialog";
 import UpdatePlannedEvDialog from "./crud-actions/UpdatePlannedEvDialog";
-import DeletePlannedEvDialog from "./crud-actions/DeletePlannedEvDialog";
 import CalendarIcon from "./CalendarIcon";
 import { formatPlannedEventDate } from "@/lib/format";
+import { getPastPlannedEvents, getUpcomingPlannedEvents } from "@/lib/api";
+import DirectPlannedEventDelete from "./crud-actions/DirectPlannedEventDelete";
+import PastEventsIndicator from "./PastEventsIndicator";
 
 const PlannedEvents = async () => {
-  const plannedEvents = await getPlannedEvents();
-
-  // Get today's date at midnight
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  // TODO: Separate call not awaited, sorted descending (same for flexible)
-  const pastPlannedEvents = plannedEvents.filter(
-    (event) => new Date(event.scheduledDate) < today,
-  );
-
-  const upcomingPlannedEvents = plannedEvents.filter(
-    (event) => new Date(event.scheduledDate) >= today,
-  );
-
-  const allDates = upcomingPlannedEvents.map((event) => event.scheduledDate);
+  const [upcomingPlannedEvents, pastPlannedEvents] = await Promise.all([
+    getUpcomingPlannedEvents(),
+    getPastPlannedEvents(),
+  ]);
 
   return (
     <>
@@ -55,7 +44,7 @@ const PlannedEvents = async () => {
           </PlannedEventContextProvider>
         );
       })}
-      {pastPlannedEvents.length > 0 && <hr />}
+      {pastPlannedEvents.length > 0 && <PastEventsIndicator />}
       {pastPlannedEvents.map((pastPlannedEvent) => (
         <PlannedEventContextProvider
           key={pastPlannedEvent.id}
@@ -69,9 +58,7 @@ const PlannedEvents = async () => {
               </span>
               <div className="ml-auto">
                 <UpdatePlannedEvDialog />
-                {/* TODO: create a separate delete component that directly calls the
-                delete api */}
-                <DeletePlannedEvDialog />
+                <DirectPlannedEventDelete />
               </div>
             </div>
             <div className="mb-[30px] mt-[10px] flex flex-col gap-y-[25px] opacity-60">
@@ -81,7 +68,9 @@ const PlannedEvents = async () => {
         </PlannedEventContextProvider>
       ))}
 
-      <AddPlannedEvDialog allDates={allDates} />
+      <AddPlannedEvDialog
+        allDates={upcomingPlannedEvents.map((event) => event.scheduledDate)}
+      />
     </>
   );
 };

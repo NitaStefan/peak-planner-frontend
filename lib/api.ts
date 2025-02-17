@@ -78,11 +78,11 @@ export async function signIn(data: TSignInSchema): Promise<void> {
 }
 
 // Planned Events
-export async function getPlannedEvents() {
+export async function getUpcomingPlannedEvents() {
   const accessToken = await getAccessToken();
 
   const plannedEvents = await apiCall<(TPlannedEvent & { id: number })[]>(
-    `/planned-events`,
+    `/planned-events/upcoming`,
     "GET",
     accessToken,
   );
@@ -99,6 +99,34 @@ export async function getPlannedEvents() {
       }))
       .sort((a, b) => {
         if (!a.startTime) return 1; // Move events without startTime to the end
+        if (!b.startTime) return -1;
+        return a.startTime.localeCompare(b.startTime);
+      }),
+  }));
+}
+
+// Planned Events
+export async function getPastPlannedEvents() {
+  const accessToken = await getAccessToken();
+
+  const plannedEvents = await apiCall<(TPlannedEvent & { id: number })[]>(
+    `/planned-events/past`,
+    "GET",
+    accessToken,
+  );
+
+  // convert the utc time to local time
+  return plannedEvents.map((event) => ({
+    ...event,
+    eventDetails: event.eventDetails
+      .map((detail) => ({
+        ...detail,
+        startTime: detail.startTime
+          ? convertUTCToLocal(detail.startTime)
+          : undefined,
+      }))
+      .sort((a, b) => {
+        if (!a.startTime) return 1;
         if (!b.startTime) return -1;
         return a.startTime.localeCompare(b.startTime);
       }),
