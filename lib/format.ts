@@ -70,3 +70,6 @@ export const removeLeadingZeros = (time: string | undefined) => {
 
 export const formatPlannedEventDate = (date: Date) =>
   format(date, "EEEE,\u00A0\u00A0MMMM dd,\u00A0\u00A0yyyy");
+
+export const formatFlexibleEventDate = (date: Date) =>
+  format(date, "EEE,\u00A0MMM\u00A0 dd,\u00A0yyyy");

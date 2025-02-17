@@ -17,7 +17,7 @@ import FlexibleEventForm from "@/components/forms/FlexibleEventForm";
 const UpdateFlexibleEvDialog = ({
   closePopover,
 }: {
-  closePopover: () => void;
+  closePopover?: () => void;
 }) => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
@@ -28,7 +28,7 @@ const UpdateFlexibleEvDialog = ({
   ) => {
     await updateFlexibleEvent(flexibleEvent);
     setIsDialogOpen(false);
-    closePopover();
+    closePopover?.();
   };
 
   return (

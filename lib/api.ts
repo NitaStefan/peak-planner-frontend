@@ -185,11 +185,23 @@ export async function deleteEventDetails(eventDetailIds: number[]) {
 }
 
 //Flexible Events
-export async function getFlexibleEvents() {
+export async function getUpcomingFlexibleEvents() {
   const accessToken = await getAccessToken();
 
   const response = await apiCall<TFlexibleEventResponse[]>(
-    "/flexible-events",
+    "/flexible-events/upcoming",
+    "GET",
+    accessToken,
+  );
+
+  return response;
+}
+
+export async function getPastFlexibleEvents() {
+  const accessToken = await getAccessToken();
+
+  const response = await apiCall<TFlexibleEventResponse[]>(
+    "/flexible-events/past",
     "GET",
     accessToken,
   );

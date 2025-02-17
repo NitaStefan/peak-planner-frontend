@@ -8,7 +8,7 @@ import CalendarIcon from "./CalendarIcon";
 import { formatPlannedEventDate } from "@/lib/format";
 import { getPastPlannedEvents, getUpcomingPlannedEvents } from "@/lib/api";
 import DirectPlannedEventDelete from "./crud-actions/DirectPlannedEventDelete";
-import PastEventsIndicator from "./PastEventsIndicator";
+import PastEventsIndicator from "../PastEventsIndicator";
 
 const PlannedEvents = async () => {
   const [upcomingPlannedEvents, pastPlannedEvents] = await Promise.all([
