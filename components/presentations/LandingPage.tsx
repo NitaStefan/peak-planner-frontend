@@ -1,9 +1,9 @@
 import React from "react";
-import Logo from "../navigation/navbar/Logo";
-import AuthActions from "../navigation/navlinks/AuthActions";
 import Routines from "./Routines";
 import Goals from "./Goals";
 import Events from "./Events";
+import Logo from "../navigation/navbar/Logo";
+import AuthActions from "../navigation/navlinks/AuthActions";
 
 const LandingPage = () => {
   return (
