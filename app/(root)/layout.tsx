@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import { isLoggedIn } from "@/lib/actions";
 import LandingPage from "@/components/presentations/LandingPage";
-import NavBar from "@/components/navigation/navbar/NavBar";
+import NavBar from "@/components/navigation/navbar";
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   const isAuthenticated = await isLoggedIn();
