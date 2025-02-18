@@ -56,7 +56,7 @@ const DuplicatePlannedEvDialog = ({
         <PlannedEventForm
           mutateData={handleAddPlannedEvent}
           initPlannedEvent={removeIds(plannedEvent)}
-          otherDates={[...otherDates, plannedEvent.scheduledDate]}
+          otherDates={[...(otherDates ?? []), plannedEvent.scheduledDate]}
         />
       </DialogContent>
     </Dialog>
