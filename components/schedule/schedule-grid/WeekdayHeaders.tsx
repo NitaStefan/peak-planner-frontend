@@ -1,7 +1,14 @@
 import { DayOfWeek } from "@/lib/types";
 import React from "react";
+import EventsNotification from "./EventsNotification";
 
-const WeekdayHeaders = ({ weekDayNames }: { weekDayNames: DayOfWeek[] }) => {
+const WeekdayHeaders = ({
+  weekDayNames,
+  editMode,
+}: {
+  weekDayNames: DayOfWeek[];
+  editMode: boolean;
+}) => {
   return weekDayNames.map((dayName, index) => (
     <div
       key={index}
@@ -9,6 +16,7 @@ const WeekdayHeaders = ({ weekDayNames }: { weekDayNames: DayOfWeek[] }) => {
       style={{ gridColumn: index + 2 }}
     >
       {dayName.charAt(0).toUpperCase() + dayName.slice(1).toLowerCase()}
+      {!editMode && <EventsNotification day={dayName} />}
     </div>
   ));
 };

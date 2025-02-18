@@ -28,8 +28,6 @@ const GoalPage = async ({
   const activeStep = steps.find((step) => step.isActive);
   const defaultActiveValue = activeStep ? `item-${activeStep.id}` : undefined;
 
-  console.log("Hello - GoalPage");
-
   return (
     goalId && (
       <Accordion

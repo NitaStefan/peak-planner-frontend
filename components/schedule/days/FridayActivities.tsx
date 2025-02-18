@@ -8,7 +8,11 @@ const FridayActivities = async () => {
 
   const isDayActive = format(new Date(), "EEEE") === "Friday";
 
-  return <Activities activities={activities} isDayActive={isDayActive} />;
+  return activities.length > 0 ? (
+    <Activities activities={activities} isDayActive={isDayActive} />
+  ) : (
+    <p className="text-slate-500">No activities scheduled for today.</p>
+  );
 };
 
 export default FridayActivities;

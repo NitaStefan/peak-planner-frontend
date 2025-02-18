@@ -2,20 +2,29 @@ import { z } from "zod";
 import { DayOfWeek } from "./types";
 import { addMinutesToTime } from "./timeHelpers";
 
+const latin1Regex = /^[\x20-\x7E\x0A\x0D]*$/;
+
 export const signUpSchema = z.object({
   username: z
     .string()
     .max(20, "Username must be less than 20 characters")
-    .min(1, "Username is required"),
+    .min(1, "Username is required")
+    .regex(latin1Regex, "Only English characters are allowed"),
   email: z.string().email(),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .regex(latin1Regex, "Only English characters are allowed"),
 });
 
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
 
 export const signInSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .regex(latin1Regex, "Only English characters are allowed"),
 });
 
 export type TSignInSchema = z.infer<typeof signUpSchema>;
@@ -25,11 +34,13 @@ export const eventDetailsSchema = z.object({
   title: z
     .string()
     .max(45, "Title must be less than 45 characters")
-    .min(1, "Title is required"),
+    .min(1, "Title is required")
+    .regex(latin1Regex, "Only English characters are allowed"),
   description: z
     .string()
     .max(400, "Description must be less than 400 characters")
-    .min(1, "Description is required"),
+    .min(1, "Description is required")
+    .regex(latin1Regex, "Only English characters are allowed"),
   startTime: z.string().optional(),
   duration: z.object({
     hours: z
@@ -65,11 +76,13 @@ export const flexibleEventSchema = z.object({
   title: z
     .string()
     .max(45, "Title must be less than 45 characters")
-    .min(1, "Title is required"),
+    .min(1, "Title is required")
+    .regex(latin1Regex, "Only English characters are allowed"),
   description: z
     .string()
     .max(400, "Description must be less than 400 characters")
-    .min(1, "Description is required"),
+    .min(1, "Description is required")
+    .regex(latin1Regex, "Only English characters are allowed"),
   startDate: z.date({
     required_error: "Date required",
   }),
@@ -92,7 +105,8 @@ export const goalSchema = z.object({
   title: z
     .string()
     .max(45, "Title must be less than 45 characters")
-    .min(1, "Title is required"),
+    .min(1, "Title is required")
+    .regex(latin1Regex, "Only English characters are allowed"),
   startDate: z.date({
     required_error: "Date required",
   }),
@@ -102,11 +116,13 @@ export const stepSchema = z.object({
   title: z
     .string()
     .max(45, "Title must be less than 45 characters")
-    .min(1, "Title is required"),
+    .min(1, "Title is required")
+    .regex(latin1Regex, "Only English characters are allowed"),
   description: z
     .string()
     .max(400, "Description must be less than 400 characters")
-    .min(1, "Description is required"),
+    .min(1, "Description is required")
+    .regex(latin1Regex, "Only English characters are allowed"),
   days: z
     .number()
     .min(1, "Days must be at least 1")
@@ -141,10 +157,12 @@ export const activitySchema = z
     title: z
       .string()
       .max(45, "Title must be less than 45 characters")
+      .regex(latin1Regex, "Only English characters are allowed")
       .optional(),
     description: z
       .string()
       .max(400, "Description must be less than 400 characters")
+      .regex(latin1Regex, "Only English characters are allowed")
       .optional(),
     startTime: z
       .string()
@@ -203,8 +221,6 @@ export const activitySchema = z
       const totalMinutes =
         (data.duration.hours || 0) * 60 + (data.duration.minutes || 0);
       const endTime = addMinutesToTime(data.startTime, totalMinutes);
-
-      console.log("startTime", data.startTime.length);
 
       if (endTime === "0:00") return true;
 

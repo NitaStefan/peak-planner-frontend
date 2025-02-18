@@ -249,8 +249,6 @@ export async function deleteFlexibleEvent(id: number) {
 export const getGoals = cache(async () => {
   const accessToken = await getAccessToken();
 
-  console.log("GET GOALS API");
-
   const response = await apiCall<TGoalResponse[]>(`/goals`, "GET", accessToken);
 
   return response;

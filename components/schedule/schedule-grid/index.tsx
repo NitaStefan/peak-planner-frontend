@@ -42,7 +42,10 @@ const ScheduleGrid = (props: ScheduleGridProps) => {
         <HoursColumn />
 
         {/* Weekday Headers */}
-        <WeekdayHeaders weekDayNames={props.weekDays.map((day) => day.day)} />
+        <WeekdayHeaders
+          weekDayNames={props.weekDays.map((day) => day.day)}
+          editMode={"isDeleting" in props}
+        />
 
         {/* Activities */}
         <GridActivities {...props} />

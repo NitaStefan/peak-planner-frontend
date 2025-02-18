@@ -6,9 +6,10 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
+  const requestUrl = new URL(request.url);
 
-  if (!refreshToken)
-    return NextResponse.redirect(new URL("/sign-in", request.url));
+  if (!refreshToken && requestUrl.pathname !== "/")
+    return NextResponse.redirect(new URL("/", request.url));
 
   if (!accessToken && refreshToken) {
     try {
@@ -30,10 +31,10 @@ export async function middleware(request: NextRequest) {
           maxAge: 1800,
         });
         return nextResponse;
-      } else return NextResponse.redirect(new URL("/sign-in", request.url));
+      } else return NextResponse.redirect(new URL("/", request.url));
     } catch (error) {
       console.error("Error refreshing token:", error);
-      return NextResponse.redirect(new URL("/sign-in", request.url));
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
 

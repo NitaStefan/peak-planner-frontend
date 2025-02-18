@@ -18,9 +18,11 @@ import { useRouter } from "next/navigation";
 const AddGoalDialog = ({
   closePopover = () => {},
   className = "",
+  firstGoal = false,
 }: {
   closePopover?: () => void;
   className?: string;
+  firstGoal?: boolean;
 }) => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const router = useRouter();
@@ -40,10 +42,11 @@ const AddGoalDialog = ({
         className={cn(
           "flex grow items-center justify-center gap-x-[3px] rounded-md border-2 border-orange-sec text-sm text-orange-sec",
           className,
+          firstGoal && "mx-auto px-[30px] py-[10px]",
         )}
       >
         <Image src="/icons/add-sec.svg" width={18} height={18} alt="Add Goal" />
-        <span>Add New Goal</span>
+        <span>{firstGoal ? "Add Your First Goal!" : "Add New Goal"}</span>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

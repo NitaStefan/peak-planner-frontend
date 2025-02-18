@@ -4,11 +4,12 @@ import NavBar from "@/components/navigation/navbar";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import { isLoggedIn } from "@/lib/actions";
+import LandingPage from "@/components/presentations/LandingPage";
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   const isAuthenticated = await isLoggedIn();
 
-  if (!isAuthenticated) return <div>LANDING PAGE + sign in/up options</div>;
+  if (!isAuthenticated) return <LandingPage />;
 
   return (
     <main className="flex">
