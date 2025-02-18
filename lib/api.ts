@@ -45,8 +45,13 @@ export async function apiCall<T, K = undefined>(
   });
 
   if (!response.ok) {
-    const errorData: ErrorResponse = await response.json();
-    throw new Error(errorData.message || "An error occurred");
+    let errorMessage = "An error occurred";
+    const contentType = response.headers.get("Content-Type") || "";
+    if (contentType.includes("application/json")) {
+      const errorData: ErrorResponse = await response.json();
+      errorMessage = errorData?.message || errorMessage;
+    }
+    throw new Error(errorMessage);
   }
 
   return response.headers.get("content-length") === "0" ||
@@ -55,26 +60,48 @@ export async function apiCall<T, K = undefined>(
     : response.json();
 }
 
-export async function signUp(data: TSignUpSchema): Promise<void> {
-  const response = await apiCall<AuthResponse, TSignUpSchema>(
-    "/auth/register",
-    "POST",
-    undefined,
-    data,
-  );
+export async function signUp(
+  data: TSignUpSchema,
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const response = await apiCall<AuthResponse, TSignUpSchema>(
+      "/auth/register",
+      "POST",
+      undefined,
+      data,
+    );
 
-  await storeTokens(response.accessToken, response.refreshToken);
+    await storeTokens(response.accessToken, response.refreshToken);
+    return { success: true };
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error instanceof Error ? error.message : "An unexpected error occurred",
+    };
+  }
 }
 
-export async function signIn(data: TSignInSchema): Promise<void> {
-  const response = await apiCall<AuthResponse, TSignInSchema>(
-    "/auth/login",
-    "POST",
-    undefined,
-    data,
-  );
+export async function signIn(
+  data: TSignInSchema,
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const response = await apiCall<AuthResponse, TSignInSchema>(
+      "/auth/login",
+      "POST",
+      undefined,
+      data,
+    );
 
-  await storeTokens(response.accessToken, response.refreshToken);
+    await storeTokens(response.accessToken, response.refreshToken);
+    return { success: true };
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error instanceof Error ? error.message : "An unexpected error occurred",
+    };
+  }
 }
 
 // Planned Events

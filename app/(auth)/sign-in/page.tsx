@@ -22,14 +22,9 @@ const Page = () => {
   } = useForm<TSignInSchema>({ resolver: zodResolver(signInSchema) });
 
   const onSubmit = async (data: TSignInSchema) => {
-    try {
-      await signIn(data);
-
-      router.push("/");
-    } catch (error) {
-      if (error instanceof Error) setServerError(error.message);
-      else setServerError("An unexpected error occurred");
-    }
+    const result = await signIn(data);
+    if (result.success) router.push("/");
+    else setServerError(result.error || "An unexpected error occurred");
   };
 
   return (
