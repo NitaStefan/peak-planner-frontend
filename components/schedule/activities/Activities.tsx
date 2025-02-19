@@ -15,7 +15,7 @@ const Activities = ({
 }) => {
   const activeId = activities.find((activity) => activity.isActive)?.id ?? null;
 
-  activities
+  activities = activities
     .map((activity) => ({
       ...activity,
       startTime: convertUTCToLocal(activity.startTime),

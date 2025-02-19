@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { updateSchedule } from "@/lib/api";
 import { convertTimeToISO } from "@/lib/format";
@@ -12,21 +14,25 @@ const SubmitSchedule = ({
 }) => {
   const [isUpdating, setIsUpdating] = useState(false);
 
-  // Remove arbitrary ids of the activities
-  requestObject.activitiesToAdd = Object.fromEntries(
+  const updatedActivities = Object.fromEntries(
     Object.entries(requestObject.activitiesToAdd).map(([key, value]) => [
       key as DayOfWeek,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       value.map(({ id, startTime, ...rest }) => ({
         ...rest,
-        startTime: convertTimeToISO(startTime), // Convert on the client time before sending
+        startTime: convertTimeToISO(startTime),
       })),
     ]),
-  ) as Record<DayOfWeek, TActivityReq[]>; // Cast the final object
+  ) as Record<DayOfWeek, TActivityReq[]>;
+
+  const updatedRequestObject = {
+    ...requestObject,
+    activitiesToAdd: updatedActivities,
+  };
 
   const handleUpdate = async () => {
     setIsUpdating(true);
-    await updateSchedule(requestObject);
+    await updateSchedule(updatedRequestObject);
     setIsUpdating(false);
   };
 
