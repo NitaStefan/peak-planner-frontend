@@ -64,12 +64,13 @@ export async function signUp(
   data: TSignUpSchema,
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const response = await apiCall<AuthResponse, TSignUpSchema>(
-      "/auth/register",
-      "POST",
-      undefined,
-      data,
-    );
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { confirmPassword, ...requestData } = data;
+
+    const response = await apiCall<
+      AuthResponse,
+      Omit<TSignUpSchema, "confirmPassword">
+    >("/auth/register", "POST", undefined, requestData);
 
     await storeTokens(response.accessToken, response.refreshToken);
     return { success: true };

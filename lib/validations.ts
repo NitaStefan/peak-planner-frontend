@@ -4,18 +4,24 @@ import { addMinutesToTime } from "./timeHelpers";
 
 const latin1Regex = /^[\x20-\x7E\x0A\x0D]*$/;
 
-export const signUpSchema = z.object({
-  username: z
-    .string()
-    .max(20, "Username must be less than 20 characters")
-    .min(1, "Username is required")
-    .regex(latin1Regex, "Only English characters are allowed"),
-  email: z.string().email(),
-  password: z
-    .string()
-    .min(6, "Password must be at least 6 characters")
-    .regex(latin1Regex, "Only English characters are allowed"),
-});
+export const signUpSchema = z
+  .object({
+    username: z
+      .string()
+      .max(20, "Username must be less than 20 characters")
+      .min(1, "Username is required")
+      .regex(latin1Regex, "Only English characters are allowed"),
+    email: z.string().email(),
+    password: z
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .regex(latin1Regex, "Only English characters are allowed"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
 

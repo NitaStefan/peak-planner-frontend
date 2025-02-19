@@ -10,10 +10,12 @@ import { Label } from "@/components/ui/label";
 import { signUp } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const Page = () => {
   const [serverError, setServerError] = React.useState<string | null>(null);
   const router = useRouter();
+  const { toast } = useToast();
 
   const {
     register,
@@ -23,8 +25,10 @@ const Page = () => {
 
   const onSubmit = async (data: TSignUpSchema) => {
     const result = await signUp(data);
-    if (result.success) router.push("/");
-    else setServerError(result.error || "An unexpected error occurred");
+    if (result.success) {
+      toast({ description: "Account Created Successfully!" });
+      router.push("/");
+    } else setServerError(result.error || "An unexpected error occurred");
   };
 
   return (
@@ -51,6 +55,17 @@ const Page = () => {
           <Input {...register("password")} type="password" id="password" />
           {errors.password && (
             <p className="error">{errors.password.message}</p>
+          )}
+        </div>
+        <div>
+          <Label htmlFor="confirm">Confirm Password</Label>
+          <Input
+            {...register("confirmPassword")}
+            type="password"
+            id="confirm"
+          />
+          {errors.confirmPassword && (
+            <p className="error">{errors.confirmPassword.message}</p>
           )}
         </div>
         {serverError && <p className="error">{serverError}</p>}
