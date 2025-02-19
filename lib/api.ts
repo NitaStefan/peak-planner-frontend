@@ -8,7 +8,6 @@ import {
   ScheduleUpdateRequest,
 } from "./types";
 import {
-  TActivityReq,
   TActivityRes,
   TFlexibleEventRequest,
   TFlexibleEventResponse,
@@ -24,7 +23,6 @@ import {
 import { getAccessToken, storeTokens } from "./actions";
 import { revalidatePath } from "next/cache";
 import { cache } from "react";
-import { convertTimeToISO, convertUTCToLocal } from "./format";
 import { redirect } from "next/navigation";
 
 const API_BASE_URL = process.env.API_BASE_URL;
@@ -116,21 +114,7 @@ export async function getUpcomingPlannedEvents() {
   );
 
   // convert the utc time to local time
-  return plannedEvents.map((event) => ({
-    ...event,
-    eventDetails: event.eventDetails
-      .map((detail) => ({
-        ...detail,
-        startTime: detail.startTime
-          ? convertUTCToLocal(detail.startTime)
-          : undefined,
-      }))
-      .sort((a, b) => {
-        if (!a.startTime) return 1; // Move events without startTime to the end
-        if (!b.startTime) return -1;
-        return a.startTime.localeCompare(b.startTime);
-      }),
-  }));
+  return plannedEvents;
 }
 
 // Planned Events
@@ -144,21 +128,7 @@ export async function getPastPlannedEvents() {
   );
 
   // convert the utc time to local time
-  return plannedEvents.map((event) => ({
-    ...event,
-    eventDetails: event.eventDetails
-      .map((detail) => ({
-        ...detail,
-        startTime: detail.startTime
-          ? convertUTCToLocal(detail.startTime)
-          : undefined,
-      }))
-      .sort((a, b) => {
-        if (!a.startTime) return 1;
-        if (!b.startTime) return -1;
-        return a.startTime.localeCompare(b.startTime);
-      }),
-  }));
+  return plannedEvents;
 }
 
 export async function addPlannedEvent(plannedEvent: TPlannedEvent) {
@@ -178,10 +148,6 @@ export async function updatePlannedEvent(
   plannedEvent: TPlannedEvent & { id: number },
 ) {
   const accessToken = await getAccessToken();
-
-  plannedEvent.eventDetails.forEach((detail) => {
-    if (detail.startTime) detail.startTime = convertTimeToISO(detail.startTime);
-  });
 
   await apiCall<undefined, TPlannedEvent & { id: number }>(
     `/planned-events`,
@@ -366,14 +332,7 @@ export async function getSchedule() {
     accessToken,
   );
 
-  return response.map((day) => ({
-    ...day,
-    activities: day.activities.map((activity) => ({
-      ...activity,
-      startTime: convertUTCToLocal(activity.startTime),
-      endTime: convertUTCToLocal(activity.endTime),
-    })),
-  }));
+  return response;
 }
 
 export async function getDayOfWeekActivities(day: DayOfWeek) {
@@ -385,33 +344,13 @@ export async function getDayOfWeekActivities(day: DayOfWeek) {
     accessToken,
   );
 
-  return activities
-    .map((activity) => ({
-      ...activity,
-      startTime: convertUTCToLocal(activity.startTime),
-      endTime: convertUTCToLocal(activity.endTime),
-    }))
-    .sort((a, b) => a.startTime.localeCompare(b.startTime)); // Sort by startTime
+  return activities;
 }
 
 export async function updateSchedule(
   scheduleUpdateRequest: ScheduleUpdateRequest,
 ) {
   const accessToken = await getAccessToken();
-
-  // Remove arbitrary ids of the activities
-  scheduleUpdateRequest.activitiesToAdd = Object.fromEntries(
-    Object.entries(scheduleUpdateRequest.activitiesToAdd).map(
-      ([key, value]) => [
-        key as DayOfWeek,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        value.map(({ id, startTime, ...rest }) => ({
-          ...rest,
-          startTime: convertTimeToISO(startTime), // Convert time before sending
-        })),
-      ],
-    ),
-  ) as Record<DayOfWeek, TActivityReq[]>; // Cast the final object
 
   await apiCall<undefined, ScheduleUpdateRequest>(
     `/days-of-week`,

@@ -17,6 +17,7 @@ import ActivityItem from "../activities/ActivityItem";
 import ToggleDays from "./ToggleDays";
 import SubmitSchedule from "./SubmitSchedule";
 import { mapActivityToRequestVersion } from "@/lib/utils";
+import { convertUTCToLocal } from "@/lib/format";
 
 const ManageSchedule = ({
   initWeekDays,
@@ -25,7 +26,16 @@ const ManageSchedule = ({
   initWeekDays: TWeekDayRes[];
   goalOptionsPromise: Promise<GoalWithCurrStep[]>;
 }) => {
-  const [weekDays, setWeekDays] = useState(initWeekDays);
+  const [weekDays, setWeekDays] = useState(
+    initWeekDays.map((day) => ({
+      ...day,
+      activities: day.activities.map((activity) => ({
+        ...activity,
+        startTime: convertUTCToLocal(activity.startTime),
+        endTime: convertUTCToLocal(activity.endTime),
+      })),
+    })),
+  );
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentActivity, setCurrentActivity] = useState<
     TActivityRes | undefined

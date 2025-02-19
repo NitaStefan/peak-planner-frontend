@@ -13,6 +13,7 @@ import PlannedEventForm from "../../../forms/planned-events";
 import { updatePlannedEvent } from "@/lib/api";
 import { TPlannedEvent } from "@/lib/validations";
 import { usePlannedEvent } from "@/contexts/PlannedEventContext";
+import { convertTimeToISO } from "@/lib/format";
 
 const UpdatePlannedEvDialog = ({
   closePopover,
@@ -24,6 +25,10 @@ const UpdatePlannedEvDialog = ({
   const { plannedEvent, otherDates } = usePlannedEvent();
 
   const handleUpdatePlannedEvent = async (plannedEvent: TPlannedEvent) => {
+    plannedEvent.eventDetails.forEach((detail) => {
+      if (detail.startTime)
+        detail.startTime = convertTimeToISO(detail.startTime);
+    });
     await updatePlannedEvent(plannedEvent as TPlannedEvent & { id: number });
     setIsDialogOpen(false);
     if (closePopover) closePopover();

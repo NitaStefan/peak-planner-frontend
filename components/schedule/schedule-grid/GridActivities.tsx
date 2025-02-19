@@ -1,5 +1,7 @@
+"use client";
+
 import ImpactIndicator from "@/components/ImpactIndicator";
-import { removeLeadingZeros } from "@/lib/format";
+import { convertUTCToLocal, removeLeadingZeros } from "@/lib/format";
 import { DayOfWeek } from "@/lib/types";
 import { calculateGridPosition, cn } from "@/lib/utils";
 import { TActivityRes, TWeekDayRes } from "@/lib/validations";
@@ -17,6 +19,15 @@ type GridActivitiesProps =
 
 const GridActivities = (props: GridActivitiesProps) => {
   const editMode = "isDeleting" in props;
+
+  props.weekDays.map((day) => ({
+    ...day,
+    activities: day.activities.map((activity) => ({
+      ...activity,
+      startTime: convertUTCToLocal(activity.startTime),
+      endTime: convertUTCToLocal(activity.endTime),
+    })),
+  }));
 
   return props.weekDays.map((day, dayIndex) =>
     day.activities.map((activity) => {

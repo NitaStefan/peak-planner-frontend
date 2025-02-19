@@ -1,7 +1,10 @@
+"use client";
+
 import { TActivityRes } from "@/lib/validations";
 import React from "react";
 import { Accordion } from "@/components/ui/accordion";
 import ActivityItem from "./ActivityItem";
+import { convertUTCToLocal } from "@/lib/format";
 
 const Activities = ({
   activities,
@@ -11,6 +14,14 @@ const Activities = ({
   isDayActive: boolean;
 }) => {
   const activeId = activities.find((activity) => activity.isActive)?.id ?? null;
+
+  activities
+    .map((activity) => ({
+      ...activity,
+      startTime: convertUTCToLocal(activity.startTime),
+      endTime: convertUTCToLocal(activity.endTime),
+    }))
+    .sort((a, b) => a.startTime.localeCompare(b.startTime)); // Sort by startTime
 
   const defaultActiveActivity =
     activeId && isDayActive ? `item-${activeId}` : undefined;

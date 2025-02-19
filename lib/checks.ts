@@ -24,12 +24,12 @@ export function findOverlappingIntervals(
   for (let i = 0; i < intervals.length; i++) {
     const interval1 = intervals[i];
     const start1 = timeToMinutes(interval1.h1);
-    const end1 = timeToMinutes(interval1.h2, true); // Treat h2 specially
+    const end1 = timeToMinutes(interval1.h2);
 
     for (let j = i + 1; j < intervals.length; j++) {
       const interval2 = intervals[j];
       const start2 = timeToMinutes(interval2.h1);
-      const end2 = timeToMinutes(interval2.h2, true); // Treat h2 specially
+      const end2 = timeToMinutes(interval2.h2);
 
       if (isOverlapping(start1, end1, start2, end2)) {
         return { title1: interval1.title, title2: interval2.title };
