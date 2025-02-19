@@ -12,11 +12,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { convertTimeToISO } from "@/lib/format";
 
 const AddPlannedEvDialog = ({ allDates }: { allDates: Date[] }) => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
   const handleAddPlannedEvent = async (plannedEvent: TPlannedEvent) => {
+    plannedEvent.eventDetails.forEach((detail) => {
+      if (detail.startTime)
+        detail.startTime = convertTimeToISO(detail.startTime);
+    });
     await addPlannedEvent(plannedEvent);
     setIsDialogOpen(false);
   };

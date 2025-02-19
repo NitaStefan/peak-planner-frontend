@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  convertUTCToLocal,
-  formatDuration,
-  removeLeadingZeros,
-} from "@/lib/format";
+import { formatDuration, removeLeadingZeros } from "@/lib/format";
 import { addMinutesToTime } from "@/lib/timeHelpers";
 import Image from "next/image";
 import React from "react";
@@ -17,7 +13,7 @@ const Time = ({
   minutes?: number;
 }) => {
   let TimeComponent = null;
-  startTime = removeLeadingZeros(convertUTCToLocal(startTime));
+  startTime = removeLeadingZeros(startTime);
 
   if (!startTime && !minutes) return TimeComponent;
 
