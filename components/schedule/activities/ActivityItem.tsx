@@ -55,7 +55,11 @@ const ActivityItem = ({
         )}
       </AccordionTrigger>
       <AccordionContent className="whitespace-pre-line font-karla text-base">
-        {activity.description}
+        {activity.description ? (
+          <span>{activity.description}</span>
+        ) : (
+          <span className="text-xs text-slate-500">No description</span>
+        )}
       </AccordionContent>
       <TimeInterval
         startTime={activity.startTime}

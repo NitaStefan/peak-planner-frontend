@@ -34,7 +34,7 @@ const EventDetailsForm = ({
     resolver: zodResolver(eventDetailsSchema),
     defaultValues: {
       title: initEventDetails?.title || "",
-      description: initEventDetails?.description || "",
+      description: initEventDetails?.description,
       startTime: initEventDetails?.startTime || "",
       duration: {
         hours: Math.floor((initEventDetails?.minutes ?? 0) / 60),
@@ -84,7 +84,10 @@ const EventDetailsForm = ({
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>
+                Description
+                <span className="ml-[5px] opacity-50">(Optional)</span>
+              </FormLabel>
               <FormControl>
                 <Textarea {...field} />
               </FormControl>

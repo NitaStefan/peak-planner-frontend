@@ -45,8 +45,8 @@ export const eventDetailsSchema = z.object({
   description: z
     .string()
     .max(400, "Description must be less than 400 characters")
-    .min(1, "Description is required")
-    .regex(latin1Regex, "Only English characters are allowed"),
+    .regex(latin1Regex, "Only English characters are allowed")
+    .optional(),
   startTime: z.string().optional(),
   duration: z.object({
     hours: z
@@ -87,8 +87,8 @@ export const flexibleEventSchema = z.object({
   description: z
     .string()
     .max(400, "Description must be less than 400 characters")
-    .min(1, "Description is required")
-    .regex(latin1Regex, "Only English characters are allowed"),
+    .regex(latin1Regex, "Only English characters are allowed")
+    .optional(),
   startDate: z.date({
     required_error: "Date required",
   }),
@@ -127,8 +127,8 @@ export const stepSchema = z.object({
   description: z
     .string()
     .max(400, "Description must be less than 400 characters")
-    .min(1, "Description is required")
-    .regex(latin1Regex, "Only English characters are allowed"),
+    .regex(latin1Regex, "Only English characters are allowed")
+    .optional(),
   days: z
     .number()
     .min(1, "Days must be at least 1")
@@ -260,7 +260,7 @@ export type TActivityRes = Omit<
   goalTitle?: string;
   goalId?: number;
   title: string;
-  description: string;
+  description?: string;
   impact: number;
 };
 

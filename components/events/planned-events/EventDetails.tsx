@@ -42,15 +42,19 @@ const EventDetails = ({
             {detail.title}
           </h2>
           <Time startTime={detail.startTime} minutes={detail.minutes} />
-          <div
-            className={cn(
-              "pt-[10px] font-karla",
-              !!setToBeUpdated && "w-[380px] truncate max-sm:w-[260px]",
-              !setToBeUpdated && "whitespace-pre-line",
-            )}
-          >
-            {detail.description}
-          </div>
+          {detail.description ? (
+            <div
+              className={cn(
+                "pt-[10px] font-karla",
+                !!setToBeUpdated && "w-[380px] truncate max-sm:w-[260px]",
+                !setToBeUpdated && "whitespace-pre-line",
+              )}
+            >
+              {detail.description}
+            </div>
+          ) : (
+            <span className="text-xs text-slate-500">No description</span>
+          )}
         </div>
         {!!setToBeUpdated && (
           <EditDeleteDetails

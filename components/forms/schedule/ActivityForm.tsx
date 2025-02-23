@@ -64,7 +64,7 @@ const ActivityForm = ({
     resolver: zodResolver(activitySchema),
     defaultValues: {
       title: initActivity?.title ?? "",
-      description: initActivity?.description ?? "",
+      description: initActivity?.description,
       startTime: initActivity?.startTime ?? "",
       duration: {
         hours: Math.floor((initActivity?.minutes ?? 0) / 60),
@@ -199,7 +199,10 @@ const ActivityForm = ({
           name="description"
           render={({ field }) => (
             <FormItem className={cn(watchGoalId !== "0" && "hidden")}>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>
+                Description
+                <span className="ml-[5px] opacity-50">(Optional)</span>
+              </FormLabel>
               <FormControl>
                 <Textarea disabled={!!selectedGoal} {...field} />
               </FormControl>

@@ -44,9 +44,13 @@ const FlexibleEvents = async () => {
             </div>
             <div className="px mb-[30px] mt-[10px] rounded-md bg-blue-dark py-[20px]">
               <h2 className="text-lg">{flexibleEvent.title}</h2>
-              <div className="whitespace-pre-line pt-[10px] font-karla">
-                {flexibleEvent.description}
-              </div>
+              {flexibleEvent.description ? (
+                <div className="whitespace-pre-line pt-[10px] font-karla">
+                  {flexibleEvent.description}
+                </div>
+              ) : (
+                <span className="text-xs text-slate-500">No description</span>
+              )}
             </div>
           </div>
         </FlexibleEventContextProvider>

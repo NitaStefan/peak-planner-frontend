@@ -38,7 +38,7 @@ const FlexibleEventForm = ({
     resolver: zodResolver(flexibleEventSchema),
     defaultValues: {
       title: initFlexibleEvent?.title || "",
-      description: initFlexibleEvent?.description || "",
+      description: initFlexibleEvent?.description,
       startDate: initFlexibleEvent
         ? new Date(initFlexibleEvent.startDate)
         : undefined,
@@ -81,7 +81,10 @@ const FlexibleEventForm = ({
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>
+                Description
+                <span className="ml-[5px] opacity-50">(Optional)</span>
+              </FormLabel>
               <FormControl>
                 <Textarea {...field} />
               </FormControl>

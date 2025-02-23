@@ -39,7 +39,7 @@ const StepForm = ({
     resolver: zodResolver(stepSchema),
     defaultValues: {
       title: initStep?.title || "",
-      description: initStep?.description || "",
+      description: initStep?.description,
       days: initStep?.days || 7,
       orderIndex: initStep?.orderIndex || numberOfSteps + 1,
       impact: initStep?.impact || 6,
@@ -79,7 +79,10 @@ const StepForm = ({
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>
+                Description
+                <span className="ml-[5px] opacity-50">(Optional)</span>
+              </FormLabel>
               <FormControl>
                 <Textarea {...field} />
               </FormControl>
