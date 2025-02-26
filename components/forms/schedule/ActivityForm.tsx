@@ -102,7 +102,7 @@ const ActivityForm = ({
         goalId: selectedGoal.id,
         goalTitle: selectedGoal.title,
         title: selectedGoal.currStepTitle,
-        description: selectedGoal.currStepDescription as string,
+        description: selectedGoal.currStepDescription,
         impact: selectedGoal.currStepImpact ?? 0,
         isActive: false,
       };
@@ -113,7 +113,7 @@ const ActivityForm = ({
         endTime, // Always include endTime
         minutes: totalMinutes,
         title: title as string,
-        description: description as string,
+        description: description,
         impact: impact as number,
         isActive: false,
       };

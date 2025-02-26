@@ -212,15 +212,6 @@ export const activitySchema = z
     },
   )
   .refine(
-    (data) =>
-      data.goalId !== "0" ||
-      (data.description && data.description.trim().length > 0),
-    {
-      message: "Description is required",
-      path: ["description"],
-    },
-  )
-  .refine(
     (data) => {
       if (!data.startTime || data.startTime.trim() === "") return true;
 
