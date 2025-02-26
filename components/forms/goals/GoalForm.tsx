@@ -103,7 +103,6 @@ const GoalForm = ({
                     disabled={(date) =>
                       date.getTime() < new Date().setHours(0, 0, 0, 0)
                     }
-                    initialFocus
                   />
                 </PopoverContent>
               </Popover>
