@@ -127,7 +127,6 @@ const PlannedEventForm = ({
                             new Date(d).toISOString() === date.toISOString(),
                         )
                       }
-                      initialFocus
                     />
                   </PopoverContent>
                 </Popover>

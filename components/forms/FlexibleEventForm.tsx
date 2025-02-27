@@ -119,7 +119,6 @@ const FlexibleEventForm = ({
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
               <Calendar
-                initialFocus
                 mode="range"
                 defaultMonth={form.watch("startDate") || new Date()}
                 selected={{
