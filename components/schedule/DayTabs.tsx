@@ -16,7 +16,7 @@ import ManageScheduleButton from "./ManageScheduleButton";
 
 const DayTabs = ({ children }: { children: ReactNode }) => {
   const today = new Date();
-  const todayName = format(new Date(), "EEEE");
+  const todayName = format(today, "EEEE");
   const startOfThisWeek = startOfWeek(today, { weekStartsOn: 1 }); // get this week's Monday
 
   const [selectedDay, setSelectedDay] = useState(todayName);

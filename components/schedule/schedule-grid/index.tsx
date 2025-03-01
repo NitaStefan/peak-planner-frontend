@@ -1,4 +1,9 @@
-import { TActivityRes, TWeekDayRes } from "@/lib/validations";
+import {
+  TActivityRes,
+  TFlexibleEventResponse,
+  TPlannedEvent,
+  TWeekDayRes,
+} from "@/lib/validations";
 import React from "react";
 import BgMask from "./BgMask";
 import TimeIcon from "./TimeIcon";
@@ -9,7 +14,12 @@ import { DayOfWeek } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 type ScheduleGridProps =
-  | { weekDays: TWeekDayRes[] }
+  | {
+      weekDays: TWeekDayRes[];
+      weekDates: Record<DayOfWeek, Date>;
+      upPlannedEvents: (TPlannedEvent & { id: number })[];
+      upFlexibleEvents: TFlexibleEventResponse[];
+    }
   | {
       weekDays: TWeekDayRes[];
       getSelectedActivity: (activity: TActivityRes, day: DayOfWeek) => void;
@@ -44,7 +54,13 @@ const ScheduleGrid = (props: ScheduleGridProps) => {
         {/* Weekday Headers */}
         <WeekdayHeaders
           weekDayNames={props.weekDays.map((day) => day.day)}
-          editMode={"isDeleting" in props}
+          weekDates={"weekDates" in props ? props.weekDates : undefined}
+          upPlannedEvents={
+            "upPlannedEvents" in props ? props.upPlannedEvents : undefined
+          }
+          upFlexibleEvents={
+            "upFlexibleEvents" in props ? props.upFlexibleEvents : undefined
+          }
         />
 
         {/* Activities */}

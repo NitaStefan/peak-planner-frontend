@@ -1,13 +1,28 @@
 // import ScheduleGrid from "@/components/schedule/schedule-grid";
 import ClientScheduleWrapper from "@/components/schedule/schedule-grid/ClientScheduleWrapper";
-import { getSchedule } from "@/lib/api";
+import {
+  getSchedule,
+  getUpcomingFlexibleEvents,
+  getUpcomingPlannedEvents,
+} from "@/lib/api";
 import React from "react";
 
 const Page = async () => {
-  const weekDays = await getSchedule();
+  const [weekDays, upcomingPlannedEvents, upcomingFlexibleEvents] =
+    await Promise.all([
+      getSchedule(),
+      getUpcomingPlannedEvents(),
+      getUpcomingFlexibleEvents(),
+    ]);
 
   // return <ScheduleGrid weekDays={weekDays} />;
-  return <ClientScheduleWrapper initialWeekDays={weekDays} />;
+  return (
+    <ClientScheduleWrapper
+      initialWeekDays={weekDays}
+      upPlannedEvents={upcomingPlannedEvents}
+      upFlexibleEvents={upcomingFlexibleEvents}
+    />
+  );
 };
 
 export default Page;

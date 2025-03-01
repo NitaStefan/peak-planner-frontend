@@ -1,4 +1,6 @@
+import { addDays, startOfWeek } from "date-fns";
 import { removeLeadingZeros } from "./format";
+import { DayOfWeek } from "./types";
 
 export function addMinutesToTime(time: string, minutesToAdd: number): string {
   // Parse the time string into hours and minutes
@@ -17,3 +19,17 @@ export function addMinutesToTime(time: string, minutesToAdd: number): string {
 
   return removeLeadingZeros(`${updatedHours}:${updatedMinutes}`);
 }
+
+export const getWeekDates = (): Record<DayOfWeek, Date> => {
+  const startOfThisWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
+
+  return {
+    MONDAY: addDays(startOfThisWeek, 0),
+    TUESDAY: addDays(startOfThisWeek, 1),
+    WEDNESDAY: addDays(startOfThisWeek, 2),
+    THURSDAY: addDays(startOfThisWeek, 3),
+    FRIDAY: addDays(startOfThisWeek, 4),
+    SATURDAY: addDays(startOfThisWeek, 5),
+    SUNDAY: addDays(startOfThisWeek, 6),
+  };
+};
