@@ -29,12 +29,19 @@ const ClientScheduleWrapper = ({
 
   const processedUpcomingEvents = upPlannedEvents.map((event) => ({
     ...event,
-    eventDetails: event.eventDetails.map((detail) => ({
-      ...detail,
-      startTime: detail.startTime
-        ? convertUTCToLocal(detail.startTime)
-        : undefined,
-    })),
+    eventDetails: event.eventDetails
+      .map((detail) => ({
+        ...detail,
+        startTime: detail.startTime
+          ? convertUTCToLocal(detail.startTime)
+          : undefined,
+      }))
+      .sort((a, b) => {
+        if (!a.startTime && !b.startTime) return 0;
+        if (!a.startTime) return 1; // Put undefined at the end
+        if (!b.startTime) return -1;
+        return a.startTime.localeCompare(b.startTime);
+      }),
   }));
 
   const weekDates = getWeekDates();
