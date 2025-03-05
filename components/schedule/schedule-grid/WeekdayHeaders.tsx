@@ -27,7 +27,7 @@ const WeekdayHeaders = ({
       )}
       style={{ gridColumn: index + 2 }}
     >
-      <div className="flex items-center gap-x-[6px]">
+      <div className="flex items-center">
         <div>
           <span>
             {dayName.charAt(0).toUpperCase() + dayName.slice(1).toLowerCase()}

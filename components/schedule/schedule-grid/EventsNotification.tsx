@@ -48,7 +48,8 @@ const EventsNotification = ({
       <PopoverTrigger
         className={cn(
           "relative opacity-20",
-          activePlannedEvent && "opacity-100",
+          (activePlannedEvent || activeFlexibleEvents.length > 0) &&
+            "opacity-100",
         )}
         disabled={!activePlannedEvent && !activeFlexibleEvents.length}
       >
