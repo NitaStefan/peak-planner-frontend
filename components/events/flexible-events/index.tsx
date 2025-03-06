@@ -10,6 +10,7 @@ import CurvedArrow from "./CurvedArrow";
 import PastEventsIndicator from "../PastEventsIndicator";
 import UpdateFlexibleEvDialog from "./crud-actions/UpdateFlexibleEvDialog";
 import DirectDelete from "./crud-actions/DirectDelete";
+import FlexibleEvDate from "./FlexibleEvDate";
 
 const FlexibleEvents = async () => {
   const [upcomingFlexibleEvents, pastFlexibleEvents] = await Promise.all([
@@ -33,13 +34,9 @@ const FlexibleEvents = async () => {
               )}
             >
               <FlexibleCalendarIcon />
-              <span className="text-xl max-sm:text-lg">
-                {formatFlexibleEventDate(flexibleEvent.startDate)}
-              </span>
+              <FlexibleEvDate date={flexibleEvent.startDate} />
               <CurvedArrow />
-              <span className="text-xl max-sm:text-lg">
-                {formatFlexibleEventDate(flexibleEvent.endDate)}
-              </span>
+              <FlexibleEvDate date={flexibleEvent.endDate} />
               <FlexibleEventsActions />
             </div>
             <div className="px mb-[30px] mt-[10px] rounded-md bg-blue-dark py-[20px]">
