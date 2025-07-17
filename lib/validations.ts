@@ -211,31 +211,30 @@ export const activitySchema = z
       path: ["title"],
     },
   )
-//   .refine(
-//   (data) => {
-//     if (!data.startTime || data.startTime.trim() === "") return true;
+  .refine(
+  (data) => {
+    if (!data.startTime || data.startTime.trim() === "") return true;
 
-//     const totalMinutes =
-//       (data.duration.hours || 0) * 60 + (data.duration.minutes || 0);
-//     const endTime = addMinutesToTime(data.startTime, totalMinutes);
+    const totalMinutes =
+      (data.duration.hours || 0) * 60 + (data.duration.minutes || 0);
 
-//     if (endTime === "0:00") return true;
+    const [hour, minute] = data.startTime.split(":").map(Number);
+    const endTime = addMinutesToTime((new Date(2000, 0, 1, hour, minute, 0)).toISOString(), totalMinutes);
+    const endTimeDate = new Date(endTime)
 
-//     // Extract hours and minutes from ISO startTime
-//     const startDate = new Date(data.startTime);
-//     const startTimeInMinutes = startDate.getHours() * 60 + startDate.getMinutes();
+    if (endTimeDate.getHours() === 0 && endTimeDate.getMinutes() === 0) return true;
 
-//     // Extract hours and minutes from computed endTime ("HH:mm")
-//     const [endHours, endMinutes] = endTime.split(":").map(Number);
-//     const endTimeInMinutes = endHours * 60 + endMinutes;
+    const startTimeInMinutes = hour * 60 + minute;
 
-//     return endTimeInMinutes >= startTimeInMinutes;
-//   },
-//   {
-//     message: "Activity cannot cross over midnight",
-//     path: ["duration.hours"],
-//   }
-// );
+    const endTimeInMinutes = endTimeDate.getHours() * 60 + endTimeDate.getMinutes();
+
+    return endTimeInMinutes >= startTimeInMinutes;
+  },
+  {
+    message: "Activity cannot cross over midnight",
+    path: ["duration.hours"],
+  }
+);
 
 export type TActivityRes = Omit<
   z.infer<typeof activitySchema>,

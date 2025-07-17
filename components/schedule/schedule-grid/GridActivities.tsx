@@ -1,7 +1,6 @@
 "use client";
 
 import ImpactIndicator from "@/components/ImpactIndicator";
-import { convertUTCToLocal, removeLeadingZeros } from "@/lib/format";
 import { isoToLocalHour } from "@/lib/timeHelpers";
 import { DayOfWeek } from "@/lib/types";
 import { calculateGridPosition, cn } from "@/lib/utils";

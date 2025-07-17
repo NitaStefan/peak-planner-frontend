@@ -46,7 +46,6 @@ export function findOverlappingIntervals(
 export function hasOverlappingIntervals(
   intervals: { h1: string; h2: string }[],
 ): boolean {
-  console.log(intervals)
 
   for (let i = 0; i < intervals.length; i++) {
     const start1 = timeToMinutes(intervals[i].h1);

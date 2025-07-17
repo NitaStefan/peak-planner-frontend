@@ -93,8 +93,6 @@ const ActivityForm = ({
 
     const endTime = addMinutesToTime(startTimeLocal, totalMinutes);
 
-    console.log("endTime from data", endTime)
-
     let finalActivity: TActivityRes;
 
     if (goalId !== "0") {

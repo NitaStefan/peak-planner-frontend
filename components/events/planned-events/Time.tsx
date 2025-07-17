@@ -1,6 +1,6 @@
 "use client";
 
-import { formatDuration, removeLeadingZeros } from "@/lib/format";
+import { formatDuration } from "@/lib/format";
 import { addMinutesToTime, isoToLocalHour } from "@/lib/timeHelpers";
 import Image from "next/image";
 import React from "react";

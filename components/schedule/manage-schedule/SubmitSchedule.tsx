@@ -13,8 +13,6 @@ const SubmitSchedule = ({
 }) => {
   const [isUpdating, setIsUpdating] = useState(false);
 
-  console.log("requestObject",requestObject)
-
   const updatedActivities = Object.fromEntries(
     Object.entries(requestObject.activitiesToAdd).map(([key, value]) => [
       key as DayOfWeek,

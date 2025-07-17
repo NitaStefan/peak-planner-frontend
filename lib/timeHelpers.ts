@@ -1,5 +1,4 @@
 import { addDays, startOfWeek } from "date-fns";
-import { removeLeadingZeros } from "./format";
 import { DayOfWeek } from "./types";
 
 // export function addMinutesToTimeOLD(time: string, minutesToAdd: number): string {

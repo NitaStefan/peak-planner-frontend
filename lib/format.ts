@@ -48,12 +48,6 @@ export function formatDuration(minutes: number): string {
   return result.trim(); // Remove trailing spaces
 }
 
-export const removeLeadingZeros = (time: string | undefined) => {
-  if (!time) return "";
-  const [hours, minutes] = time.split(":");
-  return `${parseInt(hours, 10)}:${minutes}`;
-};
-
 export const formatPlannedEventDate = (date: Date) =>
   format(date, "EEEE,\u00A0\u00A0MMMM dd,\u00A0\u00A0yyyy");
 
