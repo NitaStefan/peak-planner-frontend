@@ -17,7 +17,6 @@ import ActivityItem from "../activities/ActivityItem";
 import ToggleDays from "./ToggleDays";
 import SubmitSchedule from "./SubmitSchedule";
 import { mapActivityToRequestVersion } from "@/lib/utils";
-import { convertUTCToLocal } from "@/lib/format";
 
 const ManageSchedule = ({
   initWeekDays,
@@ -31,8 +30,8 @@ const ManageSchedule = ({
       ...day,
       activities: day.activities.map((activity) => ({
         ...activity,
-        startTime: convertUTCToLocal(activity.startTime),
-        endTime: convertUTCToLocal(activity.endTime),
+        // startTime: convertUTCToLocal(activity.startTime),
+        // endTime: convertUTCToLocal(activity.endTime),
       })),
     })),
   );

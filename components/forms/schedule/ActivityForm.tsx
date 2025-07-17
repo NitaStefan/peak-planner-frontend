@@ -65,7 +65,14 @@ const ActivityForm = ({
     defaultValues: {
       title: initActivity?.title ?? "",
       description: initActivity?.description,
-      startTime: initActivity?.startTime ?? "",
+      startTime: initActivity?.startTime
+      ? new Date(initActivity.startTime)
+          .toLocaleTimeString("en-GB", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          })
+      : "",
       duration: {
         hours: Math.floor((initActivity?.minutes ?? 0) / 60),
         minutes: (initActivity?.minutes ?? 0) % 60,
@@ -77,9 +84,16 @@ const ActivityForm = ({
 
   const onSubmit = (data: z.infer<typeof activitySchema>) => {
     const { duration, goalId, startTime, title, description, impact } = data;
+
+    const [hour, minute] = startTime.split(":").map(Number);
+    const fullStartDate = new Date(2000, 0, 1, hour, minute, 0); 
+    const startTimeLocal = fullStartDate.toISOString()
+
     const totalMinutes = (duration.hours || 0) * 60 + (duration.minutes || 0);
 
-    const endTime = addMinutesToTime(startTime, totalMinutes);
+    const endTime = addMinutesToTime(startTimeLocal, totalMinutes);
+
+    console.log("endTime from data", endTime)
 
     let finalActivity: TActivityRes;
 
@@ -109,7 +123,7 @@ const ActivityForm = ({
     } else {
       finalActivity = {
         ...(initActivity?.id ? { id: initActivity.id } : { id: 0 }),
-        startTime,
+        startTime:startTimeLocal,
         endTime, // Always include endTime
         minutes: totalMinutes,
         title: title as string,

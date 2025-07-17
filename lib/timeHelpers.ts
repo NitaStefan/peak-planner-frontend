@@ -2,23 +2,45 @@ import { addDays, startOfWeek } from "date-fns";
 import { removeLeadingZeros } from "./format";
 import { DayOfWeek } from "./types";
 
-export function addMinutesToTime(time: string, minutesToAdd: number): string {
-  // Parse the time string into hours and minutes
-  const [hours, minutes] = time.split(":").map(Number);
+// export function addMinutesToTimeOLD(time: string, minutesToAdd: number): string {
+//   // Parse the time string into hours and minutes
+//   const [hours, minutes] = time.split(":").map(Number);
 
-  // Create a Date object initialized with today's date and the given time
-  const date = new Date();
-  date.setHours(hours, minutes, 0, 0); // Set hours and minutes
+//   // Create a Date object initialized with today's date and the given time
+//   const date = new Date();
+//   date.setHours(hours, minutes, 0, 0); // Set hours and minutes
 
-  // Add the minutes
+//   // Add the minutes
+//   date.setMinutes(date.getMinutes() + minutesToAdd);
+
+//   // Format the updated time back to HH:mm
+//   const updatedHours = date.getHours().toString().padStart(2, "0");
+//   const updatedMinutes = date.getMinutes().toString().padStart(2, "0");
+
+//   return removeLeadingZeros(`${updatedHours}:${updatedMinutes}`);
+// }
+
+export function isoToLocalHour(isoString: string): string {
+  if (!isoString) return "";
+
+  const date = new Date(isoString);
+
+  return date.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
+
+
+export function addMinutesToTime(isoTime: string, minutesToAdd: number): string {
+
+  const date = new Date(isoTime);
   date.setMinutes(date.getMinutes() + minutesToAdd);
 
-  // Format the updated time back to HH:mm
-  const updatedHours = date.getHours().toString().padStart(2, "0");
-  const updatedMinutes = date.getMinutes().toString().padStart(2, "0");
-
-  return removeLeadingZeros(`${updatedHours}:${updatedMinutes}`);
+  return date.toISOString()
 }
+
 
 export const getWeekDates = (): Record<DayOfWeek, Date> => {
   const startOfThisWeek = startOfWeek(new Date(), { weekStartsOn: 1 });

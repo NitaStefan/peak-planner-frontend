@@ -22,8 +22,8 @@ const ClientScheduleWrapper = ({
     ...day,
     activities: day.activities.map((activity) => ({
       ...activity,
-      startTime: convertUTCToLocal(activity.startTime),
-      endTime: convertUTCToLocal(activity.endTime),
+      // startTime: convertUTCToLocal(activity.startTime),
+      // endTime: convertUTCToLocal(activity.endTime),
     })),
   }));
 

@@ -13,7 +13,6 @@ import PlannedEventForm from "../../../forms/planned-events";
 import { addPlannedEvent } from "@/lib/api";
 import { TPlannedEvent } from "@/lib/validations";
 import { usePlannedEvent } from "@/contexts/PlannedEventContext";
-import { convertTimeToISO } from "@/lib/format";
 
 const DuplicatePlannedEvDialog = ({
   closePopover,
@@ -39,10 +38,6 @@ const DuplicatePlannedEvDialog = ({
   };
 
   const handleAddPlannedEvent = async (plannedEvent: TPlannedEvent) => {
-    plannedEvent.eventDetails.forEach((detail) => {
-      if (detail.startTime)
-        detail.startTime = convertTimeToISO(detail.startTime);
-    });
     await addPlannedEvent(plannedEvent as TPlannedEvent & { id: number });
     setIsDialogOpen(false);
     closePopover();

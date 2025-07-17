@@ -1,7 +1,7 @@
 "use client";
 
 import { PlannedEventContextProvider } from "@/contexts/PlannedEventContext";
-import { convertUTCToLocal, formatPlannedEventDate } from "@/lib/format";
+import { formatPlannedEventDate } from "@/lib/format";
 import { TPlannedEvent } from "@/lib/validations";
 import React from "react";
 import PlannedEventsActions from "./crud-actions/PlannedEventsActions";
@@ -24,9 +24,9 @@ const PlannedEventsComp = ({
     eventDetails: event.eventDetails
       .map((detail) => ({
         ...detail,
-        startTime: detail.startTime
-          ? convertUTCToLocal(detail.startTime)
-          : undefined,
+        // startTime: detail.startTime
+        //   ? convertUTCToLocal(detail.startTime)
+        //   : undefined,
       }))
       .sort((a, b) => {
         if (!a.startTime && !b.startTime) return 0;
@@ -36,15 +36,15 @@ const PlannedEventsComp = ({
       }),
   }));
 
-  const processedPastEvents = pastPlannedEvents.map((event) => ({
-    ...event,
-    eventDetails: event.eventDetails.map((detail) => ({
-      ...detail,
-      startTime: detail.startTime
-        ? convertUTCToLocal(detail.startTime)
-        : undefined,
-    })),
-  }));
+  // const processedPastEvents = pastPlannedEvents.map((event) => ({
+  //   ...event,
+  //   eventDetails: event.eventDetails.map((detail) => ({
+  //     ...detail,
+  //     startTime: detail.startTime
+  //       ? convertUTCToLocal(detail.startTime)
+  //       : undefined,
+  //   })),
+  // }));
 
   return (
     <>
@@ -74,8 +74,8 @@ const PlannedEventsComp = ({
           </PlannedEventContextProvider>
         );
       })}
-      {processedPastEvents.length > 0 && <PastEventsIndicator />}
-      {processedPastEvents.map((pastPlannedEvent) => (
+      {pastPlannedEvents.length > 0 && <PastEventsIndicator />}
+      {pastPlannedEvents.map((pastPlannedEvent) => (
         <PlannedEventContextProvider
           key={pastPlannedEvent.id}
           plannedEvent={pastPlannedEvent}

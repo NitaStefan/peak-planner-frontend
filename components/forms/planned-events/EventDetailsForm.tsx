@@ -35,7 +35,13 @@ const EventDetailsForm = ({
     defaultValues: {
       title: initEventDetails?.title || "",
       description: initEventDetails?.description,
-      startTime: initEventDetails?.startTime || "",
+      startTime: initEventDetails?.startTime ? new Date(initEventDetails.startTime)
+          .toLocaleTimeString("en-GB", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          })
+      : "",
       duration: {
         hours: Math.floor((initEventDetails?.minutes ?? 0) / 60),
         minutes: (initEventDetails?.minutes ?? 0) % 60,
@@ -46,10 +52,16 @@ const EventDetailsForm = ({
   const onSubmit = (data: z.infer<typeof eventDetailsSchema>) => {
     const { duration, startTime, ...rest } = data;
 
+    let startTimeISO
+    if(startTime) {
+      const [hour, minute] = startTime.split(":").map(Number);
+      startTimeISO = (new Date(2000, 0, 1, hour, minute, 0)).toISOString(); 
+    }
+
     const updatedEventDetails: TEventDetails = {
       ...rest,
       ...(initEventDetails?.id ? { id: initEventDetails.id } : {}),
-      ...(startTime ? { startTime } : {}),
+      ...(startTime ? { startTime:startTimeISO } : {}),
       ...(duration.hours || duration.minutes
         ? { minutes: (duration.hours || 0) * 60 + (duration.minutes || 0) }
         : {}),

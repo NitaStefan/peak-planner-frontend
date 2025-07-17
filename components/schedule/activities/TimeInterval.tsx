@@ -1,4 +1,5 @@
-import { formatDuration, removeLeadingZeros } from "@/lib/format";
+import { formatDuration } from "@/lib/format";
+import { isoToLocalHour } from "@/lib/timeHelpers";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
@@ -14,6 +15,7 @@ const TimeInterval = ({
   isCurrentActivity: boolean;
   duration: number;
 }) => {
+
   return (
     <>
       <span
@@ -22,7 +24,7 @@ const TimeInterval = ({
           isCurrentActivity && "top-[-24px] text-lg text-bone-white",
         )}
       >
-        {removeLeadingZeros(startTime)}
+        {isoToLocalHour(startTime)}
       </span>
       <span
         className={cn(
@@ -30,7 +32,7 @@ const TimeInterval = ({
           isCurrentActivity && "bottom-[-24px] text-lg text-bone-white",
         )}
       >
-        {removeLeadingZeros(endTime)}
+        {isoToLocalHour(endTime)}
       </span>
       <div
         className={cn(

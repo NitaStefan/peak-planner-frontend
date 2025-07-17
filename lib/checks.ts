@@ -1,8 +1,11 @@
 type Interval = { h1: string; h2: string; title: string };
 
-// Convert "HH:mm" to total minutes since midnight
-const timeToMinutes = (time: string, isEndTime = false) => {
-  const [hours, minutes] = time.split(":").map(Number);
+const timeToMinutes = (isoTime: string, isEndTime = false) => {
+
+  const date = new Date(isoTime);
+  const hours = date.getUTCHours(); // or getHours() if you want local time
+  const minutes = date.getUTCMinutes();
+
   return isEndTime && hours === 0 && minutes === 0
     ? 1440
     : hours * 60 + minutes;
@@ -43,6 +46,8 @@ export function findOverlappingIntervals(
 export function hasOverlappingIntervals(
   intervals: { h1: string; h2: string }[],
 ): boolean {
+  console.log(intervals)
+
   for (let i = 0; i < intervals.length; i++) {
     const start1 = timeToMinutes(intervals[i].h1);
     const end1 = timeToMinutes(intervals[i].h2, true); // Treat h2 specially

@@ -6,20 +6,6 @@ export const formatTime = (time: string | undefined) => {
   return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
 };
 
-export const convertTimeToISO = (time: string): string => {
-  const [hours, minutes] = time.split(":").map(Number);
-  if (isNaN(hours) || isNaN(minutes)) throw new Error("Invalid time format");
-
-  // Get current local date and set the time
-  const now = new Date();
-  now.setHours(hours, minutes, 0, 0); // Set the local time
-  now.setFullYear(2025, 0, 1); // Ensure fixed date to avoid DST issues
-
-  // Convert local time to UTC using `toISOString()`
-  const utcTime = now.toISOString().split("T")[1].slice(0, 5);
-
-  return utcTime;
-};
 
 export const convertUTCToLocal = (utcTime?: string): string => {
   if (!utcTime) return "";

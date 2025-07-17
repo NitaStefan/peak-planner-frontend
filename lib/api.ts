@@ -55,7 +55,8 @@ export async function apiCall<T, K = undefined>(
   return response.headers.get("content-length") === "0" ||
     response.status === 204
     ? undefined
-    : response.json();
+    :
+     response.json();
 }
 
 export async function signUp(

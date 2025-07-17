@@ -2,6 +2,7 @@
 
 import ImpactIndicator from "@/components/ImpactIndicator";
 import { convertUTCToLocal, removeLeadingZeros } from "@/lib/format";
+import { isoToLocalHour } from "@/lib/timeHelpers";
 import { DayOfWeek } from "@/lib/types";
 import { calculateGridPosition, cn } from "@/lib/utils";
 import { TActivityRes, TWeekDayRes } from "@/lib/validations";
@@ -24,8 +25,8 @@ const GridActivities = (props: GridActivitiesProps) => {
     ...day,
     activities: day.activities.map((activity) => ({
       ...activity,
-      startTime: convertUTCToLocal(activity.startTime),
-      endTime: convertUTCToLocal(activity.endTime),
+      // startTime: convertUTCToLocal(activity.startTime),
+      // endTime: convertUTCToLocal(activity.endTime),
     })),
   }));
 
@@ -79,8 +80,8 @@ const GridActivities = (props: GridActivitiesProps) => {
               activity.minutes < 65 && "hidden",
             )}
           >
-            {removeLeadingZeros(activity.startTime)} -{" "}
-            {removeLeadingZeros(activity.endTime)}
+            {isoToLocalHour(activity.startTime)} -{" "}
+            {isoToLocalHour(activity.endTime)}
           </p>
           <ImpactIndicator impact={activity.impact} insideGrid />
         </div>

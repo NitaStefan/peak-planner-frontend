@@ -1,7 +1,7 @@
 "use client";
 
 import { formatDuration, removeLeadingZeros } from "@/lib/format";
-import { addMinutesToTime } from "@/lib/timeHelpers";
+import { addMinutesToTime, isoToLocalHour } from "@/lib/timeHelpers";
 import Image from "next/image";
 import React from "react";
 
@@ -13,7 +13,6 @@ const Time = ({
   minutes?: number;
 }) => {
   let TimeComponent = null;
-  startTime = removeLeadingZeros(startTime);
 
   if (!startTime && !minutes) return TimeComponent;
 
@@ -27,7 +26,7 @@ const Time = ({
           alt="Time"
           className="opacity-75"
         />
-        <span>{startTime}</span>
+        <span>{isoToLocalHour(startTime)}</span>
       </>
     );
 
@@ -48,7 +47,7 @@ const Time = ({
   if (startTime && minutes)
     TimeComponent = (
       <>
-        <span>{startTime}</span>
+        <span>{isoToLocalHour(startTime)}</span>
         <Image
           src="/icons/curved-arrow.svg"
           width={16}
@@ -56,7 +55,7 @@ const Time = ({
           alt="Arrow"
           className="rotate-90 opacity-75"
         />
-        <span>{addMinutesToTime(startTime, minutes)}</span>
+        <span>{isoToLocalHour(addMinutesToTime(startTime, minutes))}</span>
       </>
     );
 

@@ -7,9 +7,13 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const calculateGridPosition = (startTime: string, duration: number) => {
-  const [hours, mins] = startTime.split(":").map(Number);
+  const date = new Date(startTime);
+  const hours = date.getHours();  
+  const mins = date.getMinutes();
+
   const startRow = Math.floor((hours * 60 + mins) / 5) + 2; // Start from row 2
   const rowSpan = Math.floor(duration / 5);
+
   return { startRow, rowSpan };
 };
 
