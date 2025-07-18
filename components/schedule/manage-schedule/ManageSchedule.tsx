@@ -30,8 +30,6 @@ const ManageSchedule = ({
       ...day,
       activities: day.activities.map((activity) => ({
         ...activity,
-        // startTime: convertUTCToLocal(activity.startTime),
-        // endTime: convertUTCToLocal(activity.endTime),
       })),
     })),
   );

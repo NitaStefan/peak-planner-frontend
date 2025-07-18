@@ -6,7 +6,6 @@ import {
   TPlannedEvent,
   TWeekDayRes,
 } from "@/lib/validations";
-import { convertUTCToLocal } from "@/lib/format";
 import { getWeekDates } from "@/lib/timeHelpers";
 
 const ClientScheduleWrapper = ({
@@ -22,8 +21,6 @@ const ClientScheduleWrapper = ({
     ...day,
     activities: day.activities.map((activity) => ({
       ...activity,
-      // startTime: convertUTCToLocal(activity.startTime),
-      // endTime: convertUTCToLocal(activity.endTime),
     })),
   }));
 
@@ -33,8 +30,6 @@ const ClientScheduleWrapper = ({
       .map((detail) => ({
         ...detail,
         startTime: detail.startTime
-          ? convertUTCToLocal(detail.startTime)
-          : undefined,
       }))
       .sort((a, b) => {
         if (!a.startTime && !b.startTime) return 0;

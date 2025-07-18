@@ -108,7 +108,7 @@ const ActivityForm = ({
       // Assign goal-specific values
       finalActivity = {
         ...(initActivity?.id ? { id: initActivity.id } : { id: 0 }),
-        startTime,
+        startTime:startTimeLocal,
         endTime,
         minutes: totalMinutes,
         goalId: selectedGoal.id,
