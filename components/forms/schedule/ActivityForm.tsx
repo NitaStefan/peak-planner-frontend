@@ -86,9 +86,8 @@ const ActivityForm = ({
     const { duration, goalId, startTime, title, description, impact } = data;
 
     const [hour, minute] = startTime.split(":").map(Number);
-    const now = new Date()
-    now.setHours(hour, minute, 0, 0); 
-    const startTimeLocal = now.toISOString(); 
+    const fullStartDate = new Date(2000, 0, 1, hour, minute, 0); 
+    const startTimeLocal = fullStartDate.toISOString()
 
     const totalMinutes = (duration.hours || 0) * 60 + (duration.minutes || 0);
 
