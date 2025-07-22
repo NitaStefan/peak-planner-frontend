@@ -55,7 +55,9 @@ const EventDetailsForm = ({
     let startTimeISO
     if(startTime) {
       const [hour, minute] = startTime.split(":").map(Number);
-      startTimeISO = (new Date(2000, 0, 1, hour, minute, 0)).toISOString(); 
+      const now = new Date()
+      now.setHours(hour, minute, 0, 0);
+      startTimeISO = now.toISOString(); 
     }
 
     const updatedEventDetails: TEventDetails = {
